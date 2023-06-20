@@ -2,14 +2,18 @@ from typing import List
 
 from Parser import *
 
-# Got data...
-
-# movl $1, -4(%rbp)
-# cmpl $1, -4(%rbp)
-# jne .L2
-
 class Branch():
     def __init__(self) -> None:
+        """
+        Represents a branch object used for fault.branch analysis/detection.
+
+        Attributes:
+        - trivial_values (List[int]): List of trivial integer values.
+        - pattern (List[str | List[str]]): List of patterns to match instructions.
+        - vulnerable_instructions (List[List[Instruction]]): List of vulnerable instructions.
+        - current_vulnerable (List[Instruction]): List of instructions currently identified as vulnerable.
+        - is_vulnerable (bool): Flag indicating if a branch vulnerability is detected.
+        """
         self.trivial_values: List[int] = [0, 1, -1, 2, -2]
         self.pattern: List[str | List[str]] = ['movl', 'cmpl', ['jne', 'je']]
         self.vulnerable_instructions: List[List[Instruction]] = []
@@ -17,6 +21,12 @@ class Branch():
         self.is_vulnerable = False
         
     def branch_analysis(self, line: Instruction) -> None:
+        """
+        Analyzes the given instruction line for branch vulnerability.
+
+        Args:
+        - line (Instruction): The instruction line to analyze.
+        """
         if line.name == self.pattern[0]:
             if len(self.current_vulnerable) > 0: self.current_vulnerable.clear()
             self.strip_line(line)
@@ -29,6 +39,12 @@ class Branch():
                 self.strip_line(line)
                     
     def strip_line(self, line: Instruction) -> None:
+        """
+        Strips the given instruction line for vulnerabilities.
+
+        Args:
+        - line (Instruction): The instruction line to strip.
+        """
         for args in line.arguments:
             # If argument is Location, reached JNE.
             # Add line to vuln arr
@@ -44,28 +60,51 @@ class Branch():
                 self.current_vulnerable.append(line)
         
     def contains_trivial_numeric_value(self, value: int) -> bool:
+        """
+        Checks if the given value is a trivial numeric value.
+
+        Args:
+        - value (int): The value to check.
+
+        Returns:
+        - bool: True if the value is trivial, False otherwise.
+        """
         if value in self.trivial_values:
             return True
         return False
     
     def update_vulnerable_instructions(self) -> None:
+        """
+        Updates the list of vulnerable instructions with the current vulnerable instructions.
+        """
         if not self.is_vulnerable: self.is_vulnerable = True
         self.vulnerable_instructions.append(self.current_vulnerable.copy())
         self.current_vulnerable.clear()
 
 class Analyzer():
     def __init__(self, parsed_data: Parser) -> None:
+        """
+        Represents an analyzer object used for static analysis.
+
+        Args:
+        - parsed_data (Parser): The parsed data object containing the program instructions.
+        """
         self.parsed_data = parsed_data
         self.branch_detector = Branch()
         self.static_analysis()
         
     def static_analysis(self) -> None:
+        """
+        Performs static analysis on the program instructions.
+        """
         for line in self.parsed_data.program:
             if type(line) == Instruction:
                 self.branch_detector.branch_analysis(line)
-        self.analysis_results()
                 
-    def analysis_results(self) -> None:
+    def print_analysis_results(self) -> None:
+        """
+        Prints the analysis results.
+        """
         if self.branch_detector.is_vulnerable:
             # Found Branch Vulnerability
             print("BRANCH VULNERABILITY DETECTED")

@@ -93,7 +93,6 @@ class Parser:
                 program.append(self.parseArguments(s))
         self.program = program
 
-    # ! Reads Instructions here
     def parseArguments(self, line: str):
         s = line.split()
         instruction = s[0]

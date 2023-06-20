@@ -10,6 +10,9 @@ def main():
     parsed_data = Parser(args.file[0])
     # print(parsed_data)
     analyzed_data = Analyzer(parsed_data)
+    
+    # Print results
+    analyzed_data.print_analysis_results()
 
 if __name__ == "__main__":
     main()
