@@ -41,7 +41,7 @@ jne .L2
 
 The pattern represents a jump, or conditional, statement. The compiler first moves (`movl`) `1` to the top of the stack (`-4(%rbp)`), then compares `1` to the valued stored at the top of the stack (`1`). Finally, the result of this operation (`1-1`) is checked, and if the result is `0` (`jne`), then a jump is performed towards the location of `.L2`.
 
-These instructions, occurring in a consequtive manner, showcase a clear branch vulnerability, if and only if they contain trivial numerical values, or booleans (i.e. `0` or `1`).
+These instructions, occurring in a consecutive manner, showcase a clear branch vulnerability, if and only if they contain trivial numerical values, or booleans (i.e. `0` or `1`).
 
 A secured example for this pattern would contain a non-trivial numerical value:
 
@@ -59,7 +59,7 @@ Non-trivial numerical values are more difficult to set by fault injection [1].
 
 The detection process operates by going over all lines of the provided assembly file.
 
-The analysis starts by detecting whether the current line is an instruction line. Instruction lines are lines that contain instructions, or opcode. While this definition may appear circular, this distinciton is needed as lines could also be locations, or strings rather than instructions.
+The analysis starts by detecting whether the current line is an instruction line. Instruction lines are lines that contain instructions, or opcode. While this definition may appear circular, this distinction is needed as lines could also be locations, or strings rather than instructions.
 
 To accomplish this, the first and last character(s) of a line are examined. In the case of the first characters being `.string`, then the line would be considered as a string and discarded. On the other hand, if the line ends with a colon `:`, then the line would be considered a location. The following depicts a location and a string lines, respectively:
 
@@ -72,19 +72,19 @@ Once the parser has identified all instructions, the analyzer goes through all o
 
 ### Analysis
 
-If the current line contains the first instruction in the identified pattern (`movl`), then the value and destination of such instruction are considered. If such value is indentified as trivial (`0`, `-1`, `1`, `-2`, `2`), then the current line is remembered. Otherwise, the line is disregarded and the process continues until it finds the beginning of the pattern.
+If the current line contains the first instruction in the identified pattern (`movl`), then the value and destination of such instruction are considered. If such value is identified as trivial (`0`, `-1`, `1`, `-2`, `2`), then the current line is remembered. Otherwise, the line is disregarded and the process continues until it finds the beginning of the pattern.
 
 ```asm
 movl $1, -4(%rbp)
 ```
 
-Following a vulnerable `movl`, if the subsequent line contains the second instruction in the identified pattern (`cmpl`) **and** their values and destinations match, meaning that the `cmpl` instruction contains the same trivial value as `movl` and the location where `movl` was pointing to, then the current line is also remembered. Otherwise, the current and previous lines are diregarded and the search for the first instruction of the pattern starts again.
+Following a vulnerable `movl`, if the subsequent line contains the second instruction in the identified pattern (`cmpl`) **and** their values and destinations match, meaning that the `cmpl` instruction contains the same trivial value as `movl` and the location where `movl` was pointing to, then the current line is also remembered. Otherwise, the current and previous lines are disregarded and the search for the first instruction of the pattern starts again.
 
 ```asm
 cmpl $1, -4(%rbp)
 ```
 
-Finally, if the subsequent instruction to `cmpl` is a jump, `jne` **or** `je`, then all three lines are remembered and a new search begins for more pattern occurances. If the subsequent instruction is not a jump, all previous lines are disregarded and a new search for the initial instruction pattern begins.
+Finally, if the subsequent instruction to `cmpl` is a jump, `jne` **or** `je`, then all three lines are remembered and a new search begins for more pattern occurrences. If the subsequent instruction is not a jump, all previous lines are disregarded and a new search for the initial instruction pattern begins.
 
 ```asm
 jne .L2
