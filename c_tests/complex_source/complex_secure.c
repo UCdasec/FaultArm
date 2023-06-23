@@ -2,7 +2,7 @@
 
 int main() {
     unsigned int flags = 0xABCD;
-
+    
     if ((flags & 0x0F00) == 0x0100) {
         printf("Flag 1 is set.\n");
     } else {
