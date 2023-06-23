@@ -82,6 +82,10 @@ cmpl $1, -4(%rbp)
 
 Finally, if the subsequent instruction to `cmpl` is a jump, `jne` **or** `je`, then all three lines are remembered and a new search begins for more pattern occurances. If the subsequent instruction is not a jump, all previous lines are disregarded and a new search for the initial instruction pattern begins.
 
+```asm
+jne .L2
+```
+
 ```mermaid
 flowchart TD
 
