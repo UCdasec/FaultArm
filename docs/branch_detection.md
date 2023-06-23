@@ -55,11 +55,13 @@ Non-trivial numerical values are more difficult to set by fault injection [1].
 
 ## Detection
 
+### Parse
+
 The detection process operates by going over all lines of the provided assembly file.
 
 The analysis starts by detecting whether the current line is an instruction line. Instruction lines are lines that contain instructions, or opcode. While this definition may appear circular, this distinciton is needed as lines could also be locations, or strings rather than instructions.
 
-To accomplish this, the first and last character(s) of a line are examined. In the case that the first characters being `.string`, then line would be considered as a string and discarded. Ohterwise, if the line ends with a colon `:`, then the line would be considered a location. The following depicts a location and a string lines, respectively:
+To accomplish this, the first and last character(s) of a line are examined. In the case of the first characters being `.string`, then the line would be considered as a string and discarded. On the other hand, if the line ends with a colon `:`, then the line would be considered a location. The following depicts a location and a string lines, respectively:
 
 ```asm
 .LC0:
@@ -68,13 +70,15 @@ To accomplish this, the first and last character(s) of a line are examined. In t
 
 Once the parser has identified all instructions, the analyzer goes through all of them line-by-line.
 
-If the current line contains the first instruction in the identified pattern (`movl`), then the value of such instruction is considered. If such value is indentified as trivial (0, -1, 1, -2, 2), then the current line is remembered. Otherwise, the line is disregarded and the process continues until it finds the beginning of the pattern.
+### Analysis
+
+If the current line contains the first instruction in the identified pattern (`movl`), then the value and destination of such instruction are considered. If such value is indentified as trivial (`0`, `-1`, `1`, `-2`, `2`), then the current line is remembered. Otherwise, the line is disregarded and the process continues until it finds the beginning of the pattern.
 
 ```asm
 movl $1, -4(%rbp)
 ```
 
-Following a vulnerable `movl`, if the subsequent line contains the second instruction in the identified pattern (`cmpl`) **and** their values as well as locations match, meaning that the `cmpl` instruction contains the same trivial value as `movl` and the location where `movl` was pointing, then the current line is also remembered. Otherwise, the current and previous lines are diregarded and the search for the first instruction of the pattern begins anew.
+Following a vulnerable `movl`, if the subsequent line contains the second instruction in the identified pattern (`cmpl`) **and** their values and destinations match, meaning that the `cmpl` instruction contains the same trivial value as `movl` and the location where `movl` was pointing to, then the current line is also remembered. Otherwise, the current and previous lines are diregarded and the search for the first instruction of the pattern starts again.
 
 ```asm
 cmpl $1, -4(%rbp)
@@ -85,6 +89,8 @@ Finally, if the subsequent instruction to `cmpl` is a jump, `jne` **or** `je`, t
 ```asm
 jne .L2
 ```
+
+### Analysis Flowchart
 
 ```mermaid
 flowchart TD
