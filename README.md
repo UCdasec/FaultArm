@@ -26,7 +26,7 @@ Asphault is a tool created to automatically detect fault injection vulnerabiliti
 ### Usage
 
 ```bash
-python3 Parser.py [target file]
+python3 main.py [target file]
 ```
 
 ## Generating sample files

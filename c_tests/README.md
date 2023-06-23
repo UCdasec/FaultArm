@@ -87,3 +87,11 @@ jne	.L2
 ```
 
 Non-trivial numerical values are more difficult to set by fault injection. Sensitive choices should therefore not be coded as boolean value, but rather as a non-trivial numerical value.
+
+## ARM32 Comp
+
+arm32
+
+```bash
+arm-linux-gnueabihf-gcc -S -o output.s input.c
+```

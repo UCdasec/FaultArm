@@ -2,6 +2,13 @@ from typing import List
 
 from Parser import *
 
+# TODO: Add support for Arm32
+# movs	r3, #1
+# str	r3, [r7, #4]
+# ldr	r3, [r7, #4]
+# cmp	r3, #1
+# bne	.L2
+
 class Branch():
     def __init__(self) -> None:
         """
