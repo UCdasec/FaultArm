@@ -17,7 +17,7 @@ class Register():
         return False
     
     def __str__(self) -> str:
-        return "Register(" + self.name + ")"
+        return self.name 
 
 class IntegerLiteral():
     def __init__(self, val: int):
@@ -32,25 +32,28 @@ class IntegerLiteral():
         return result
 
     def __str__(self) -> str:
-        return "IntegerLiteral(" + str(self.value) + ")"
+        return str(self.value)
 
 class StringLiteral():
-    def __init__(self, value: str):
+    def __init__(self, value: str, line_number: int):
         self.value : str = value
+        self.line_number: int = line_number
 
     def __str__(self) -> str:
-        return "StringLiteral(\"" + self.value + "\")"
+        return self.value
 
 class Location():
-    def __init__(self, name: str):
+    def __init__(self, name: str, line_number: int):
         self.name : str = name
+        self.line_number: int = line_number
     
     def __str__(self) -> str:
-        return "Location(" + self.name + ")"
+        return self.name
 
 class Instruction():
-    def __init__(self, name: str, arguments: list[Register | IntegerLiteral | Location]):
+    def __init__(self, name: str, arguments: list[Register | IntegerLiteral | Location], line_number: int):
         self.name : str = name
+        self.line_number: int = line_number
         self.arguments : list[Register | IntegerLiteral | Location] = arguments
 
     def __str__(self) -> str:
@@ -58,9 +61,9 @@ class Instruction():
             s = ""
             for arg in self.arguments:
                 s += str(arg) + ","
-            return "Instruction(" + self.name + ", " + s[:-1] + ")"
+            return self.name + ", " + s[:-1]
         else:
-            return "Instruction(" + self.name + ")"
+            return self.name
 
 # TODO
 class Address():
@@ -74,26 +77,35 @@ class Parser:
         self.parseFile()
 
     def parseFile(self):
+        print(f"Parse Starting\n\n")
+        print(f"Reading file: {self.filename}")
         with open(self.filename) as f:
             lines: list[str] = f.readlines()
+        print(f"File read successfully!\n\n")
+        
+        print(f"Processing assembly data...")
         self.isolateSections(lines)
+        print(f"Assembly data processed successfully!\n\n")
 
     def isolateSections(self, lines: list[str]):
         program = []
+        line_number = 1
         for line in lines:
             s = line.strip()
             # Line is a location 
             if s.endswith(':'):
-                program.append(Location(s[0:-1]))
+                program.append(Location(s[0:-1], line_number))
             # Line is a string literal
             elif s.startswith(".string") or s.startswith(".ascii"):
-                program.append(StringLiteral(s[s.find('"'):-1]))
+                program.append(StringLiteral(s[s.find('"'):-1], line_number))
             # Line is an instruction
             else:  
-                program.append(self.parseArguments(s))
+                program.append(self.parseArguments(s, line_number))
+            
+            line_number += 1
         self.program = program
 
-    def parseArguments(self, line: str):
+    def parseArguments(self, line: str, line_number: int):
         s = line.split()
         instruction = s[0]
         arguments = []
@@ -114,12 +126,12 @@ class Parser:
             ## Check if Location
             ## TODO check for locations without '.' like main
             if arg[0] == ".":
-                arguments.append(Location(arg))
+                arguments.append(Location(arg, line_number))
             # Must be register
             else:
                 arguments.append(Register(arg))
 
-        return Instruction(instruction, arguments)
+        return Instruction(instruction, arguments, line_number)
 
     #def locateInstruction(self, name: str) -> Instruction:
      #   for 

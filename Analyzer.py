@@ -115,7 +115,14 @@ class Analyzer():
         if self.branch_detector.is_vulnerable:
             # Found Branch Vulnerability
             print("BRANCH VULNERABILITY DETECTED")
-            print("Printing vulnerable lines...")
+            print("Printing vulnerable lines...\n")
+            
+            print("[Line #] [Opcode]\n")
             for vulns in self.branch_detector.vulnerable_instructions:
                 for line in vulns:
-                    print(line)
+                    print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                print("\n")
+                
+            print(f"All vulnerable lines printed.")
+        else:
+            print(f"SECURED FILE - NO BRANCH VULNERABILITIES")
