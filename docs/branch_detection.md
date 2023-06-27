@@ -31,7 +31,7 @@ This directs the compiler to generate assembly source (`assembly_filename.s`) fr
 
 ## Branch Pattern in x86
 
-By comparing multiple assembly files generated from secured and insecured C sources, a clear pattern was identified:
+By comparing multiple assembly files generated from secured and unsecured C sources, a clear pattern was identified:
 
 ```asm
 movl $1, -4(%rbp)
@@ -119,6 +119,32 @@ N --> B
 ```
 
 Essentially, the pattern to identify is a push of a trivial numerical value onto the stack, a comparison of such value against itself, and the presence of a jump afterwards. If such pattern occurs, then a branch vulnerability was detected.
+
+## Proposed Changes (06262023)
+
+The pattern described above, while effective for simple examples, does not detect more robust applications of the pattern. Consequently, a new approach is proposed.
+
+### Ignore Stack
+
+The previous pattern proposes analyzing data pushed onto the stack before the comparison and jump. In further retrospect, the data before the comparison and jump *can* be irrelevant to the vulnerability.
+
+> *Branch* is a fault injection vulnerability pattern that arises from the usage of booleans for sensitive decisions [1].
+
+All we should be looking at is the booleans utilized for sensitive decisions. Which, in the case for x86 assembly, is the following:
+
+```asm
+cmpl value, [stack]
+jne location
+```
+
+In the very essence of this vulnerability, these are the most imperative instructions. If we are comparing a value from the stack to a trivial numerical value, and then checking if this operation resulted in zero, we can be confident that a trivial/boolean value was used for a decision.
+
+### Pattern
+
+```asm
+cmpl $1, -4(%rbp)
+jne .L2
+```
 
 ## References
 
