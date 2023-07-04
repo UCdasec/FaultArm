@@ -1,5 +1,19 @@
 # Detecting Branch Vulnerabilities in x86 Assembly
 
+- [Detecting Branch Vulnerabilities in x86 Assembly](#detecting-branch-vulnerabilities-in-x86-assembly)
+  - [Requirements](#requirements)
+    - [Generating Assembly Files](#generating-assembly-files)
+  - [Branch Pattern in x86](#branch-pattern-in-x86)
+  - [Detection](#detection)
+    - [Parse](#parse)
+    - [Analysis](#analysis)
+    - [Analysis Flowchart](#analysis-flowchart)
+  - [Proposed Changes (06262023)](#proposed-changes-06262023)
+    - [Ignore Stack](#ignore-stack)
+    - [Pattern](#pattern)
+    - [Flowchart](#flowchart)
+  - [References](#references)
+
 *Branch* is a fault injection vulnerability pattern that arises from the usage of booleans for sensitive decisions [1]. `Booleans` refers to trivial numerical values such as `0` or `1`. Such values are commonly used to determine the successful, or unsuccessful, completion of an operation.
 
 While there are methods to detect such vulnerable patterns in C source code [2], there is a lack of detection in lower levels of programming architecture. The expansion of pattern detection onto assembly removes the current limitation of needing source code in order to detect vulnerabilities. With identified assembly patterns, the only required source is a binary, or compiled, file.
@@ -144,6 +158,62 @@ In the very essence of this vulnerability, these are the most imperative instruc
 ```asm
 cmpl $1, -4(%rbp)
 jne .L2
+```
+
+The process starts by scanning the first line of the program. If the line is an instruction line, the process proceeds to analyze it. If it is not an instruction line, the line is disregarded, and the process moves on to scan the next line.
+
+For an instruction line, the process checks if the instruction is `CMPL` If it is not, the line is disregarded, and the process moves on to scan the next line. If the instruction is `CMPL`, the process checks if the value in the `CMPL` operation is trivial. If it is trivial, the current line is stored. If it is not trivial, the line is disregarded.
+
+The tool then checks if the `CMPL` operation is followed by a `JNE` instruction. If the `JNE` instruction is present, the process verifies if a `CMPL` instruction has already been stored. If there is a `CMPL` already stored, the current line is stored. Otherwise, the line is disregarded.
+
+> The `JNE` instruction subsequent to a `CMPL` using a trivial value, implies that the second value in the `CMPL` operation is also trivial. Hence, the instruction becomes flagged.
+>
+> For instance:
+>
+> ```asm
+> cmpl $1, -4(%rbp)
+> jne .L2
+> ```
+>
+> This pattern implies that the value stored at `-4(%rbp)` *CAN* be trivial, since the `JNE` operations checks for `1 - [stack value] != 0`. It is also worth noting that this pattern also applies if `JE`, `JZ`, or `JNZ` are used.
+
+After storing the line, the process checks if two instructions have already been stored, as this would signify a completed pattern. If two instructions are stored, they are moved to a permanent storage, and the temporary storage is cleared. If less than two instructions are stored, the process moves back to scanning the next line.
+
+The process continues in this manner, scanning and analyzing lines until there are no more lines to scan.
+
+### Flowchart
+
+```mermaid
+flowchart TD
+
+Read_Line("Scan Next Line")
+Read_Line --> Instruction_Line
+
+Disregard("Disregard Line") --> Read_Line
+
+Instruction_Line{"Is the current line an instruction line?"}
+Instruction_Line -- Yes --> Compare{"Is the instruction CMPL?"}
+Instruction_Line -- No --> Disregard
+
+Compare -- No --> Jump{"Is the instruction JNE?"}
+Jump -- Yes --> After_Compare{"Is a CMPL instruction stored?"}
+After_Compare -- Yes --> Store
+After_Compare -- No --> Disregard
+
+
+Compare -- Yes --> Trivial{"Is the value in the CMPL operation trivial?"}
+
+
+Trivial -- Yes --> Store("Store Line")
+Trivial -- No --> Disregard
+
+Store --> Pattern_Complete{"Are there two instructions stored?"}
+Pattern_Complete -- Yes --> Store_Permanent("`Permanently Store Instructions
+&
+Clear Temporary Storage`")
+Pattern_Complete -- No --> Read_Line
+
+Store_Permanent --> Read_Line
 ```
 
 ## References
