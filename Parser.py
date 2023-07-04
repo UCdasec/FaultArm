@@ -74,6 +74,7 @@ class Parser:
     def __init__(self, file: str):
         self.filename : str = file
         self.program : list[Location | StringLiteral | Instruction] = []
+        self.total_lines: int = 0
         self.parseFile()
 
     def parseFile(self):
@@ -104,6 +105,7 @@ class Parser:
             
             line_number += 1
         self.program = program
+        self.total_lines = line_number
 
     def parseArguments(self, line: str, line_number: int):
         s = line.split()
