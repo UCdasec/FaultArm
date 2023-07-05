@@ -1,0 +1,13 @@
+Analyzed file: c_tests/harris_examples/asm/secure_pointer_example.s
+Wed Jul  5 00:51:23 2023
+Lines Analyzed: 188
+Vulnerable Lines: 2
+
+BranchV2 Results:
+
+BRANCH-V2 VULNERABILITY DETECTED
+
+[Line #] [Opcode]
+115 cmpl $0, -24(%rbp)
+116 je .L11
+

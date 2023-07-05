@@ -1,0 +1,14 @@
+Analyzed file: c_tests/guillermo_examples/asm/insecure.s
+Wed Jul  5 00:22:38 2023
+Lines Analyzed: 59
+Vulnerable Lines: 3
+
+BranchV1 Results:
+
+BRANCH-V1 VULNERABILITY DETECTED
+
+[Line #] [Opcode]
+21 movl $1, -4(%rbp)
+22 cmpl $1, -4(%rbp)
+23 jne .L2
+
