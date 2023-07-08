@@ -53,7 +53,13 @@ cmpl $1, -4(%rbp)
 jne .L2
 ```
 
-The pattern represents a jump, or conditional, statement. The compiler first moves (`movl`) `1` to the top of the stack (`-4(%rbp)`), then compares `1` to the valued stored at the top of the stack (`1`). Finally, the result of this operation (`1-1`) is checked, and if the result is `0` (`jne`), then a jump is performed towards the location of `.L2`.
+The pattern represents a jump, or conditional, statement. The compiler first moves (`movl`) `1` to the top of the stack (`-4(%rbp)`), then compares `1` to the valued stored at the top of the stack (`1`). Finally, the result of this operation (`1-1`) is checked, and if the result is not equal to `0` (`jne`), then a jump is performed towards the location of `.L2`.
+
+> There are four types of jumps:
+> `jne` - Jump if Not Equal
+> `je` - Jump if Equal
+> `jnz` - Jump if Not Zero
+> `jz` - Jump if Zero
 
 These instructions, occurring in a consecutive manner, showcase a clear branch vulnerability, if and only if they contain trivial numerical values, or booleans (i.e. `0` or `1`).
 
@@ -98,7 +104,7 @@ Following a vulnerable `movl`, if the subsequent line contains the second instru
 cmpl $1, -4(%rbp)
 ```
 
-Finally, if the subsequent instruction to `cmpl` is a jump, `jne` **or** `je`, then all three lines are remembered and a new search begins for more pattern occurrences. If the subsequent instruction is not a jump, all previous lines are disregarded and a new search for the initial instruction pattern begins.
+Finally, if the subsequent instruction to `cmpl` is a jump, (`jne`, `jnz`, `je` `jz`), then all three lines are remembered and a new search begins for more pattern occurrences. If the subsequent instruction is not a jump, all previous lines are disregarded and a new search for the initial instruction pattern begins.
 
 ```asm
 jne .L2
@@ -125,7 +131,7 @@ J -- Yes --> K{Do the values of both instructions match?}
 J -- No --> B
 K -- Yes --> L(Memorize current line)
 K -- No --> B
-L --> M{"Is the subsequent instruction a jump (jne or je)?"}
+L --> M{"Is the subsequent instruction a jump?"}
 M -- Yes --> N(Memorize all three lines)
 M -- No --> B
 N --> B
@@ -164,9 +170,9 @@ The process starts by scanning the first line of the program. If the line is an 
 
 For an instruction line, the process checks if the instruction is `CMPL` If it is not, the line is disregarded, and the process moves on to scan the next line. If the instruction is `CMPL`, the process checks if the value in the `CMPL` operation is trivial. If it is trivial, the current line is stored. If it is not trivial, the line is disregarded.
 
-The tool then checks if the `CMPL` operation is followed by a `JNE` instruction. If the `JNE` instruction is present, the process verifies if a `CMPL` instruction has already been stored. If there is a `CMPL` already stored, the current line is stored. Otherwise, the line is disregarded.
+The tool then checks if the `CMPL` operation is followed by a jump (`JNE`, `JNZ`, `JE` `JZ`) instruction. If the jump instruction is present, the process verifies if a `CMPL` instruction has already been stored. If there is a `CMPL` already stored, the current line is stored. Otherwise, the line is disregarded.
 
-> The `JNE` instruction subsequent to a `CMPL` using a trivial value, implies that the second value in the `CMPL` operation is also trivial. Hence, the instruction becomes flagged.
+> The jump instruction subsequent to a `CMPL` using a trivial value, implies that the second value in the `CMPL` operation is also trivial. Hence, the instruction becomes flagged.
 >
 > For instance:
 >
@@ -195,7 +201,7 @@ Instruction_Line{"Is the current line an instruction line?"}
 Instruction_Line -- Yes --> Compare{"Is the instruction CMPL?"}
 Instruction_Line -- No --> Disregard
 
-Compare -- No --> Jump{"Is the instruction JNE?"}
+Compare -- No --> Jump{"Is the instruction a jump?"}
 Jump -- Yes --> After_Compare{"Is a CMPL instruction stored?"}
 After_Compare -- Yes --> Store
 After_Compare -- No --> Disregard
