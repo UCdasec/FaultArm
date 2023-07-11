@@ -2,9 +2,8 @@ from os import path
 from datetime import datetime
 from typing import List
 
-from Parser import Instruction, IntegerLiteral
+from Parser import Instruction, IntegerLiteral, Register
 
-# TODO: Test Implementation of ConstantCoding
 class ConstantCoding():
     def __init__(self, filename: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
         self.filename = filename
@@ -14,7 +13,6 @@ class ConstantCoding():
         # Pattern - Stack Storage
         # movl #, -#(%rsp)
         self.pattern: List[str] = ['movl']
-        
         self.vulnerable_instructions: List[Instruction] = []
         self.is_vulnerable = False
         
@@ -22,16 +20,25 @@ class ConstantCoding():
         self.sensitivity = sensitivity
     
     def analysis(self, line: Instruction) -> None:
-        for arg in line.arguments:
-            if line.name == self.pattern[0]:
-                if type(arg) == IntegerLiteral:
-                    # TODO: Store temporarily and check second argument. If stack location, add. Otherwise, disregard.
-                    # Found numerical variable stored
-                    if arg.hammingWeight() < self.sensitivity:
-                        # Vulnerable
-                        self.is_vulnerable = True
-                        self.vulnerable_instructions.append(line)
-                        break
+        self.vulnerable_line: Instruction = line
+        self.is_vulnerable = False
+        
+        if len(line.arguments) > 1:
+            for arg in line.arguments:
+                # If it's MOVL
+                if line.name == self.pattern[0]:
+                    # If it's argument is an integer # | $
+                    if type(arg) == IntegerLiteral:
+                        # Found numerical variable stored
+                        if arg.hammingWeight() < self.sensitivity:
+                            # Vulnerable
+                            self.is_vulnerable = True
+                    elif type(arg) == Register:
+                        # Check if is a stack location:
+                        if arg.is_stack_pointer(arg.name) and self.is_vulnerable:
+                            # Save vulnerable line
+                            self.vulnerable_instructions.append(self.vulnerable_line)
+                
     
     
     def save_and_print_results(self) -> None:
@@ -48,7 +55,7 @@ class ConstantCoding():
         with open(path.join(self.directory_name, "constant.txt"), 'w') as file:
             file.write(header)
             
-            if self.is_vulnerable:
+            if len(self.vulnerable_instructions) > 0:
                 # Found Branch Vulnerability
                 print("CONSTANT CODING VULNERABILITY DETECTED")
                 file.write("CONSTANT CODING VULNERABILITY DETECTED\n\n")

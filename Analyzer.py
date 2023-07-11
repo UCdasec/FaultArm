@@ -12,7 +12,7 @@ from utils import BranchV1, BranchV2, ConstantCoding
 # bne	.L2
 
 timestamp = datetime.now()
-directory_name = f"./out/analysis_{timestamp.day}_{timestamp.month}_{timestamp.year}_{timestamp.hour}{timestamp.minute}{timestamp.second}{timestamp.microsecond:03d}"
+directory_name = f"./out/analysis_{timestamp.day}_{timestamp.month}_{timestamp.year}_{timestamp.hour}{timestamp.minute}{timestamp.second}{str(timestamp.microsecond)[:3]}"
 
 class Analyzer():
     def __init__(self, filename: str, parsed_data: Parser, total_lines: int, out_directory: str) -> None:

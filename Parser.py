@@ -1,3 +1,6 @@
+import re
+
+
 class Register():
     def __init__(self, name: str):
         self.name: str = name
@@ -13,6 +16,13 @@ class Register():
 
     def is_decimal(self, name: str) -> bool:
         if name[0] == '$':
+            return True
+        return False
+    
+    def is_stack_pointer(self, name: str) -> bool:
+        pattern = r"-[0-9]{1,2}\(%rbp\)"
+
+        if re.search(pattern, name):
             return True
         return False
     
