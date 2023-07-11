@@ -2,7 +2,7 @@ from datetime import datetime
 from os import makedirs, path
 
 from Parser import Parser, Instruction
-from utils import BranchV1, BranchV2
+from utils import BranchV1, BranchV2, ConstantCoding
 
 # TODO: Add support for Arm32
 # movs	r3, #1
@@ -12,7 +12,7 @@ from utils import BranchV1, BranchV2
 # bne	.L2
 
 timestamp = datetime.now()
-directory_name = f"./out/{timestamp.day}_{timestamp.month}_{timestamp.year}_{timestamp.hour}{timestamp.minute}{timestamp.second}{timestamp.microsecond}"
+directory_name = f"./out/analysis_{timestamp.day}_{timestamp.month}_{timestamp.year}_{timestamp.hour}{timestamp.minute}{timestamp.second}{timestamp.microsecond:03d}"
 
 class Analyzer():
     def __init__(self, filename: str, parsed_data: Parser, total_lines: int, out_directory: str) -> None:
@@ -26,6 +26,7 @@ class Analyzer():
         self.parsed_data = parsed_data
         self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
         self.branchV2_detector = BranchV2(filename, total_lines, directory_name)
+        self.constant_detector = ConstantCoding(filename, total_lines, directory_name, sensitivity=4)
         if self.create_directory():
             self.static_analysis()
         
@@ -49,8 +50,9 @@ class Analyzer():
         """
         for line in self.parsed_data.program:
             if type(line) == Instruction:
-                self.branchV1_detector.branch_analysis(line)
-                self.branchV2_detector.branch_analysis(line)
+                self.branchV1_detector.analysis(line)
+                self.branchV2_detector.analysis(line)
+                self.constant_detector.analysis(line)
                 
     def save_and_print_analysis_results(self) -> None:
         """
@@ -59,10 +61,14 @@ class Analyzer():
         print(f"Saving Results...\n\n")
         
         print(f"Saving Branch-V1...")
-        self.branchV1_detector.save_and_print_branch_results()
+        self.branchV1_detector.save_and_print_results()
         print(f"Saved")
         
         print(f"Saving Branch-V2...")
-        self.branchV2_detector.save_and_print_branch_results()
+        self.branchV2_detector.save_and_print_results()
+        print(f"Saved")
+        
+        print(f"Saving ConstantCoding...")
+        self.constant_detector.save_and_print_results()
         print(f"Saved")
         

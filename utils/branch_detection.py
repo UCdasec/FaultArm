@@ -1,8 +1,8 @@
-from os import makedirs, path
+from os import path
 from datetime import datetime
 from typing import List
 
-from Parser import Parser, Instruction, Location
+from Parser import Instruction, Location
 
 class BranchV1():
     def __init__(self, filename: str, total_lines: int, directory_name: str) -> None:
@@ -26,7 +26,7 @@ class BranchV1():
         self.total_lines = total_lines
         self.directory_name = directory_name
         
-    def branch_analysis(self, line: Instruction) -> None:
+    def analysis(self, line: Instruction) -> None:
         """
         Analyzes the given instruction line for branch vulnerability.
 
@@ -87,7 +87,7 @@ class BranchV1():
         self.vulnerable_instructions.append(self.current_vulnerable.copy())
         self.current_vulnerable.clear()
         
-    def save_and_print_branch_results(self) -> None:
+    def save_and_print_results(self) -> None:
         """
         Prints the results of the analysis.
         """
@@ -117,9 +117,9 @@ class BranchV1():
                     print("\n")
                     file.write("\n")
                     
-                print(f"All vulnerable lines printed.")
+                print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"SECURED FILE - NO BRANCH VULNERABILITIES")
+                print(f"NO BRANCH VULNERABILITIES")
                 file.write(f"SECURED FILE - NO BRANCH VULNERABILITIES")
         
 class BranchV2():
@@ -144,7 +144,7 @@ class BranchV2():
         self.total_lines = total_lines
         self.directory_name = directory_name
         
-    def branch_analysis(self, line: Instruction) -> None:
+    def analysis(self, line: Instruction) -> None:
         """
         Analyzes the given instruction line for branch vulnerability.
 
@@ -201,7 +201,7 @@ class BranchV2():
         self.vulnerable_instructions.append(self.current_vulnerable.copy())
         self.current_vulnerable.clear()
         
-    def save_and_print_branch_results(self) -> None:
+    def save_and_print_results(self) -> None:
         """
         Prints the results of the analysis.
         """
@@ -231,7 +231,7 @@ class BranchV2():
                     print("\n")
                     file.write("\n")
                     
-                print(f"All vulnerable lines printed.")
+                print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"SECURED FILE - NO BRANCH VULNERABILITIES")
+                print(f"NO BRANCH VULNERABILITIES")
                 file.write(f"SECURED FILE - NO BRANCH VULNERABILITIES")

@@ -19,16 +19,18 @@ class Register():
     def __str__(self) -> str:
         return self.name 
 
+# FIXME: hammingWeight needs revision (?)
 class IntegerLiteral():
     def __init__(self, val: int):
         self.value : int = val
 
+    # TODO: Test hamming weight
     def hammingWeight(self) -> int:
         num : int = self.value
         result : int = 0
         while(num > 0):
+            num >>= 1
             result += 1
-            num >> 1
         return result
 
     def __str__(self) -> str:
@@ -65,7 +67,7 @@ class Instruction():
         else:
             return self.name
 
-# TODO
+# TODO: Implement address support
 class Address():
     def __init__(self, value: str):
         self.value = value    
@@ -117,17 +119,14 @@ class Parser:
             # Remove { and } from arguments, only relevant for push/pop
             arg = arg.replace('{', '')
             arg = arg.replace('}', '')
-            # TODO
-            # Check if memory location
+            # TODO: Check if memory location
             if '[' in arg or ']' in arg:
                 break
             # Check if a number
-            if arg[0] == '#' and self.isNumber(arg[1:]):
+            if arg[0] == '#' or arg[0] == '$' and self.isNumber(arg[1:]):
                 arguments.append(IntegerLiteral(int(arg[1:])))
-            ## TODO
-            ## Check if Location
-            ## TODO check for locations without '.' like main
-            if arg[0] == ".":
+            # TODO check for locations without '.' like main
+            elif arg[0] == ".":
                 arguments.append(Location(arg, line_number))
             # Must be register
             else:
