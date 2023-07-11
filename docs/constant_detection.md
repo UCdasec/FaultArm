@@ -38,9 +38,27 @@ This directs the compiler to generate assembly source (`assembly_filename.s`) fr
 
 ## ConstantCoding Pattern in x86
 
+It involves the presence of a constant value being moved onto the stack, which can potentially introduce vulnerabilities in the program's logic. In this case, we will focus on the following pattern:
+
+```asm
+movl #, -4(%rbp)
+```
+
+The `movl` instruction is used to move a value into a destination operand. In this pattern, the `#` represents the constant value being moved onto the stack. The `movl` instruction copies the value into the memory location specified by `-4(%rbp)`. Let's discuss the significance of the `%rbp` register.
+
+In x86 assembly language, the `%rbp` register is the base pointer register. It points to the base (or bottom) of the current stack frame. The stack is a region of memory used for storing local variables, function parameters, and other data during the execution of a program. By referencing `%rbp` with an offset, such as `-4(%rbp)`, the instruction is accessing a specific location within the stack frame.
+
+Now, let's consider the vulnerability detection mechanism based on the sensitivity of the constant value. The sensitivity is by the hamming weight of the found decimal value. The hamming weight refers to the number of non-zero bits in a binary representation of the value. If the hamming weight of the constant value falls below a certain sensitivity threshold, it is considered trivial and vulnerable.
+
+To illustrate this vulnerability detection, let's provide an example in C that is equivalent to the given assembly instruction:
+
+```c
+int value = #;
+```
+
+In the C code snippet, the variable value is assigned the constant value represented by `#`. The vulnerability detection mechanism would analyze the decimal value of `#``, convert it to binary, and calculate its hamming weight. If the hamming weight is below the sensitivity threshold, it indicates a potential vulnerability.
+
 ## Detection
-
-
 
 ## References
 

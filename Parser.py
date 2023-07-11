@@ -29,12 +29,10 @@ class Register():
     def __str__(self) -> str:
         return self.name 
 
-# FIXME: hammingWeight needs revision (?)
 class IntegerLiteral():
     def __init__(self, val: int):
         self.value : int = val
 
-    # TODO: Test hamming weight
     def hammingWeight(self) -> int:
         num : int = self.value
         result : int = 0
