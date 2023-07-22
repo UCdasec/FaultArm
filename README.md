@@ -1,6 +1,6 @@
-# Asphault - Assembly Fault Injection Vulnerability Detector
+# FaultHunter_ASM - Assembly Fault Injection Vulnerability Detector
 
-- [Asphault - Assembly Fault Injection Vulnerability Detector](#asphault---assembly-fault-injection-vulnerability-detector)
+- [FaultHunter\_ASM - Assembly Fault Injection Vulnerability Detector](#faulthunter_asm---assembly-fault-injection-vulnerability-detector)
   - [Project Introduction](#project-introduction)
     - [Usage](#usage)
   - [Generating sample files](#generating-sample-files)
@@ -21,7 +21,7 @@
 
 ## Project Introduction
 
-Asphault is a tool created to automatically detect fault injection vulnerabilities within ARM32 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
+FaultHunter_ASM is a tool created to automatically detect fault injection vulnerabilities within ARM32 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
 
 ### Usage
 
@@ -87,7 +87,7 @@ In progress...
 
 ## Structure
 
-Asphault (currently) is separated between two modules: `Parser.py` and `Analyzer.py`.
+FaultHunter_ASM (currently) is separated between two modules: `Parser.py` and `Analyzer.py`.
 
 ### main.py
 
