@@ -25,25 +25,21 @@ basic_comp:
 	movl	$1, -8(%rbp)
 	cmpl	$1, -8(%rbp)
 	jne	.L2
-	leaq	.LC0(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC0(%rip), %rdi
 	call	puts@PLT
 	jmp	.L3
 .L2:
-	leaq	.LC1(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC1(%rip), %rdi
 	call	puts@PLT
 .L3:
 	movl	$0, -4(%rbp)
 	cmpl	$0, -4(%rbp)
 	je	.L4
-	leaq	.LC2(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC2(%rip), %rdi
 	call	puts@PLT
 	jmp	.L5
 .L4:
-	leaq	.LC3(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC3(%rip), %rdi
 	call	puts@PLT
 .L5:
 	movl	$0, %eax
@@ -91,13 +87,11 @@ advanced_comp:
 	movl	-20(%rbp), %eax
 	cmpl	-16(%rbp), %eax
 	jge	.L8
-	leaq	.LC4(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC4(%rip), %rdi
 	call	puts@PLT
 	jmp	.L9
 .L8:
-	leaq	.LC5(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC5(%rip), %rdi
 	call	puts@PLT
 .L9:
 	movl	$0, -12(%rbp)
@@ -108,13 +102,11 @@ advanced_comp:
 	cmpl	-16(%rbp), %eax
 	jle	.L11
 .L10:
-	leaq	.LC6(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC6(%rip), %rdi
 	call	puts@PLT
 	jmp	.L12
 .L11:
-	leaq	.LC7(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC7(%rip), %rdi
 	call	puts@PLT
 .L12:
 	movl	-20(%rbp), %eax
@@ -124,13 +116,11 @@ advanced_comp:
 	movl	%eax, -4(%rbp)
 	cmpl	$0, -4(%rbp)
 	je	.L13
-	leaq	.LC8(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC8(%rip), %rdi
 	call	puts@PLT
 	jmp	.L14
 .L13:
-	leaq	.LC9(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC9(%rip), %rdi
 	call	puts@PLT
 .L14:
 	movl	$0, %eax
@@ -140,21 +130,21 @@ advanced_comp:
 	.cfi_endproc
 .LFE1:
 	.size	advanced_comp, .-advanced_comp
-	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0"
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
 	.align 8
-	.long	1f - 0f
-	.long	4f - 1f
-	.long	5
+	.long	 1f - 0f
+	.long	 4f - 1f
+	.long	 5
 0:
-	.string	"GNU"
+	.string	 "GNU"
 1:
 	.align 8
-	.long	0xc0000002
-	.long	3f - 2f
+	.long	 0xc0000002
+	.long	 3f - 2f
 2:
-	.long	0x3
+	.long	 0x3
 3:
 	.align 8
 4:

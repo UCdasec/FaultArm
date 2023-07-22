@@ -31,39 +31,33 @@ main:
 	andl	$3840, %eax
 	cmpl	$256, %eax
 	jne	.L2
-	leaq	.LC0(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC0(%rip), %rdi
 	call	puts@PLT
 	jmp	.L3
 .L2:
-	leaq	.LC1(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC1(%rip), %rdi
 	call	puts@PLT
 .L3:
 	movl	-4(%rbp), %eax
 	andl	$240, %eax
 	cmpl	$160, %eax
 	jne	.L4
-	leaq	.LC2(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC2(%rip), %rdi
 	call	puts@PLT
 	jmp	.L5
 .L4:
-	leaq	.LC3(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC3(%rip), %rdi
 	call	puts@PLT
 .L5:
 	movl	-4(%rbp), %eax
 	andl	$15, %eax
 	cmpl	$13, %eax
 	jne	.L6
-	leaq	.LC4(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC4(%rip), %rdi
 	call	puts@PLT
 	jmp	.L7
 .L6:
-	leaq	.LC5(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC5(%rip), %rdi
 	call	puts@PLT
 .L7:
 	movl	$0, %eax
@@ -73,21 +67,21 @@ main:
 	.cfi_endproc
 .LFE0:
 	.size	main, .-main
-	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0"
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
 	.align 8
-	.long	1f - 0f
-	.long	4f - 1f
-	.long	5
+	.long	 1f - 0f
+	.long	 4f - 1f
+	.long	 5
 0:
-	.string	"GNU"
+	.string	 "GNU"
 1:
 	.align 8
-	.long	0xc0000002
-	.long	3f - 2f
+	.long	 0xc0000002
+	.long	 3f - 2f
 2:
-	.long	0x3
+	.long	 0x3
 3:
 	.align 8
 4:
