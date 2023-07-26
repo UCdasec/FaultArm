@@ -24,7 +24,9 @@ class Analyzer():
         """
         self.filename = filename
         self.parsed_data = parsed_data
-        self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
+        
+        # ! Outdated branch pattern detection
+        # self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
         self.branchV2_detector = BranchV2(filename, total_lines, directory_name)
         self.constant_detector = ConstantCoding(filename, total_lines, directory_name, sensitivity=4)
         if self.create_directory():
@@ -38,7 +40,7 @@ class Analyzer():
         makedirs(f"{directory_name}")
         
         if path.exists(directory_name):
-            print(f"Directory Created\n\n")
+            print(f"Directory Created: {directory_name}\n\n")
             return True
         
         print(f"Error: Did not create directory\n\n")
@@ -50,7 +52,7 @@ class Analyzer():
         """
         for line in self.parsed_data.program:
             if type(line) == Instruction:
-                self.branchV1_detector.analysis(line)
+                # self.branchV1_detector.analysis(line)
                 self.branchV2_detector.analysis(line)
                 self.constant_detector.analysis(line)
                 
@@ -60,9 +62,9 @@ class Analyzer():
         """
         print(f"Saving Results...\n\n")
         
-        print(f"Saving Branch-V1...")
-        self.branchV1_detector.save_and_print_results()
-        print(f"Saved")
+        # print(f"Saving Branch-V1...")
+        # self.branchV1_detector.save_and_print_results()
+        # print(f"Saved")
         
         print(f"Saving Branch-V2...")
         self.branchV2_detector.save_and_print_results()

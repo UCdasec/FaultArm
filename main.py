@@ -13,6 +13,9 @@ def main():
     
     # Print results
     analyzed_data.save_and_print_analysis_results()
+    
+    # TODO: Add further analytical results
+    # Add total lines analyzed, total vulnerable lines, lines for each vulnerability.
 
 if __name__ == "__main__":
     main()
