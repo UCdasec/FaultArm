@@ -21,7 +21,7 @@
 
 ## Project Introduction
 
-FaultHunter_ASM is a tool created to automatically detect fault injection vulnerabilities within ARM32 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
+FaultHunter_ASM is a tool created to automatically detect fault injection vulnerabilities within x86 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
 
 ### Usage
 
@@ -95,7 +95,7 @@ The entrypoint to the program. `main.py` serves as a central location to utilize
 
 ### Parser.py
 
-Main parsing module. Intended to parse 32-bit ARM assembly code. It combs through the source code and creates objects depending on what it encounters. Once the source code is transformed into a list of objects, it can be more easily worked with to discover patterns. It uses Python’s type hints to be more transparent.
+Main parsing module. Intended to parse 32-bit x86 assembly code. It combs through the source code and creates objects depending on what it encounters. Once the source code is transformed into a list of objects, it can be more easily worked with to discover patterns. It uses Python’s type hints to be more transparent.
 
 `Locations` are spots in the code that can be referenced and jumped to. Example: .LC0 and main.
 
