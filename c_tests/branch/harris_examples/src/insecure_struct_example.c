@@ -10,10 +10,10 @@ struct condition
 int main(void){
 
     struct condition x;
-    x.val1 = 10;
-    x.val2 = 12;
+    x.val1 = 0;
+    x.val2 = 1;
 
-    if (x.val1 < x.val2){
+    if (x.val1 && x.val2 == 1){
         printf("Execute critical code");
     }else{
         printf("Do not execute critical code");

@@ -2,7 +2,7 @@
 
 int main()
 {
-    int x = 10;
+    int x = 1;
     int *p = &x;
 
     if(*p > x){

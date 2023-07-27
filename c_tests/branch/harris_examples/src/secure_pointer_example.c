@@ -22,7 +22,7 @@ int main()
         printf("Neither x < z or *p > x are true");
     }
     int condition = (x * z > *p) ? 0x3F4C : 0x3F4B;
-    if(condition){
+    if(condition == 0x3F4C){
         printf("x * z is greater than *p");
     }else{
         printf("x * z is less than *p");

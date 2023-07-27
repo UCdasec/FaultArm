@@ -39,7 +39,7 @@ main:
 	movq	%fs:40, %rax
 	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
-	movl	$10, -32(%rbp)
+	movl	$1, -32(%rbp)
 	leaq	-32(%rbp), %rax
 	movq	%rax, -16(%rbp)
 	movq	-16(%rbp), %rax
@@ -47,14 +47,12 @@ main:
 	movl	-32(%rbp), %eax
 	cmpl	%eax, %edx
 	jle	.L2
-	leaq	.LC0(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC0(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 	jmp	.L3
 .L2:
-	leaq	.LC1(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC1(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 .L3:
@@ -68,14 +66,12 @@ main:
 	movl	(%rax), %eax
 	testl	%eax, %eax
 	je	.L4
-	leaq	.LC2(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC2(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 	jmp	.L5
 .L4:
-	leaq	.LC3(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC3(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 .L5:
@@ -88,14 +84,12 @@ main:
 	cmpl	%eax, %edx
 	jle	.L7
 .L6:
-	leaq	.LC4(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC4(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 	jmp	.L8
 .L7:
-	leaq	.LC5(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC5(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 .L8:
@@ -110,45 +104,37 @@ main:
 	movl	%eax, -24(%rbp)
 	cmpl	$0, -24(%rbp)
 	je	.L9
-	leaq	.LC6(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC6(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 	jmp	.L10
 .L9:
-	leaq	.LC7(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC7(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 .L10:
 	movq	-16(%rbp), %rax
 	movl	(%rax), %eax
-	pxor	%xmm2, %xmm2
-	cvtsi2sdl	%eax, %xmm2
-	movq	%xmm2, %rax
-	movsd	.LC8(%rip), %xmm0
-	movapd	%xmm0, %xmm1
-	movq	%rax, %xmm0
+	cvtsi2sdl	%eax, %xmm0
+	movsd	.LC8(%rip), %xmm1
 	call	pow@PLT
 	cvttsd2sil	%xmm0, %eax
 	movl	%eax, -20(%rbp)
 	movl	-32(%rbp), %eax
 	cmpl	%eax, -20(%rbp)
 	jge	.L11
-	leaq	.LC9(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC9(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 	jmp	.L12
 .L11:
-	leaq	.LC10(%rip), %rax
-	movq	%rax, %rdi
+	leaq	.LC10(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
 .L12:
 	movl	$0, %eax
-	movq	-8(%rbp), %rdx
-	subq	%fs:40, %rdx
+	movq	-8(%rbp), %rcx
+	xorq	%fs:40, %rcx
 	je	.L14
 	call	__stack_chk_fail@PLT
 .L14:
@@ -163,21 +149,21 @@ main:
 .LC8:
 	.long	0
 	.long	1073741824
-	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0"
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
 	.align 8
-	.long	1f - 0f
-	.long	4f - 1f
-	.long	5
+	.long	 1f - 0f
+	.long	 4f - 1f
+	.long	 5
 0:
-	.string	"GNU"
+	.string	 "GNU"
 1:
 	.align 8
-	.long	0xc0000002
-	.long	3f - 2f
+	.long	 0xc0000002
+	.long	 3f - 2f
 2:
-	.long	0x3
+	.long	 0x3
 3:
 	.align 8
 4:
