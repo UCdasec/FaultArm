@@ -1,3 +1,3 @@
-# How can I add more patterns to Asphault?
+# How can I add more patterns to FaultHunter_ASM?
 
 In progress.

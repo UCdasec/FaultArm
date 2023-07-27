@@ -1,0 +1,14 @@
+Analyzed file: c_tests/harris_examples/asm/simple_insecure.s
+Wed Jul  5 00:36:38 2023
+Lines Analyzed: 67
+Vulnerable Lines: 3
+
+BranchV1 Results:
+
+BRANCH-V1 VULNERABILITY DETECTED
+
+[Line #] [Opcode]
+21 movl $1, -8(%rbp)
+22 cmpl $1, -4(%rbp)
+23 jne .L2
+

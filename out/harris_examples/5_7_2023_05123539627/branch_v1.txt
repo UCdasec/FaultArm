@@ -1,0 +1,8 @@
+Analyzed file: c_tests/harris_examples/asm/secure_pointer_example.s
+Wed Jul  5 00:51:23 2023
+Lines Analyzed: 188
+Vulnerable Lines: 0
+
+BranchV1 Results:
+
+SECURED FILE - NO BRANCH VULNERABILITIES
