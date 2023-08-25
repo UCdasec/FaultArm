@@ -12,18 +12,5 @@ int main(int argc, char** argv) {
         printf("Two");
     }
 
-    // switch (FLAG)
-    // {
-    // case 0:
-    //     printf("Zero");
-    //     break;
-    // case 1:
-    //     printf("One");
-    //     break;
-    // case 2:
-    //     printf("Two");
-    //     break;
-    // }
-
     return 0;
 }
