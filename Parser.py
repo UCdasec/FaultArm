@@ -1,5 +1,13 @@
 import re
 
+# TODO: Add support for Arm32
+# movs	r3, #1
+# str	r3, [r7, #4]
+# ldr	r3, [r7, #4]
+# cmp	r3, #1
+# bne	.L2
+
+# Detect arch here?
 
 class Register():
     def __init__(self, name: str):
@@ -80,11 +88,31 @@ class Address():
     def __init__(self, value: str):
         self.value = value    
 
+class Architecture():
+    def __init__(self, line: str, register: Register | None, line_number: int = 0) -> None:
+        self.identifier = line
+        self.line_number = line_number
+        self.register = register
+        self.arch: str = ""
+        
+        pass
+    
+    def determine_architecture(self, line: str, register: Register) -> None:
+        if register is None:
+            if re.match(r"[\s]+\(.arch\)", line) and line.find("arm"):
+                self.arch = "arm"
+            else:
+                self.arch = "x86"
+
 class Parser:
     def __init__(self, file: str):
         self.filename : str = file
         self.program : list[Location | StringLiteral | Instruction] = []
         self.total_lines: int = 0
+        
+        self.is_arch_determined: bool = False
+        self.arch = Architecture()
+        
         self.parseFile()
 
     def parseFile(self):
@@ -109,6 +137,10 @@ class Parser:
             # Line is a string literal
             elif s.startswith(".string") or s.startswith(".ascii"):
                 program.append(StringLiteral(s[s.find('"'):-1], line_number))
+            
+            elif s.startswith(".arch") and not self.is_arch_determined:
+                self.is_arch_determined = True
+                self.arch = Architecture(s, line_number)
             # Line is an instruction
             else:  
                 program.append(self.parseArguments(s, line_number))
@@ -138,7 +170,10 @@ class Parser:
                 arguments.append(Location(arg, line_number))
             # Must be register
             else:
-                arguments.append(Register(arg))
+                register = Register(arg)
+                if not self.is_arch_determined:   
+                    self.arch = Architecture()
+                arguments.append(register)
 
         return Instruction(instruction, arguments, line_number)
 
