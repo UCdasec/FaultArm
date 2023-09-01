@@ -3,7 +3,6 @@
 void foo(int* bar)
 {
     int secret = 1;
-
     *bar = secret + 0;
 }
 
