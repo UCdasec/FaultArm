@@ -18,6 +18,8 @@ class Register():
             
         
     def is_register(self, name: str) -> bool:
+        # TODO: Not all registers will start with %.
+        # Naming conventions vary.
         if name[0] == '%':
             return True
         return False
@@ -97,12 +99,28 @@ class Architecture():
         
         pass
     
+    def set_architecture(self, architecture: int) -> None:
+        self.arch = 'arm' if architecture == 0 else 'x86'
+    
     def determine_architecture(self, line: str, register: Register) -> None:
         if register is None:
             if re.match(r"[\s]+\(.arch\)", line) and line.find("arm"):
-                self.arch = "arm"
+                self.set_architecture(0)
             else:
-                self.arch = "x86"
+                self.set_architecture(1)
+        else:
+            # TODO: Finish this.
+            # Got a register instead
+            # Line:
+            # movs	r3, #1
+            # str	r3, [r7, #4]
+            # ldr	r3, [r7, #4]
+            # movq	%rax, -8(%rbp)
+            # xorl	%eax, %eax
+            if '' in register.name:
+                return
+                
+            
 
 class Parser:
     def __init__(self, file: str):
