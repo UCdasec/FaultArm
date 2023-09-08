@@ -18,6 +18,8 @@ class Register():
             
         
     def is_register(self, name: str) -> bool:
+        # TODO: Not all registers will start with %.
+        # Naming conventions vary.
         if name[0] == '%':
             return True
         return False
