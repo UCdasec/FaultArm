@@ -89,20 +89,53 @@ class Address():
         self.value = value    
 
 class Architecture():
-    def __init__(self, line: str, register: Register | None, line_number: int = 0) -> None:
+    def __init__(self, line: str | None, instruction: Instruction | None) -> None:
+        self.name: str = ""
         self.identifier = line
-        self.line_number = line_number
-        self.register = register
-        self.arch: str = ""
+        self.instruction = instruction
+        self.is_determined: bool = False
         
         pass
     
-    def determine_architecture(self, line: str, register: Register) -> None:
-        if register is None:
-            if re.match(r"[\s]+\(.arch\)", line) and line.find("arm"):
-                self.arch = "arm"
-            else:
-                self.arch = "x86"
+    def architecture_found(self, name: str):
+        self.name = name
+        self.is_determined = True
+    
+    def determine_architecture(self, line: str, instruction: Instruction | None) -> None:
+        # If the function was not invoked by a register/instruction
+        if instruction is None:
+            # Might be an identifier
+            if re.match(r"\s*\.arch\s+arm", line):
+                self.architecture_found("arm")
+                self.identifier = line
+                
+        # If the function is invoked with an instruction
+        else:            
+            # Check instruction name for arm uniques
+            if re.match(r"\bLDR|STR|(B|BL|BX|BLX)(EQ|NE|CS|HS|CC|LO|MI|PL|VS|VC|HI|LS|GE|LT|GT|LE|AL)?\b", instruction.name, re.IGNORECASE):
+                self.architecture_found("arm")
+                self.instruction = instruction
+
+                return
+            # Check instruction name for x86 uniques
+            elif re.match(r"\b(MOV[L|Q]|CALL|RET|INT|LEA|PUSH[Q?]|POP|INC|DEC|JMP|JE|JNE|JG|JL|JGE|JLE|JA|JB|JAE|JBE)\b", instruction.name, re.IGNORECASE):
+                self.architecture_found("x86")
+                self.instruction = instruction
+                return
+            # Check the possible ARM register names AKA
+            for arg in instruction.arguments:
+                if type(arg) is Register:
+                    if re.match(r"\b(R[0-9]|R1[0-5])\b", arg.name, re.IGNORECASE):
+                        self.architecture_found("arm")
+                        self.instruction = instruction
+                        return
+                    elif re.match(r"\b(EAX|EBX|ECX|EDX|ESI|EDI|EBP|ESP|RAX|RBX|RCX|RDX|RSI|RDI|RBP|RSP)\b", arg.name, re.IGNORECASE):
+                        self.architecture_found("x86")
+                        self.instruction = instruction
+                        return
+                        
+            
+            
 
 class Parser:
     def __init__(self, file: str):
@@ -110,8 +143,7 @@ class Parser:
         self.program : list[Location | StringLiteral | Instruction] = []
         self.total_lines: int = 0
         
-        self.is_arch_determined: bool = False
-        self.arch = Architecture()
+        self.arch = Architecture(line=None, instruction=None)
         
         self.parseFile()
 
@@ -137,10 +169,10 @@ class Parser:
             # Line is a string literal
             elif s.startswith(".string") or s.startswith(".ascii"):
                 program.append(StringLiteral(s[s.find('"'):-1], line_number))
-            
-            elif s.startswith(".arch") and not self.is_arch_determined:
-                self.is_arch_determined = True
-                self.arch = Architecture(s, line_number)
+            # TODO: Might not be necessary to include this case...
+            # Explicit architecture specifier
+            elif s.startswith(".arch") and not self.arch.is_determined:
+                self.arch.determine_architecture(line, instruction=None)
             # Line is an instruction
             else:  
                 program.append(self.parseArguments(s, line_number))
@@ -171,11 +203,12 @@ class Parser:
             # Must be register
             else:
                 register = Register(arg)
-                if not self.is_arch_determined:   
-                    self.arch = Architecture()
                 arguments.append(register)
 
-        return Instruction(instruction, arguments, line_number)
+        instruction_out = Instruction(instruction, arguments, line_number)
+        if not self.arch.is_determined:
+            self.arch.determine_architecture(line, instruction_out)
+        return instruction_out
 
     #def locateInstruction(self, name: str) -> Instruction:
      #   for 

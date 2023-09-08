@@ -11,6 +11,8 @@ def main():
     # Parse file
     parsed_data = Parser(args.file[0])
     
+    # print(f"ARCHITECTURE DETECTED: {parsed_data.arch.name}\n")
+    
     # print(parsed_data)
     analyzed_data = Analyzer(args.file[0], parsed_data, parsed_data.total_lines, "./out/")
     
