@@ -1,27 +1,20 @@
-	.file	"complex_insecure_branch.c"
+	.file	"simple_insecure_branch.c"
 	.text
 	.p2align 4
-	.globl	checkPassword
-	.type	checkPassword, @function
-checkPassword:
+	.globl	foo
+	.type	foo, @function
+foo:
 .LFB23:
 	.cfi_startproc
 	endbr64
-	movl	(%rdi), %eax
-	addl	$1, %eax
-	cmpl	$1, %eax
-	movl	%eax, (%rdi)
-	setne	%al
-	movzbl	%al, %eax
+	movl	$1, (%rdi)
 	ret
 	.cfi_endproc
 .LFE23:
-	.size	checkPassword, .-checkPassword
+	.size	foo, .-foo
 	.section	.rodata.str1.1,"aMS",@progbits,1
 .LC0:
-	.string	"Access denied."
-.LC1:
-	.string	"Access granted."
+	.string	"Executing critical code..."
 	.section	.text.startup,"ax",@progbits
 	.p2align 4
 	.globl	main
@@ -32,24 +25,12 @@ main:
 	endbr64
 	subq	$8, %rsp
 	.cfi_def_cfa_offset 16
-	movq	stdin(%rip), %rdi
-	call	getc@PLT
-	testl	%eax, %eax
-	je	.L7
-	leaq	.LC1(%rip), %rdi
-	call	puts@PLT
-	xorl	%eax, %eax
-.L3:
-	addq	$8, %rsp
-	.cfi_remember_state
-	.cfi_def_cfa_offset 8
-	ret
-.L7:
-	.cfi_restore_state
 	leaq	.LC0(%rip), %rdi
 	call	puts@PLT
-	movl	$1, %eax
-	jmp	.L3
+	xorl	%eax, %eax
+	addq	$8, %rsp
+	.cfi_def_cfa_offset 8
+	ret
 	.cfi_endproc
 .LFE24:
 	.size	main, .-main

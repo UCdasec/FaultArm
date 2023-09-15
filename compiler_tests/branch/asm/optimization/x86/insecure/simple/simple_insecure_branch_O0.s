@@ -1,4 +1,4 @@
-	.file	"simple_secure_branch.c"
+	.file	"simple_insecure_branch.c"
 	.text
 	.globl	foo
 	.type	foo, @function
@@ -12,10 +12,9 @@ foo:
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
 	movq	%rdi, -24(%rbp)
-	movl	$15523, -4(%rbp)
-	movl	-4(%rbp), %eax
-	leal	2(%rax), %edx
+	movl	$1, -4(%rbp)
 	movq	-24(%rbp), %rax
+	movl	-4(%rbp), %edx
 	movl	%edx, (%rax)
 	nop
 	popq	%rbp
@@ -50,7 +49,7 @@ main:
 	movq	%rax, %rdi
 	call	foo
 	movl	-12(%rbp), %eax
-	cmpl	$15525, %eax
+	cmpl	$1, %eax
 	jne	.L3
 	leaq	.LC0(%rip), %rdi
 	call	puts@PLT
@@ -72,7 +71,7 @@ main:
 	.cfi_endproc
 .LFE1:
 	.size	main, .-main
-	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
 	.align 8

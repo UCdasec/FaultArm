@@ -1,5 +1,6 @@
 	.file	"simple_secure_branch.c"
 	.text
+	.p2align 4
 	.globl	foo
 	.type	foo, @function
 foo:
@@ -14,7 +15,8 @@ foo:
 	.section	.rodata.str1.1,"aMS",@progbits,1
 .LC0:
 	.string	"Executing critical code..."
-	.text
+	.section	.text.startup,"ax",@progbits
+	.p2align 4
 	.globl	main
 	.type	main, @function
 main:
@@ -25,14 +27,14 @@ main:
 	.cfi_def_cfa_offset 16
 	leaq	.LC0(%rip), %rdi
 	call	puts@PLT
-	movl	$0, %eax
+	xorl	%eax, %eax
 	addq	$8, %rsp
 	.cfi_def_cfa_offset 8
 	ret
 	.cfi_endproc
 .LFE24:
 	.size	main, .-main
-	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
 	.align 8

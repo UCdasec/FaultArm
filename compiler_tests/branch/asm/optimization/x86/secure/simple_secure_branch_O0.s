@@ -1,8 +1,8 @@
-	.file	"complex_insecure_branch.c"
+	.file	"simple_secure_branch.c"
 	.text
-	.globl	checkPassword
-	.type	checkPassword, @function
-checkPassword:
+	.globl	foo
+	.type	foo, @function
+foo:
 .LFB0:
 	.cfi_startproc
 	endbr64
@@ -11,32 +11,24 @@ checkPassword:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	movq	%rdi, -8(%rbp)
-	movq	-8(%rbp), %rax
-	movl	(%rax), %eax
-	leal	1(%rax), %edx
-	movq	-8(%rbp), %rax
+	movq	%rdi, -24(%rbp)
+	movl	$15523, -4(%rbp)
+	movl	-4(%rbp), %eax
+	leal	2(%rax), %edx
+	movq	-24(%rbp), %rax
 	movl	%edx, (%rax)
-	movq	-8(%rbp), %rax
-	movl	(%rax), %eax
-	cmpl	$1, %eax
-	jne	.L2
-	movl	$0, %eax
-	jmp	.L3
-.L2:
-	movl	$1, %eax
-.L3:
+	nop
 	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
 .LFE0:
-	.size	checkPassword, .-checkPassword
+	.size	foo, .-foo
 	.section	.rodata
 .LC0:
-	.string	"Access granted."
+	.string	"Executing critical code..."
 .LC1:
-	.string	"Access denied."
+	.string	"Exiting out..."
 	.text
 	.globl	main
 	.type	main, @function
@@ -53,27 +45,27 @@ main:
 	movq	%fs:40, %rax
 	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
-	call	getchar@PLT
-	movl	%eax, -12(%rbp)
+	movl	$0, -12(%rbp)
 	leaq	-12(%rbp), %rax
 	movq	%rax, %rdi
-	call	checkPassword
-	cmpl	$1, %eax
-	jne	.L5
+	call	foo
+	movl	-12(%rbp), %eax
+	cmpl	$15525, %eax
+	jne	.L3
 	leaq	.LC0(%rip), %rdi
 	call	puts@PLT
 	movl	$0, %eax
-	jmp	.L8
-.L5:
+	jmp	.L6
+.L3:
 	leaq	.LC1(%rip), %rdi
 	call	puts@PLT
 	movl	$1, %eax
-.L8:
+.L6:
 	movq	-8(%rbp), %rdx
 	xorq	%fs:40, %rdx
-	je	.L9
+	je	.L7
 	call	__stack_chk_fail@PLT
-.L9:
+.L7:
 	leave
 	.cfi_def_cfa 7, 8
 	ret

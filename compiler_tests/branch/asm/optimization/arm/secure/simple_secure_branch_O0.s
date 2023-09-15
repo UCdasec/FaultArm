@@ -8,49 +8,45 @@
 	.eabi_attribute 30, 6
 	.eabi_attribute 34, 0
 	.eabi_attribute 18, 4
-	.file	"complex_insecure_branch.c"
+	.file	"simple_secure_branch.c"
 	.text
 	.align	2
-	.global	checkPassword
+	.global	foo
 	.syntax unified
 	.arm
 	.fpu softvfp
-	.type	checkPassword, %function
-checkPassword:
-	@ args = 0, pretend = 0, frame = 8
+	.type	foo, %function
+foo:
+	@ args = 0, pretend = 0, frame = 16
 	@ frame_needed = 1, uses_anonymous_args = 0
 	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
-	sub	sp, sp, #12
-	str	r0, [fp, #-8]
+	sub	sp, sp, #20
+	str	r0, [fp, #-16]
+	ldr	r3, .L2
+	str	r3, [fp, #-8]
 	ldr	r3, [fp, #-8]
-	ldr	r3, [r3]
-	add	r2, r3, #1
-	ldr	r3, [fp, #-8]
+	add	r2, r3, #2
+	ldr	r3, [fp, #-16]
 	str	r2, [r3]
-	ldr	r3, [fp, #-8]
-	ldr	r3, [r3]
-	cmp	r3, #1
-	bne	.L2
-	mov	r3, #0
-	b	.L3
-.L2:
-	mov	r3, #1
-.L3:
-	mov	r0, r3
+	nop
 	add	sp, fp, #0
 	@ sp needed
 	ldr	fp, [sp], #4
 	bx	lr
-	.size	checkPassword, .-checkPassword
+.L3:
+	.align	2
+.L2:
+	.word	15523
+	.size	foo, .-foo
 	.section	.rodata
 	.align	2
 .LC0:
-	.ascii	"Access granted.\000"
+	.ascii	"Executing critical code...\000"
 	.align	2
 .LC1:
-	.ascii	"Access denied.\000"
+	.ascii	"Exiting out...\000"
 	.align	2
 .LC2:
 	.word	__stack_chk_guard
@@ -71,21 +67,21 @@ main:
 	ldr	r3, [r3]
 	str	r3, [fp, #-8]
 	mov	r3,#0
-	bl	getchar
-	mov	r3, r0
+	mov	r3, #0
 	str	r3, [fp, #-12]
 	sub	r3, fp, #12
 	mov	r0, r3
-	bl	checkPassword
-	mov	r3, r0
-	cmp	r3, #1
+	bl	foo
+	ldr	r3, [fp, #-12]
+	ldr	r2, .L10+4
+	cmp	r3, r2
 	bne	.L5
-	ldr	r0, .L10+4
+	ldr	r0, .L10+8
 	bl	puts
 	mov	r3, #0
 	b	.L8
 .L5:
-	ldr	r0, .L10+8
+	ldr	r0, .L10+12
 	bl	puts
 	mov	r3, #1
 .L8:
@@ -105,6 +101,7 @@ main:
 	.align	2
 .L10:
 	.word	.LC2
+	.word	15525
 	.word	.LC0
 	.word	.LC1
 	.size	main, .-main

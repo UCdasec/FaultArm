@@ -1,8 +1,8 @@
 	.file	"complex_insecure_branch.c"
 	.text
-	.globl	checkPassword
-	.type	checkPassword, @function
-checkPassword:
+	.globl	foo
+	.type	foo, @function
+foo:
 .LFB23:
 	.cfi_startproc
 	endbr64
@@ -15,7 +15,7 @@ checkPassword:
 	ret
 	.cfi_endproc
 .LFE23:
-	.size	checkPassword, .-checkPassword
+	.size	foo, .-foo
 	.section	.rodata.str1.1,"aMS",@progbits,1
 .LC0:
 	.string	"Access granted."
@@ -37,7 +37,7 @@ main:
 	call	getc@PLT
 	movl	%eax, 4(%rsp)
 	leaq	4(%rsp), %rdi
-	call	checkPassword
+	call	foo
 	cmpl	$1, %eax
 	jne	.L3
 	leaq	.LC0(%rip), %rdi

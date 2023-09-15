@@ -3,36 +3,36 @@
 	.globl	foo
 	.type	foo, @function
 foo:
-.LFB23:
+.LFB13:
 	.cfi_startproc
 	endbr64
 	movl	$1, (%rdi)
 	ret
 	.cfi_endproc
-.LFE23:
+.LFE13:
 	.size	foo, .-foo
 	.section	.rodata.str1.1,"aMS",@progbits,1
 .LC0:
 	.string	"Executing critical code..."
-	.text
+	.section	.text.startup,"ax",@progbits
 	.globl	main
 	.type	main, @function
 main:
-.LFB24:
+.LFB14:
 	.cfi_startproc
 	endbr64
-	subq	$8, %rsp
+	pushq	%rax
 	.cfi_def_cfa_offset 16
 	leaq	.LC0(%rip), %rdi
 	call	puts@PLT
-	movl	$0, %eax
-	addq	$8, %rsp
+	xorl	%eax, %eax
+	popq	%rdx
 	.cfi_def_cfa_offset 8
 	ret
 	.cfi_endproc
-.LFE24:
+.LFE14:
 	.size	main, .-main
-	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
 	.align 8

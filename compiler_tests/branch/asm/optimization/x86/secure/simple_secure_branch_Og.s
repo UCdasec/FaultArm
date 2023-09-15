@@ -1,55 +1,57 @@
-	.file	"complex_insecure_branch.c"
+	.file	"simple_secure_branch.c"
 	.text
-	.p2align 4
-	.globl	checkPassword
-	.type	checkPassword, @function
-checkPassword:
+	.globl	foo
+	.type	foo, @function
+foo:
 .LFB23:
 	.cfi_startproc
 	endbr64
-	movl	(%rdi), %eax
-	addl	$1, %eax
-	cmpl	$1, %eax
-	movl	%eax, (%rdi)
-	setne	%al
-	movzbl	%al, %eax
+	movl	$15525, (%rdi)
 	ret
 	.cfi_endproc
 .LFE23:
-	.size	checkPassword, .-checkPassword
+	.size	foo, .-foo
 	.section	.rodata.str1.1,"aMS",@progbits,1
 .LC0:
-	.string	"Access denied."
+	.string	"Executing critical code..."
 .LC1:
-	.string	"Access granted."
-	.section	.text.startup,"ax",@progbits
-	.p2align 4
+	.string	"Exiting out..."
+	.text
 	.globl	main
 	.type	main, @function
 main:
 .LFB24:
 	.cfi_startproc
 	endbr64
-	subq	$8, %rsp
-	.cfi_def_cfa_offset 16
-	movq	stdin(%rip), %rdi
-	call	getc@PLT
-	testl	%eax, %eax
-	je	.L7
-	leaq	.LC1(%rip), %rdi
-	call	puts@PLT
+	subq	$24, %rsp
+	.cfi_def_cfa_offset 32
+	movq	%fs:40, %rax
+	movq	%rax, 8(%rsp)
 	xorl	%eax, %eax
-.L3:
-	addq	$8, %rsp
+	movl	$0, 4(%rsp)
+	leaq	4(%rsp), %rdi
+	call	foo
+	cmpl	$15525, 4(%rsp)
+	jne	.L3
+	leaq	.LC0(%rip), %rdi
+	call	puts@PLT
+	movl	$0, %eax
+.L2:
+	movq	8(%rsp), %rdx
+	xorq	%fs:40, %rdx
+	jne	.L7
+	addq	$24, %rsp
 	.cfi_remember_state
 	.cfi_def_cfa_offset 8
 	ret
-.L7:
+.L3:
 	.cfi_restore_state
-	leaq	.LC0(%rip), %rdi
+	leaq	.LC1(%rip), %rdi
 	call	puts@PLT
 	movl	$1, %eax
-	jmp	.L3
+	jmp	.L2
+.L7:
+	call	__stack_chk_fail@PLT
 	.cfi_endproc
 .LFE24:
 	.size	main, .-main

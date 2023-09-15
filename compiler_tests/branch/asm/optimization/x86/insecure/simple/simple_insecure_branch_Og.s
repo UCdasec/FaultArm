@@ -3,27 +3,15 @@
 	.globl	foo
 	.type	foo, @function
 foo:
-.LFB0:
+.LFB23:
 	.cfi_startproc
 	endbr64
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	movq	%rdi, -24(%rbp)
-	movl	$1, -4(%rbp)
-	movq	-24(%rbp), %rax
-	movl	-4(%rbp), %edx
-	movl	%edx, (%rax)
-	nop
-	popq	%rbp
-	.cfi_def_cfa 7, 8
+	movl	$1, (%rdi)
 	ret
 	.cfi_endproc
-.LFE0:
+.LFE23:
 	.size	foo, .-foo
-	.section	.rodata
+	.section	.rodata.str1.1,"aMS",@progbits,1
 .LC0:
 	.string	"Executing critical code..."
 .LC1:
@@ -32,46 +20,42 @@ foo:
 	.globl	main
 	.type	main, @function
 main:
-.LFB1:
+.LFB24:
 	.cfi_startproc
 	endbr64
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	subq	$16, %rsp
+	subq	$24, %rsp
+	.cfi_def_cfa_offset 32
 	movq	%fs:40, %rax
-	movq	%rax, -8(%rbp)
+	movq	%rax, 8(%rsp)
 	xorl	%eax, %eax
-	movl	$0, -12(%rbp)
-	leaq	-12(%rbp), %rax
-	movq	%rax, %rdi
+	movl	$0, 4(%rsp)
+	leaq	4(%rsp), %rdi
 	call	foo
-	movl	-12(%rbp), %eax
-	cmpl	$1, %eax
+	cmpl	$1, 4(%rsp)
 	jne	.L3
 	leaq	.LC0(%rip), %rdi
 	call	puts@PLT
 	movl	$0, %eax
-	jmp	.L6
+.L2:
+	movq	8(%rsp), %rdx
+	xorq	%fs:40, %rdx
+	jne	.L7
+	addq	$24, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 8
+	ret
 .L3:
+	.cfi_restore_state
 	leaq	.LC1(%rip), %rdi
 	call	puts@PLT
 	movl	$1, %eax
-.L6:
-	movq	-8(%rbp), %rdx
-	xorq	%fs:40, %rdx
-	je	.L7
-	call	__stack_chk_fail@PLT
+	jmp	.L2
 .L7:
-	leave
-	.cfi_def_cfa 7, 8
-	ret
+	call	__stack_chk_fail@PLT
 	.cfi_endproc
-.LFE1:
+.LFE24:
 	.size	main, .-main
-	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
 	.align 8
