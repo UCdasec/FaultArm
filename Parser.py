@@ -1,14 +1,5 @@
 import re
 
-# TODO: Add support for Arm32
-# movs	r3, #1
-# str	r3, [r7, #4]
-# ldr	r3, [r7, #4]
-# cmp	r3, #1
-# bne	.L2
-
-# Detect arch here?
-
 class Register():
     def __init__(self, name: str):
         self.name: str = name
@@ -20,7 +11,7 @@ class Register():
     def is_register(self, name: str) -> bool:
         # TODO: Not all registers will start with %.
         # Naming conventions vary.
-        if name[0] == '%':
+        if name[0] == '%' or re.match(r"\b(R[0-9]|R1[0-5])\b", name, re.IGNORECASE):
             return True
         return False
 
@@ -85,10 +76,31 @@ class Instruction():
         else:
             return self.name
 
-# TODO: Implement address support
 class Address():
     def __init__(self, value: str):
-        self.value = value    
+        self.value = value
+        self.arguments = self.set_arguments(value[1:-1])
+    
+    # The address can be in the format of:
+    # str	r0, [fp, #-16]
+    # or
+	# str	r2, [r3]
+    # It could either have a single register or a register and an offset.
+    def set_arguments(self, value: str):
+        args = {}
+        indicator = value.find(',')
+        
+        args["register"] = Register(value[:indicator-1]) if indicator != -1 else Register(value)
+        
+        if indicator != -1:
+            # The string has two args
+            # The +2 here is because of the ', #' that will be at index "indicator"
+            args["offset"] = IntegerLiteral(int(value[value.index('#')+1:]))
+        
+        return args
+        
+    def __str__(self) -> str:
+        return self.value
 
 class Architecture():
     def __init__(self, line: str | None, instruction: Instruction | None) -> None:
@@ -171,7 +183,7 @@ class Parser:
             # Line is a string literal
             elif s.startswith(".string") or s.startswith(".ascii"):
                 program.append(StringLiteral(s[s.find('"'):-1], line_number))
-            # TODO: Might not be necessary to include this case...
+            #! Might not be necessary to include this case...
             # Explicit architecture specifier
             elif s.startswith(".arch") and not self.arch.is_determined:
                 self.arch.determine_architecture(line, instruction=None)
@@ -184,22 +196,30 @@ class Parser:
         self.total_lines = line_number
 
     def parseArguments(self, line: str, line_number: int):
-        s = line.split()
+        s = re.split(r'\s+(?![^\[]*\])', line)
         instruction = s[0]
         arguments = []
         for args in s[1:]:
+            
+            # ! Check for address or memory location before replacing
+            if '[' in args or ']' in args:
+                # is memory location
+                addr = args if '!' not in args else args[:-1]
+                arguments.append(Address(addr))
+                if s[-1] == args:
+                    break
+            
             # Remove commas
             arg = args.replace(',', '')
             # Remove { and } from arguments, only relevant for push/pop
             arg = arg.replace('{', '')
             arg = arg.replace('}', '')
-            # TODO: Check if memory location
-            if '[' in arg or ']' in arg:
-                break
+            
             # Check if a number
             if arg[0] == '#' or arg[0] == '$' and self.isNumber(arg[1:]):
                 arguments.append(IntegerLiteral(int(arg[1:])))
             # TODO check for locations without '.' like main
+            # ! This notation can also be used in ARM for LDR
             elif arg[0] == ".":
                 arguments.append(Location(arg, line_number))
             # Must be register
