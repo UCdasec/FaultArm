@@ -9,7 +9,6 @@ class Register():
             
         
     def is_register(self, name: str) -> bool:
-        # TODO: Not all registers will start with %.
         # Naming conventions vary.
         if name[0] == '%' or re.match(r"\b(R[0-9]|R1[0-5])\b", name, re.IGNORECASE):
             return True
