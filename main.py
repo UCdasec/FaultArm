@@ -13,11 +13,12 @@ def main():
     
     # print(f"ARCHITECTURE DETECTED: {parsed_data.arch.name}\n")
     
-    print(parsed_data)
-#     analyzed_data = Analyzer(args.file[0], parsed_data, parsed_data.total_lines, "./out/")
+    # print(parsed_data)
+    analyzed_data = Analyzer(args.file[0], parsed_data, parsed_data.total_lines, "./out/")
     
     # Print results
 #     analyzed_data.save_and_print_analysis_results()
+    analyzed_data.just_print_analysis_results()
     
     # TODO: Add further analytical results
     # Add total lines analyzed, total vulnerable lines, lines for each vulnerability.

@@ -1,5 +1,6 @@
+import os.path
 from datetime import datetime
-from os import makedirs, path
+from os import makedirs, path, rmdir
 
 from Parser import Parser, Instruction
 from utils import BranchV1, BranchV2, ConstantCoding
@@ -55,7 +56,27 @@ class Analyzer():
                 # self.branchV1_detector.analysis(line)
                 self.branchV2_detector.analysis(line)
                 self.constant_detector.analysis(line)
-                
+
+    def just_print_analysis_results(self) -> None:
+        """
+        Just prints important details.
+        """
+        # remove directory if exists since we are only printing results
+        if os.path.isdir(directory_name):
+            rmdir(directory_name)
+
+        print(f"Printing Results...\n\n")
+
+        # print(f"Saving Branch-V1...")
+        # self.branchV1_detector.save_and_print_results()
+        # print(f"Saved")
+
+        print(f"Printing Branch-V2...")
+        self.branchV2_detector.just_print_results()
+
+        print(f"Printing ConstantCoding...")
+        self.constant_detector.just_print_results()
+
     def save_and_print_analysis_results(self) -> None:
         """
         Saves results and prints important details.

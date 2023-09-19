@@ -48,8 +48,26 @@ class ConstantCoding():
                         if arg.is_stack_pointer(arg.name) and self.is_vulnerable:
                             # Save vulnerable line
                             self.vulnerable_instructions.append(self.vulnerable_line)
-                
-    
+
+    def just_print_results(self) -> None:
+        """
+        Just prints the results of the analysis.
+        """
+
+        if len(self.vulnerable_instructions) > 0:
+            # Found Branch Vulnerability
+            print("CONSTANT CODING VULNERABILITY DETECTED")
+            print("Printing vulnerable lines...\n")
+
+            print("[Line #] [Opcode]\n")
+
+            for line in self.vulnerable_instructions:
+                print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+            print("\n")
+
+            print(f"All vulnerable lines printed.\n\n")
+        else:
+            print(f"NO CONSTANT VULNERABILITIES FOUND")
     
     def save_and_print_results(self) -> None:
         """

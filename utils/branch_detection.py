@@ -86,7 +86,27 @@ class BranchV1():
         if not self.is_vulnerable: self.is_vulnerable = True
         self.vulnerable_instructions.append(self.current_vulnerable.copy())
         self.current_vulnerable.clear()
-        
+
+    def just_print_results(self) -> None:
+        """
+        Prints the results of the analysis.
+        """
+        if self.is_vulnerable:
+            # Found Branch Vulnerability
+            print("BRANCH-V1 VULNERABILITY DETECTED")
+            print("Printing vulnerable lines...\n")
+
+            print("[Line #] [Opcode]\n")
+
+            for vulns in self.vulnerable_instructions:
+                for line in vulns:
+                    print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                print("\n")
+
+            print(f"All vulnerable lines printed.\n\n")
+        else:
+            print(f"NO BRANCH VULNERABILITIES")
+
     def save_and_print_results(self) -> None:
         """
         Prints the results of the analysis.
@@ -200,7 +220,27 @@ class BranchV2():
         if not self.is_vulnerable: self.is_vulnerable = True
         self.vulnerable_instructions.append(self.current_vulnerable.copy())
         self.current_vulnerable.clear()
-        
+
+    def just_print_results(self) -> None:
+        """
+        Prints the results of the analysis.
+        """
+        if self.is_vulnerable:
+            # Found Branch Vulnerability
+            print("BRANCH-V2 VULNERABILITY DETECTED")
+            print("Printing vulnerable lines...\n")
+
+            print("[Line #] [Opcode]\n")
+
+            for vulns in self.vulnerable_instructions:
+                for line in vulns:
+                    print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                print("\n")
+
+            print(f"All vulnerable lines printed.\n\n")
+        else:
+            print(f"NO BRANCH VULNERABILITIES")
+
     def save_and_print_results(self) -> None:
         """
         Prints the results of the analysis.
