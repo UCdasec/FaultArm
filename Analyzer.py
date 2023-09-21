@@ -94,4 +94,19 @@ class Analyzer():
         print(f"Saving ConstantCoding...")
         self.constant_detector.save_and_print_results()
         print(f"Saved")
-        
+
+    def print_total_vulnerable_lines(self) -> None:
+        # total number of vulnerable lines
+        total_vulnerable_lines = len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
+        print(f"Total number of vulnerable lines: {total_vulnerable_lines}")
+
+        # total number of branch faults
+        total_branch_faults = len(self.branchV2_detector.vulnerable_instructions)
+        print(f"\tTotal number of Branch vulnerabilities: {total_branch_faults}")
+
+        # total number of constant coding faults
+        total_constant_faults = len(self.constant_detector.vulnerable_instructions)
+        print(f"\tTotal number of Fault vulnerabilities: {total_constant_faults}")
+
+    def get_total_vulnerable_lines(self) -> int:
+        return len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
