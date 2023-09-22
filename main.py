@@ -17,7 +17,7 @@ def main():
     analyzed_data = Analyzer(args.file[0], parsed_data, parsed_data.total_lines, "./out/")
     
     # Print results
-#     analyzed_data.save_and_print_analysis_results()
+    # analyzed_data.save_and_print_analysis_results()
     analyzed_data.just_print_analysis_results()
 
     # Add total lines analyzed, total vulnerable lines, lines for each vulnerability.

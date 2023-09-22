@@ -28,8 +28,8 @@ class Analyzer():
         
         # ! Outdated branch pattern detection
         # self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
-        self.branchV2_detector = BranchV2(filename, total_lines, directory_name)
-        self.constant_detector = ConstantCoding(filename, total_lines, directory_name, sensitivity=4)
+        self.branchV2_detector = BranchV2(filename, parsed_data.arch, total_lines, directory_name)
+        self.constant_detector = ConstantCoding(filename, parsed_data.arch, total_lines, directory_name, sensitivity=4)
         if self.create_directory():
             self.static_analysis()
         
