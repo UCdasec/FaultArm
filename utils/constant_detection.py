@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import List
 
 from Parser import Instruction, IntegerLiteral, Register
+from constants import pattern_list
 
 # TODO: Add support to detect global variables
 # trivial_1:
@@ -15,18 +16,19 @@ from Parser import Instruction, IntegerLiteral, Register
 # 	.section	.rodata
 
 class ConstantCoding():
-    def __init__(self, filename: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
+    def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
         self.filename = filename
         self.total_lines = total_lines
         self.directory_name = directory_name
+        self.architecture = architecture
         
         # Pattern - Stack Storage
         # movl #, -#(%rsp)
-        self.pattern: List[str] = ['movl', 'movq', '.value', '.long']
+        self.pattern: List[str] = pattern_list[architecture]["constant_coding"]
         self.vulnerable_instructions: List[Instruction] = []
         self.is_vulnerable = False
         
-        # Hamming weight sensitivity
+        # Hamming weight sensitivity compared to zero
         self.sensitivity = sensitivity
     
     def analysis(self, line: Instruction) -> None:

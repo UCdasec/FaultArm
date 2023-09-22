@@ -3,14 +3,8 @@ from datetime import datetime
 from os import makedirs, path, rmdir
 
 from Parser import Parser, Instruction
-from utils import BranchV1, BranchV2, ConstantCoding
+from utils import BranchV2, ConstantCoding
 
-# TODO: Add support for Arm32
-# movs	r3, #1
-# str	r3, [r7, #4]
-# ldr	r3, [r7, #4]
-# cmp	r3, #1
-# bne	.L2
 
 timestamp = datetime.now()
 directory_name = f"./out/analysis_{timestamp.day}_{timestamp.month}_{timestamp.year}_{timestamp.hour}{timestamp.minute}{timestamp.second}{str(timestamp.microsecond)[:3]}"
@@ -28,8 +22,8 @@ class Analyzer():
         
         # ! Outdated branch pattern detection
         # self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
-        self.branchV2_detector = BranchV2(filename, parsed_data.arch, total_lines, directory_name)
-        self.constant_detector = ConstantCoding(filename, parsed_data.arch, total_lines, directory_name, sensitivity=4)
+        self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, total_lines, directory_name)
+        self.constant_detector = ConstantCoding(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         if self.create_directory():
             self.static_analysis()
         
@@ -106,7 +100,7 @@ class Analyzer():
 
         # total number of constant coding faults
         total_constant_faults = len(self.constant_detector.vulnerable_instructions)
-        print(f"\tTotal number of Fault vulnerabilities: {total_constant_faults}")
+        print(f"\tTotal number of Constant vulnerabilities: {total_constant_faults}")
 
     def get_total_vulnerable_lines(self) -> int:
         return len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
