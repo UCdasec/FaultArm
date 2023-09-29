@@ -37,13 +37,15 @@ class ConstantCoding():
         
         if len(line.arguments) > 1:
             for arg in line.arguments:
-                # If it's MOVL or MOVQ
+                # If it's MOVL/MOV or MOVQ/MOV
                 if line.name == self.pattern[0] or line.name == self.pattern[1]:
                     # If it's argument is an integer # | $
                     if type(arg) == IntegerLiteral:
                         # Found numerical variable stored
                         if arg.hammingWeight() < self.sensitivity:
                             # Vulnerable
+                            # Only save here if arm. x86 saves on next if (checking if moving to stack)
+                            if self.architecture == 'arm': self.vulnerable_instructions.append(self.vulnerable_line)
                             self.is_vulnerable = True
                     elif type(arg) == Register:
                         # Check if is a stack location:
@@ -58,8 +60,7 @@ class ConstantCoding():
                     if arg.hammingWeight() < self.sensitivity:
                         # Vulnerable
                         self.vulnerable_instructions.append(self.vulnerable_line)
-
-
+                        self.is_vulnerable = True
 
 
     def just_print_results(self) -> None:

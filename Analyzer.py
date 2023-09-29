@@ -2,7 +2,7 @@ import os.path
 from datetime import datetime
 from os import makedirs, path, rmdir
 
-from Parser import Parser, Instruction
+from Parser import Parser, Instruction, Location
 from utils import BranchV2, ConstantCoding
 
 
@@ -50,6 +50,11 @@ class Analyzer():
                 # self.branchV1_detector.analysis(line)
                 self.branchV2_detector.analysis(line)
                 self.constant_detector.analysis(line)
+                # print(line)
+            # elif type(line) == Location:
+            #     self.constant_detector.analysis(line)
+                
+                
 
     def just_print_analysis_results(self) -> None:
         """
