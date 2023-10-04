@@ -45,6 +45,8 @@ class ConstantCoding():
                         # Found numerical variable stored
                         if arg.hammingWeight() < self.sensitivity:
                             # Vulnerable
+                            # Only save here if arm. x86 saves on next if (checking if moving to stack)
+                            if self.architecture == 'arm': self.vulnerable_instructions.append(self.vulnerable_line)
                             self.is_vulnerable = True
                     elif type(arg) == Register:
                         # Check if is a stack location:
@@ -59,6 +61,8 @@ class ConstantCoding():
                     if arg.hammingWeight() < self.sensitivity:
                         # Vulnerable
                         self.vulnerable_instructions.append(self.vulnerable_line)
+                        self.is_vulnerable = True
+
 
     def just_print_results(self) -> None:
         """

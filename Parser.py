@@ -221,8 +221,8 @@ class Parser:
             arg = arg.replace('}', '')
             
             # Check if a number
-            if arg[0] == '#' or arg[0] == '$' and self.isNumber(arg[1:]):
-                arguments.append(IntegerLiteral(int(arg[1:])))
+            if self.isNumber(arg):
+                arguments.append(IntegerLiteral(int(arg[1:] if arg.startswith('#') or arg.startswith('$') else arg)))
             # TODO check for locations without '.' like main
             # ! This notation can also be used in ARM for LDR
             elif re.search(r"\.long|\.value", instruction) and self.isNumber(arg):
@@ -250,7 +250,17 @@ class Parser:
         return s
 
     def isNumber(self, num: str) -> bool:
-        if num.isdigit() or (num.startswith('-') and num[1:].isdigit()):
+        # arg[0] == '#' or arg[0] == '$' and self.isNumber(arg[1:])
+        # if self.arch.name is not "":
+        #     # Arch detected
+        #     if self.arch.name == "arm":
+        #         if num.isdigit() or num[0] == '#':
+        #             return True
+        #     else:
+        #         if num.isdigit() or num[0] == '$':
+        #             return True
+        # else:
+        if num.isdigit() or (num.startswith('#') or num.startswith('$')):
             return True
         else:
             return False

@@ -5,7 +5,8 @@ pattern_list = {
     },
     "arm": {
         "branch": ['cmp', ['bne', 'be', 'beq']],
-        "constant_coding": ['mov', '.short', '.long'],
+        # ! MOV is repeated here to maintain structure integrity.
+        "constant_coding": ['mov', 'mov', 'mov', '.short', '.word'],
     }
 }
 
