@@ -40,6 +40,7 @@ class ConstantCoding():
                 # If it's MOVL, MOVQ, or MOVW
                 if line.name in self.pattern[0:3]:
                     # If it's argument is an integer # | $
+
                     if type(arg) == IntegerLiteral:
                         # Found numerical variable stored
                         if arg.hammingWeight() < self.sensitivity:
