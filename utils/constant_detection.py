@@ -37,8 +37,8 @@ class ConstantCoding():
         
         if len(line.arguments) > 1:
             for arg in line.arguments:
-                # If it's MOVL/MOV or MOVQ/MOV
-                if line.name == self.pattern[0] or line.name == self.pattern[1]:
+                # If it's MOVL, MOVQ, or MOVW
+                if line.name in self.pattern[0:3]:
                     # If it's argument is an integer # | $
                     if type(arg) == IntegerLiteral:
                         # Found numerical variable stored
@@ -53,7 +53,7 @@ class ConstantCoding():
                             # Save vulnerable line
                             self.vulnerable_instructions.append(self.vulnerable_line)
         # if it's a global variable, i.e., .value or .long
-        elif line.name in self.pattern[2:]:
+        elif line.name in self.pattern[3:]:
             for arg in line.arguments:
                 #check if integer literal
                 if type(arg) == IntegerLiteral:

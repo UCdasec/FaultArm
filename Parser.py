@@ -178,7 +178,10 @@ class Parser:
             s = line.strip()
             # Line is a location 
             if s.endswith(':'):
-                program.append(Location(s[0:-1], line_number))
+                if not s.startswith(('0','1','2','3','4','5','6','7','8','9')):
+                    program.append(Location(s[0:-1], line_number))
+                else:
+                    break
             # Line is a string literal
             elif s.startswith(".string") or s.startswith(".ascii"):
                 program.append(StringLiteral(s[s.find('"'):-1], line_number))
@@ -186,8 +189,11 @@ class Parser:
             # Explicit architecture specifier
             elif s.startswith(".arch") and not self.arch.is_determined:
                 self.arch.determine_architecture(line, instruction=None)
+            # Identity of compiler, everything from this point is metadata
+            elif s.startswith(".ident"):
+                break
             # Line is an instruction
-            else:  
+            else:
                 program.append(self.parseArguments(s, line_number))
             
             line_number += 1
