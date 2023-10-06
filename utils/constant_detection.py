@@ -5,16 +5,6 @@ from typing import List
 from Parser import Instruction, IntegerLiteral, Register
 from constants import pattern_list
 
-# TODO: Add support to detect global variables
-# trivial_1:
-# 	.value	255
-# 	.align 2
-# 	.type	trivial_2, @object
-# 	.size	trivial_2, 2
-# trivial_2:
-# 	.value	1
-# 	.section	.rodata
-
 class ConstantCoding():
     def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
         self.filename = filename
