@@ -178,7 +178,10 @@ class Parser:
             s = line.strip()
             # Line is a location 
             if s.endswith(':'):
-                program.append(Location(s[0:-1], line_number))
+                if not s.startswith(('0','1','2','3','4','5','6','7','8','9')):
+                    program.append(Location(s[0:-1], line_number))
+                else:
+                    break
             # Line is a string literal
             elif s.startswith(".string") or s.startswith(".ascii"):
                 program.append(StringLiteral(s[s.find('"'):-1], line_number))
@@ -186,8 +189,11 @@ class Parser:
             # Explicit architecture specifier
             elif s.startswith(".arch") and not self.arch.is_determined:
                 self.arch.determine_architecture(line, instruction=None)
+            # Identity of compiler, everything from this point is metadata
+            elif s.startswith(".ident"):
+                break
             # Line is an instruction
-            else:  
+            else:
                 program.append(self.parseArguments(s, line_number))
             
             line_number += 1
@@ -215,8 +221,8 @@ class Parser:
             arg = arg.replace('}', '')
             
             # Check if a number
-            if arg[0] == '#' or arg[0] == '$' and self.isNumber(arg[1:]):
-                arguments.append(IntegerLiteral(int(arg[1:])))
+            if self.isNumber(arg):
+                arguments.append(IntegerLiteral(int(arg[1:] if arg.startswith('#') or arg.startswith('$') else arg)))
             # TODO check for locations without '.' like main
             # ! This notation can also be used in ARM for LDR
             elif re.search(r"\.long|\.value", instruction) and self.isNumber(arg):
@@ -234,9 +240,6 @@ class Parser:
             self.arch.determine_architecture(line, instruction_out)
         return instruction_out
 
-    #def locateInstruction(self, name: str) -> Instruction:
-     #   for 
-
     def __str__(self) -> str:
         s = ""
         for line in self.program:
@@ -244,7 +247,7 @@ class Parser:
         return s
 
     def isNumber(self, num: str) -> bool:
-        if num.isdigit() or (num.startswith('-') and num[1:].isdigit()):
+        if num.isdigit() or (num.startswith('#') or num.startswith('$')):
             return True
         else:
             return False

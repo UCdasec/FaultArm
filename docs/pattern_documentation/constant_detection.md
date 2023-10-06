@@ -60,6 +60,33 @@ In the C code snippet, the variable value is assigned the constant value represe
 
 ## Detection
 
+```mermaid
+graph TD;
+  Start[Start] --> CheckLine[Check Line];
+  style Start fill:#f9d79c,stroke:#f39c12;
+  style CheckLine fill:#f9d79c,stroke:#f39c12;
+  CheckLine -->|Line has more than 1 argument| AnalyzeArguments[Analyze Arguments];
+  style AnalyzeArguments fill:#aed6f1,stroke:#3498db;
+  AnalyzeArguments -->|Opcode in pattern| CheckInteger[Check Integer];
+  style CheckInteger fill:#aed6f1,stroke:#3498db;
+  CheckInteger -->|IntegerLiteral| CheckHammingWeight[Check Hamming Weight];
+  style CheckHammingWeight fill:#aed6f1,stroke:#3498db;
+  CheckHammingWeight -->|Hamming weight < Sensitivity| IsVulnerable[Is Vulnerable];
+  style IsVulnerable fill:#f1948a,stroke:#e74c3c;
+  CheckInteger -->|Not IntegerLiteral| NotVulnerable[Not Vulnerable];
+  style NotVulnerable fill:#f5b7b1,stroke:#e74c3c;
+  AnalyzeArguments -->|Opcode not in pattern| NotVulnerable;
+  CheckLine -->|Line has 1 or fewer arguments| NotVulnerable;
+  IsVulnerable -->|Is stack pointer| SaveVulnerableLine[Save Vulnerable Line];
+  style SaveVulnerableLine fill:#f1948a,stroke:#e74c3c;
+  IsVulnerable -->|Not stack pointer| NotVulnerable;
+  SaveVulnerableLine --> End[End];
+  style End fill:#82e0aa,stroke:#27ae60;
+  NotVulnerable --> End;
+  End --> Stop[Stop];
+  style Stop fill:#82e0aa,stroke:#27ae60;
+```
+
 ## References
 
 [1]: M. Witteman, "Secure application programming in the presence of side channel attacks," Riscure, Tech. Rep., Aug 2017. [Online]. Available: <https://www.riscure.com/uploads/2017/08/Riscure> Whitepaper Side Channel Patterns.pdf
