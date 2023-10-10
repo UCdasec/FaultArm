@@ -240,9 +240,6 @@ class Parser:
             self.arch.determine_architecture(line, instruction_out)
         return instruction_out
 
-    #def locateInstruction(self, name: str) -> Instruction:
-     #   for 
-
     def __str__(self) -> str:
         s = ""
         for line in self.program:
@@ -250,16 +247,6 @@ class Parser:
         return s
 
     def isNumber(self, num: str) -> bool:
-        # arg[0] == '#' or arg[0] == '$' and self.isNumber(arg[1:])
-        # if self.arch.name is not "":
-        #     # Arch detected
-        #     if self.arch.name == "arm":
-        #         if num.isdigit() or num[0] == '#':
-        #             return True
-        #     else:
-        #         if num.isdigit() or num[0] == '$':
-        #             return True
-        # else:
         if num.isdigit() or (num.startswith('#') or num.startswith('$')):
             return True
         else:
