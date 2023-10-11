@@ -1,4 +1,5 @@
 	.arch armv5t
+	.fpu softvfp
 	.eabi_attribute 20, 1
 	.eabi_attribute 21, 1
 	.eabi_attribute 23, 3
@@ -22,7 +23,7 @@ global_var:
 	.type	local_var, %object
 	.size	local_var, 4
 local_var:
-	.word	16
+	.word	15
 	.global	local_arr
 	.align	2
 	.type	local_arr, %object
@@ -38,7 +39,6 @@ local_arr:
 	.global	main
 	.syntax unified
 	.arm
-	.fpu softvfp
 	.type	main, %function
 main:
 	@ args = 0, pretend = 0, frame = 0
@@ -53,5 +53,5 @@ main:
 	ldr	fp, [sp], #4
 	bx	lr
 	.size	main, .-main
-	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
+	.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
 	.section	.note.GNU-stack,"",%progbits

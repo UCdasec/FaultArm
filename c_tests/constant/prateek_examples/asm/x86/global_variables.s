@@ -12,7 +12,7 @@ global_var:
 	.type	local_var, @object
 	.size	local_var, 4
 local_var:
-	.long	16
+	.long	15
 	.globl	local_arr
 	.align 16
 	.type	local_arr, @object
