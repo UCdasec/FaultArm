@@ -10,7 +10,7 @@ class Register():
         
     def is_register(self, name: str) -> bool:
         # Naming conventions vary.
-        if name[0] == '%' or re.match(r"\b(R[0-9]|R1[0-5])\b", name, re.IGNORECASE):
+        if name[0] == '%' or re.match(r"[re]?([acdb]x|[isb]p|[sd]i)|[acdb][hl]|[sb]pl|[sd]il", name, re.IGNORECASE) or re.match(r"\b(R[0-9]|R1[0-5])\b", name, re.IGNORECASE):
             return True
         return False
 
@@ -20,7 +20,7 @@ class Register():
         return False
     
     def is_stack_pointer(self, name: str) -> bool:
-        pattern = r"-[0-9]{1,2}\(%rbp\)"
+        pattern = r"-[0-9]{1,2}\(%?rbp\)"
 
         if re.search(pattern, name):
             return True
