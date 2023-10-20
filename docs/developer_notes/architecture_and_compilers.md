@@ -7,6 +7,7 @@
   - [Cross-compiling](#cross-compiling)
     - [ARM](#arm)
     - [x86](#x86)
+  - [Tool Chain Conventions](#tool-chain-conventions)
 
 ## Overivew
 
@@ -46,3 +47,25 @@ arm-linux-gnueabi-gcc -S -o filename.s /path/to/filename.c
 ```bash
 gcc -S -o filename.s /path/to/filename.c
 ```
+
+## Tool Chain Conventions
+
+Tool chains have  a loose name convention like **arc [-vendor] [-os] - eabi**
+
+
+    arch - refers to target architecture (which in our case is ARM)
+
+    vendor - refers to toolchain supplier
+
+    os - refers to the target operating system
+
+    eabi - refers to Embedded Application Binary Interface
+
+ 
+some illustrations as follows :
+
+**arm-none-eabi** - This tool chain targets for ARM architecture, has no vendor, does not target an operating system and complies with the ARM EABI.
+
+**arm-none-linux-gnueabi** - This toolchain targets the ARM architecture, has no vendor, creates binaries that run on the Linux operating system, and uses the GNU EABI. It is used to target ARM-based Linux systems.
+
+> https://web.archive.org/web/20160410104337/https://community.freescale.com/thread/313490#comment-354077
