@@ -78,7 +78,7 @@ graph TB
   Instruction -- "Is a number" --> IntegerLiteral["IntegerLiteral"]
   Instruction -- "Starts with ." --> LocationInst["Location"]
   Instruction -- "Other" --> Register["Register"]
-  Register -- "Starts with % or R[0-9]" --> RegisterValid["Valid Register"]
+  Register -- "Starts with or without % or R[0-9]" --> RegisterValid["Valid Register"]
   Register -- "Starts with $" --> Decimal["Decimal"]
   Register -- "Matches -[0-9]{1,2}(%rbp)" --> StackPointer["Stack Pointer"]
   style Location fill:#99cc99
