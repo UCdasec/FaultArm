@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List
 
 from Parser import Instruction, IntegerLiteral, Register
-from constants import pattern_list
+from constants import pattern_list, trivial_values
 
 class ConstantCoding():
     def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
@@ -15,6 +15,8 @@ class ConstantCoding():
         # Pattern - Stack Storage
         # movl #, -#(%rsp)
         self.pattern: List[str] = pattern_list[architecture]["constant_coding"]
+        self.trivial_values: List[int] = trivial_values["integers"]
+        self.lineStack : List[Instruction] = []
         self.vulnerable_instructions: List[Instruction] = []
         self.is_vulnerable = False
         
@@ -30,27 +32,45 @@ class ConstantCoding():
                 # If it's MOVL, MOVQ, or MOVW
                 if line.name in self.pattern[0:3]:
                     # If it's argument is an integer # | $
+
                     if type(arg) == IntegerLiteral:
                         # Found numerical variable stored
-                        if arg.hammingWeight() < self.sensitivity:
+                        if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values:
                             # Vulnerable
                             # Only save here if arm. x86 saves on next if (checking if moving to stack)
-                            if self.architecture == 'arm': self.vulnerable_instructions.append(self.vulnerable_line)
+                            if self.architecture == 'arm':
+                                if arg.value == 0:
+                                    self.lineStack.append(line)
+                                else:
+                                    self.vulnerable_instructions.append(self.vulnerable_line)
                             self.is_vulnerable = True
                     elif type(arg) == Register:
                         # Check if is a stack location:
                         if arg.is_stack_pointer(arg.name) and self.is_vulnerable:
                             # Save vulnerable line
                             self.vulnerable_instructions.append(self.vulnerable_line)
+                # in case we hit an str, we check if the previous line is a mov instruction with the same register and value of 0
+                elif (line.name == 'str' or line.name == 'strh') and len(self.lineStack) >= 1:
+                    if (line.arguments[0].name == self.lineStack[-1].arguments[0].name
+                            and self.lineStack[-1].arguments[1].value == 0):
+                        # if its not the very next line, clear stack and ignore
+                        if self.vulnerable_line.line_number - self.lineStack[-1].line_number > 1:
+                            self.lineStack.clear()
+                        # else, potential vulnerable detection
+                        else:
+                            self.vulnerable_instructions.append(self.lineStack[-1])
+                            self.lineStack.clear()
+
         # if it's a global variable, i.e., .value or .long
         elif line.name in self.pattern[3:]:
             for arg in line.arguments:
-                #check if integer literal
+                # check if integer literal
                 if type(arg) == IntegerLiteral:
-                    if arg.hammingWeight() < self.sensitivity:
+                    if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values:
                         # Vulnerable
                         self.vulnerable_instructions.append(self.vulnerable_line)
                         self.is_vulnerable = True
+
 
 
     def just_print_results(self) -> None:

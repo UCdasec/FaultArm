@@ -3,7 +3,7 @@ from datetime import datetime
 from os import makedirs, path, rmdir
 
 from Parser import Parser, Instruction, Location
-from utils import BranchV2, ConstantCoding
+from utils import BranchV2, ConstantCoding, LoopCheck
 
 
 timestamp = datetime.now()
@@ -24,6 +24,7 @@ class Analyzer():
         # self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
         self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, total_lines, directory_name)
         self.constant_detector = ConstantCoding(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
+        self.loop_detector = LoopCheck(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         if self.create_directory():
             self.static_analysis()
         
@@ -50,9 +51,10 @@ class Analyzer():
                 # self.branchV1_detector.analysis(line)
                 self.branchV2_detector.analysis(line)
                 self.constant_detector.analysis(line)
+                self.loop_detector.analysis(line)
                 # print(line)
-            # elif type(line) == Location:
-            #     self.constant_detector.analysis(line)
+            elif type(line) == Location:
+                self.loop_detector.analysis(line)
                 
                 
 
@@ -75,6 +77,9 @@ class Analyzer():
 
         print(f"Printing ConstantCoding...")
         self.constant_detector.just_print_results()
+        
+        print(f"Printing LoopCheck...")
+        self.loop_detector.just_print_results()
 
     def save_and_print_analysis_results(self) -> None:
         """
@@ -105,6 +110,10 @@ class Analyzer():
 
         # total number of constant coding faults
         total_constant_faults = len(self.constant_detector.vulnerable_instructions)
+        print(f"\tTotal number of Constant vulnerabilities: {total_constant_faults}")
+        
+        # total number of constant coding faults
+        total_loop_faults = len(self.loop_detector.vulnerable_instructions)
         print(f"\tTotal number of Constant vulnerabilities: {total_constant_faults}")
 
     def get_total_vulnerable_lines(self) -> int:

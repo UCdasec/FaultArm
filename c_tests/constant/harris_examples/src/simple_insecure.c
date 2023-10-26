@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-static short num1 = 0;
-static short num2 = 0xFF;
+static short num1 = 0xff;
+static short num2;
 
 int main(int x, char** y){
    int a = 0;

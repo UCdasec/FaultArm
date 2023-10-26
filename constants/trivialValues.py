@@ -1,0 +1,3 @@
+trivial_values = {
+    "integers" : [0x00, 0x01, 0x0f, 0xff, 0xf0, 0, 1, 2, 3, -1, -2, -3],
+}

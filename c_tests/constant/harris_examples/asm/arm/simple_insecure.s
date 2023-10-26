@@ -1,4 +1,5 @@
 	.arch armv5t
+	.fpu softvfp
 	.eabi_attribute 20, 1
 	.eabi_attribute 21, 1
 	.eabi_attribute 23, 3
@@ -10,14 +11,14 @@
 	.eabi_attribute 18, 4
 	.file	"simple_insecure.c"
 	.text
-	.local	num1
-	.comm	num1,2,2
 	.data
 	.align	1
-	.type	num2, %object
-	.size	num2, 2
-num2:
+	.type	num1, %object
+	.size	num1, 2
+num1:
 	.short	255
+	.local	num2
+	.comm	num2,2,2
 	.section	.rodata
 	.align	2
 .LC0:
@@ -27,7 +28,6 @@ num2:
 	.global	main
 	.syntax unified
 	.arm
-	.fpu softvfp
 	.type	main, %function
 main:
 	@ args = 0, pretend = 0, frame = 24
@@ -55,5 +55,5 @@ main:
 .L3:
 	.word	.LC0
 	.size	main, .-main
-	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
+	.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
 	.section	.note.GNU-stack,"",%progbits
