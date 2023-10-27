@@ -1,4 +1,5 @@
 import os
+import sys
 import glob
 
 def count_lines(file_path):
@@ -31,7 +32,8 @@ def count_files_and_lines(directory_path):
 
     return stats, c_files, asm_files
 
-directory_path = 'c_tests/'
+
+directory_path = 'dataset/'
 stats, c_files, asm_files = count_files_and_lines(directory_path)
 
 print(f"Number of C files: {stats['c_file_count']}")
