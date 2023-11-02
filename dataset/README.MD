@@ -18,5 +18,15 @@ The generated assembly is compiled in three optimization levels:
 
 Each of which can be found in the `op_#` directories.
 
+
 ## Architecures
 
+## Important Remarks
+
+When we come across an operation such as the following:
+```
+cmp r2, r3
+beg .L10
+```
+
+We will not consider this insecure, as the values of R2 and R3 are unknown and could be non-trivial. This is still a matter of discussion between researchers.
