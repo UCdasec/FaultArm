@@ -37,8 +37,8 @@ class IntegerLiteral():
         num : int = self.value
         result : int = 0
         while(num > 0):
+            result += num & 1
             num >>= 1
-            result += 1
         return result
 
     def __str__(self) -> str:
