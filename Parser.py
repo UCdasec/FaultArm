@@ -230,6 +230,9 @@ class Parser:
                 arguments.append(IntegerLiteral(int(arg)))
             elif arg[0] == ".":
                 arguments.append(Location(arg, line_number))
+            # check if a location
+            elif instruction in ['.global', '.type', '.size', 'bl']:
+                arguments.append(Location(arg, line_number))
             # Must be register
             else:
                 register = Register(arg)

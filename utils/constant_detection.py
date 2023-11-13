@@ -1,9 +1,18 @@
 from os import path
 from datetime import datetime
 from typing import List
+from math import log
 
 from Parser import Instruction, IntegerLiteral, Register
 from constants import pattern_list, trivial_values
+
+
+def is_all_ones(num: int) -> bool:
+    if log(num + 1, 2).is_integer():
+        return True
+    else:
+        return False
+
 
 class ConstantCoding():
     def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
@@ -35,14 +44,11 @@ class ConstantCoding():
 
                     if type(arg) == IntegerLiteral:
                         # Found numerical variable stored
-                        if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values:
+                        if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values or is_all_ones(arg.value):
                             # Vulnerable
                             # Only save here if arm. x86 saves on next if (checking if moving to stack)
                             if self.architecture == 'arm':
-                                if arg.value == 0:
-                                    self.lineStack.append(line)
-                                else:
-                                    self.vulnerable_instructions.append(self.vulnerable_line)
+                                self.lineStack.append(line)
                             self.is_vulnerable = True
                     elif type(arg) == Register:
                         # Check if is a stack location:
@@ -51,22 +57,23 @@ class ConstantCoding():
                             self.vulnerable_instructions.append(self.vulnerable_line)
                 # in case we hit an str, we check if the previous line is a mov instruction with the same register and value of 0
                 elif (line.name == 'str' or line.name == 'strh') and len(self.lineStack) >= 1:
-                    if (line.arguments[0].name == self.lineStack[-1].arguments[0].name
-                            and self.lineStack[-1].arguments[1].value == 0):
-                        # if its not the very next line, clear stack and ignore
-                        if self.vulnerable_line.line_number - self.lineStack[-1].line_number > 1:
-                            self.lineStack.clear()
-                        # else, potential vulnerable detection
-                        else:
-                            self.vulnerable_instructions.append(self.lineStack[-1])
-                            self.lineStack.clear()
+                    if line.arguments[0].name == self.lineStack[-1].arguments[0].name:
+                        arg_value = self.lineStack[-1].arguments[1]
+                        if arg_value.hammingWeight() < self.sensitivity or arg_value.value in self.trivial_values or is_all_ones(arg_value.value):
+                            # if its not the very next line, clear stack and ignore
+                            if self.vulnerable_line.line_number - self.lineStack[-1].line_number > 1:
+                                self.lineStack.clear()
+                            # else, potential vulnerable detection
+                            else:
+                                self.vulnerable_instructions.append(self.lineStack[-1])
+                                self.lineStack.clear()
 
         # if it's a global variable, i.e., .value or .long
         elif line.name in self.pattern[3:]:
             for arg in line.arguments:
                 # check if integer literal
                 if type(arg) == IntegerLiteral:
-                    if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values:
+                    if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values or is_all_ones(arg.value):
                         # Vulnerable
                         self.vulnerable_instructions.append(self.vulnerable_line)
                         self.is_vulnerable = True
