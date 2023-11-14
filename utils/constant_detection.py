@@ -83,10 +83,10 @@ class ConstantCoding():
             print("CONSTANT CODING VULNERABILITY DETECTED")
             print("Printing vulnerable lines...\n")
 
-            print("[Line #] [Opcode]\n")
+            print("[Line #] [Opcode]")
 
             for line in self.vulnerable_instructions:
-                print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                print(f"\n{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
             print("\n")
 
             print(f"All vulnerable lines printed.\n\n")
