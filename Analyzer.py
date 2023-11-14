@@ -114,7 +114,7 @@ class Analyzer():
         
         # total number of constant coding faults
         total_loop_faults = len(self.loop_detector.vulnerable_instructions)
-        print(f"\tTotal number of Constant vulnerabilities: {total_constant_faults}")
+        print(f"\tTotal number of Loop Check vulnerabilities: {total_loop_faults}")
 
     def get_total_vulnerable_lines(self) -> int:
         return len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
