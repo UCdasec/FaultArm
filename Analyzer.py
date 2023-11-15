@@ -99,6 +99,10 @@ class Analyzer():
         self.constant_detector.save_and_print_results()
         print(f"Saved")
 
+        print(f"Saving LoopCheck...")
+        self.loop_detector.save_and_print_results()
+        print(f"Saved")
+
     def print_total_vulnerable_lines(self) -> None:
         # total number of vulnerable lines
         total_vulnerable_lines = len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
