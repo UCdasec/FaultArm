@@ -1,0 +1,441 @@
+Parse Starting
+
+
+Reading file: dataset/op_0/ai//caesarCipher.s
+File read successfully!
+
+
+Processing assembly data...
+Assembly data processed successfully!
+
+
+ARCHITECTURE DETECTED: arm
+
+Creating Directory...
+Directory Created: ./out/analysis_17_11_2023_22854313
+
+
+Printing Results...
+
+
+Printing Branch-V2...
+BRANCH-V2 VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+81 cmp r3, 0
+82 bne .L4
+
+
+136 cmp r3, 0
+137 bne .L8
+
+
+151 cmp r3, 0
+152 bne .L10
+
+
+All vulnerable lines printed.
+
+
+Printing ConstantCoding...
+CONSTANT CODING VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+30 mov r3, 0
+
+140 mov r3, 1
+
+157 mov r3, 1
+
+
+All vulnerable lines printed.
+
+
+Printing LoopCheck...
+NO LOOP_CHECK VULNERABILITIES
+Total lines analyzed: 200
+
+Total number of vulnerable lines: 6
+	Total number of Branch vulnerabilities: 3
+	Total number of Constant vulnerabilities: 3
+	Total number of Loop Check vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.0%
+Parse Starting
+
+
+Reading file: dataset/op_0/ai//calibration.s
+File read successfully!
+
+
+Processing assembly data...
+Assembly data processed successfully!
+
+
+ARCHITECTURE DETECTED: arm
+
+Creating Directory...
+Directory Created: ./out/analysis_17_11_2023_22854375
+
+
+Printing Results...
+
+
+Printing Branch-V2...
+BRANCH-V2 VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+178 cmp r3, 0
+179 bne .L4
+
+
+249 cmp r3, 0
+250 bne .L9
+
+
+All vulnerable lines printed.
+
+
+Printing ConstantCoding...
+CONSTANT CODING VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+182 mov r3, 1
+
+
+All vulnerable lines printed.
+
+
+Printing LoopCheck...
+NO LOOP_CHECK VULNERABILITIES
+Total lines analyzed: 363
+
+Total number of vulnerable lines: 3
+	Total number of Branch vulnerabilities: 2
+	Total number of Constant vulnerabilities: 1
+	Total number of Loop Check vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.83%
+Parse Starting
+
+
+Reading file: dataset/op_0/ai//data_encryption_xor.s
+File read successfully!
+
+
+Processing assembly data...
+Assembly data processed successfully!
+
+
+ARCHITECTURE DETECTED: arm
+
+Creating Directory...
+Directory Created: ./out/analysis_17_11_2023_22854439
+
+
+Printing Results...
+
+
+Printing Branch-V2...
+BRANCH-V2 VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+46 cmp r3, 0
+47 bne .L3
+
+
+All vulnerable lines printed.
+
+
+Printing ConstantCoding...
+NO CONSTANT VULNERABILITIES FOUND
+Printing LoopCheck...
+NO LOOP_CHECK VULNERABILITIES
+Total lines analyzed: 125
+
+Total number of vulnerable lines: 1
+	Total number of Branch vulnerabilities: 1
+	Total number of Constant vulnerabilities: 0
+	Total number of Loop Check vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.8%
+Parse Starting
+
+
+Reading file: dataset/op_0/ai//data_integrity_checksum.s
+File read successfully!
+
+
+Processing assembly data...
+Assembly data processed successfully!
+
+
+ARCHITECTURE DETECTED: arm
+
+Creating Directory...
+Directory Created: ./out/analysis_17_11_2023_22854500
+
+
+Printing Results...
+
+
+Printing Branch-V2...
+BRANCH-V2 VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+44 cmp r3, 0
+45 bne .L3
+
+
+All vulnerable lines printed.
+
+
+Printing ConstantCoding...
+NO CONSTANT VULNERABILITIES FOUND
+Printing LoopCheck...
+NO LOOP_CHECK VULNERABILITIES
+Total lines analyzed: 111
+
+Total number of vulnerable lines: 1
+	Total number of Branch vulnerabilities: 1
+	Total number of Constant vulnerabilities: 0
+	Total number of Loop Check vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.9%
+Parse Starting
+
+
+Reading file: dataset/op_0/ai//rate_limiting_brute_force.s
+File read successfully!
+
+
+Processing assembly data...
+Assembly data processed successfully!
+
+
+ARCHITECTURE DETECTED: arm
+
+Creating Directory...
+Directory Created: ./out/analysis_17_11_2023_22854560
+
+
+Printing Results...
+
+
+Printing Branch-V2...
+BRANCH-V2 VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+97 cmp r3, 0
+98 beq .L7
+
+
+All vulnerable lines printed.
+
+
+Printing ConstantCoding...
+CONSTANT CODING VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+83 mov r3, 0
+
+109 mov r0, 1
+
+117 mov r3, 1
+
+
+All vulnerable lines printed.
+
+
+Printing LoopCheck...
+NO LOOP_CHECK VULNERABILITIES
+Total lines analyzed: 133
+
+Total number of vulnerable lines: 4
+	Total number of Branch vulnerabilities: 1
+	Total number of Constant vulnerabilities: 3
+	Total number of Loop Check vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.01%
+Parse Starting
+
+
+Reading file: dataset/op_0/ai//rpm_plot.s
+File read successfully!
+
+
+Processing assembly data...
+Assembly data processed successfully!
+
+
+ARCHITECTURE DETECTED: arm
+
+Creating Directory...
+Directory Created: ./out/analysis_17_11_2023_22854621
+
+
+Printing Results...
+
+
+Printing Branch-V2...
+BRANCH-V2 VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+50 cmp r3, 0
+51 bne .L2
+
+
+124 cmp r3, 0
+125 bne .L6
+
+
+143 cmp r3, 1
+144 beq .L8
+
+
+All vulnerable lines printed.
+
+
+Printing ConstantCoding...
+CONSTANT CODING VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+54 mov r0, 1
+
+128 mov r3, 1
+
+
+All vulnerable lines printed.
+
+
+Printing LoopCheck...
+NO LOOP_CHECK VULNERABILITIES
+Total lines analyzed: 217
+
+Total number of vulnerable lines: 5
+	Total number of Branch vulnerabilities: 3
+	Total number of Constant vulnerabilities: 2
+	Total number of Loop Check vulnerabilities: 0
+
+Percentage of lines vulnerable: 2.3%
+Parse Starting
+
+
+Reading file: dataset/op_0/ai//secure_data_wipe.s
+File read successfully!
+
+
+Processing assembly data...
+Assembly data processed successfully!
+
+
+ARCHITECTURE DETECTED: arm
+
+Creating Directory...
+Directory Created: ./out/analysis_17_11_2023_22854682
+
+
+Printing Results...
+
+
+Printing Branch-V2...
+NO BRANCH VULNERABILITIES
+Printing ConstantCoding...
+CONSTANT CODING VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+30 mov r3, 0
+
+
+All vulnerable lines printed.
+
+
+Printing LoopCheck...
+LOOP_CHECK VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+44 ldr r3, [fp, #-20]
+45 cmp r2, r3
+46 bcc .L3
+
+
+All vulnerable lines printed.
+
+
+Total lines analyzed: 115
+
+Total number of vulnerable lines: 1
+	Total number of Branch vulnerabilities: 0
+	Total number of Constant vulnerabilities: 1
+	Total number of Loop Check vulnerabilities: 1
+
+Percentage of lines vulnerable: 0.87%
+Parse Starting
+
+
+Reading file: dataset/op_0/ai//simple_password_check.s
+File read successfully!
+
+
+Processing assembly data...
+Assembly data processed successfully!
+
+
+ARCHITECTURE DETECTED: arm
+
+Creating Directory...
+Directory Created: ./out/analysis_17_11_2023_22854742
+
+
+Printing Results...
+
+
+Printing Branch-V2...
+BRANCH-V2 VULNERABILITY DETECTED
+Printing vulnerable lines...
+
+[Line #] [Opcode]
+
+90 cmp r3, 0
+91 beq .L6
+
+
+All vulnerable lines printed.
+
+
+Printing ConstantCoding...
+NO CONSTANT VULNERABILITIES FOUND
+Printing LoopCheck...
+NO LOOP_CHECK VULNERABILITIES
+Total lines analyzed: 113
+
+Total number of vulnerable lines: 1
+	Total number of Branch vulnerabilities: 1
+	Total number of Constant vulnerabilities: 0
+	Total number of Loop Check vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.88%
