@@ -223,7 +223,6 @@ class Parser:
             # Check if a number
             if self.isNumber(arg):
                 arguments.append(IntegerLiteral(int(arg[1:] if arg.startswith('#') or arg.startswith('$') else arg)))
-            # TODO check for locations without '.' like main
             # ! This notation can also be used in ARM for LDR
             elif re.search(r"\.long|\.value", instruction) and self.isNumber(arg):
                 # in case its a global variable

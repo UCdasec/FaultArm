@@ -1,11 +1,11 @@
 pattern_list = {
     "x86": {
-        "branch": ['cmpl', ['jne', 'je', 'jnz', 'jz']],
+        "branch": ['cmpl', ['jne', 'je', 'jnz', 'jz']], #cmp??
         "constant_coding": ['movl', 'movq', 'movw', '.value', ".long"],
-        "loop_check": ['cmpl', 'cmpl', 'j'],
+        "loop_check": ['cmpl', 'cmpl', 'j'], #cmpb, cmp??
     },
     "arm": {
-        "branch": ['cmp', ['bne', 'be', 'beq']],
+        "branch": ['cmp', ['bne', 'be', 'beq']], #blt??
         # ! MOV is repeated here to maintain structure integrity.
         "constant_coding": ['mov', 'mov', 'mov', '.short', '.word'],
         "loop_check": ['ldr', 'cmp', 'b'],
