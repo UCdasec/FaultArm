@@ -60,6 +60,8 @@ In the C code snippet, the variable value is assigned the constant value represe
 
 ## Detection
 
+Below are two graphs. The first one describes how we detect constant coding vulnerable variables in ARM Assembly. The second graph demonstrates how we detect return values for constant coding vulnerabilities 
+
 ```mermaid
 graph TD;
   Start[Start] --> CheckLine[Check Line];
@@ -71,11 +73,18 @@ graph TD;
   style CheckInteger fill:#aed6f1,stroke:#3498db;
   CheckInteger -->|IntegerLiteral| CheckHammingWeight[Check Hamming Weight];
   style CheckHammingWeight fill:#aed6f1,stroke:#3498db;
-  CheckHammingWeight -->|Hamming weight < Sensitivity| IsVulnerable[Is Vulnerable];
+  CheckHammingWeight -->|Hamming weight < Sensitivity| CheckIfTrivial[Check if trivial];
+  style CheckIfTrivial fill:#aed6f1,stroke:#3498db;
+  CheckIfTrivial -->|Is in trivial list| CheckIfAllOnes[Check if all ones]
+  style CheckIfAllOnes fill:#aed6f1,stroke:#3498db;
+  CheckIfAllOnes -->|Is all ones| IsVulnerable[Is Vulnerable];
   style IsVulnerable fill:#f1948a,stroke:#e74c3c;
   CheckInteger -->|Not IntegerLiteral| NotVulnerable[Not Vulnerable];
   style NotVulnerable fill:#f5b7b1,stroke:#e74c3c;
-  AnalyzeArguments -->|Opcode not in pattern| NotVulnerable;
+  AnalyzeArguments -->|Opcode not in pattern| CheckIfGlobal[Check if global variable];
+  CheckIfGlobal -->|Starts with .long, .value, or .word| CheckInteger[Check Integer];
+  style CheckIfGlobal fill:#aa75c0
+  CheckIfGlobal -->|Does not start with .long,\n.value, or .word| NotVulnerable;
   CheckLine -->|Line has 1 or fewer arguments| NotVulnerable;
   IsVulnerable -->|Is stack pointer| SaveVulnerableLine[Save Vulnerable Line];
   style SaveVulnerableLine fill:#f1948a,stroke:#e74c3c;
@@ -87,6 +96,23 @@ graph TD;
   style Stop fill:#82e0aa,stroke:#27ae60;
 ```
 
+```mermaid
+graph TD; 
+Start[Start] -->|Instruction is mov, moveq, or movne| MoveInstruction[Is move Instruction]
+Start -->|Instruction is b and\n len of Return Stack >= 1| BranchInstruction[Is branch instruction]
+Start -->|if first register is \nsp and second is fp and \nis possible return value| ReturnStackPtr[Restored Stack Pointer]
+ReturnStackPtr -->|Last return value not\n more than 3 lines ago| ReturnValue 
+ReturnValue --> NotReturnCall[Not Possible Return]
+BranchInstruction -->|if very next line| ReturnValue[Is Return Value]
+ReturnValue --> End
+MoveInstruction -->|First Register is R3 and the \nsecond argument is integer literal| FirstLineMatch[First Line Matches]
+MoveInstruction -->|First Register is R0 and \n second argument is R3| PossibleReturn[Possible Return Call]
+MoveInstruction -->|Not Return relevant| End
+FirstLineMatch -->|IntegerLiteral| CheckVulnerableValue[Check if vulnerable];
+CheckVulnerableValue -->|Hamming weight < Sensitivity or \nIs in trivial list or \nIs all ones| ReturnStack[Pushed to Return Stack];
+CheckVulnerableValue -->|Not vulnerable value| End
+End --> Stop[Stop]
+```
 ## References
 
 [1]: M. Witteman, "Secure application programming in the presence of side channel attacks," Riscure, Tech. Rep., Aug 2017. [Online]. Available: <https://www.riscure.com/uploads/2017/08/Riscure> Whitepaper Side Channel Patterns.pdf
