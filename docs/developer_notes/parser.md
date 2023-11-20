@@ -77,6 +77,7 @@ graph TB
   Line -- "Other" --> Instruction["Instruction"]
   Instruction -- "Is a number" --> IntegerLiteral["IntegerLiteral"]
   Instruction -- "Starts with ." --> LocationInst["Location"]
+  Instruction -- "Starts with .global,\n.type, .size, or bl" --> LocationInst["Location"]
   Instruction -- "Other" --> Register["Register"]
   Register -- "Starts with or without % or R[0-9]" --> RegisterValid["Valid Register"]
   Register -- "Starts with $" --> Decimal["Decimal"]
