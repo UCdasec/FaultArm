@@ -71,11 +71,18 @@ graph TD;
   style CheckInteger fill:#aed6f1,stroke:#3498db;
   CheckInteger -->|IntegerLiteral| CheckHammingWeight[Check Hamming Weight];
   style CheckHammingWeight fill:#aed6f1,stroke:#3498db;
-  CheckHammingWeight -->|Hamming weight < Sensitivity| IsVulnerable[Is Vulnerable];
+  CheckHammingWeight -->|Hamming weight < Sensitivity| CheckIfTrivial[Check if trivial];
+  style CheckIfTrivial fill:#aed6f1,stroke:#3498db;
+  CheckIfTrivial -->|Is in trivial list| CheckIfAllOnes[Check if all ones]
+  style CheckIfAllOnes fill:#aed6f1,stroke:#3498db;
+  CheckIfAllOnes -->|Is all ones| IsVulnerable[Is Vulnerable];
   style IsVulnerable fill:#f1948a,stroke:#e74c3c;
   CheckInteger -->|Not IntegerLiteral| NotVulnerable[Not Vulnerable];
   style NotVulnerable fill:#f5b7b1,stroke:#e74c3c;
-  AnalyzeArguments -->|Opcode not in pattern| NotVulnerable;
+  AnalyzeArguments -->|Opcode not in pattern| CheckIfGlobal[Check if global variable];
+  CheckIfGlobal -->|Starts with .long, .value, or .word| CheckInteger[Check Integer];
+  style CheckIfGlobal fill:#aa75c0
+  CheckIfGlobal -->|Does not start with .long,\n.value, or .word| NotVulnerable;
   CheckLine -->|Line has 1 or fewer arguments| NotVulnerable;
   IsVulnerable -->|Is stack pointer| SaveVulnerableLine[Save Vulnerable Line];
   style SaveVulnerableLine fill:#f1948a,stroke:#e74c3c;
