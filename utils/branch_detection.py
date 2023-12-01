@@ -63,6 +63,7 @@ class BranchV2():
             # if first argument is a register and the line name is a conditional mov
             elif type(line.arguments[0]) == Register and line.name in self.pattern[1][1]:
                 self.current_vulnerable.append(line)
+                return
             # Check if integer, this is the cmp statement
             elif type(args) == IntegerLiteral:
                 # if integer, check hamming weight and whether trivial value
