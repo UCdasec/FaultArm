@@ -24,7 +24,7 @@ class Analyzer():
         # self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
         self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.constant_detector = ConstantCoding(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
-        self.loop_detector = LoopCheck(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
+        self.loop_detector = LoopCheck(filename, parsed_data.arch.name, total_lines, directory_name)
         if self.create_directory():
             self.static_analysis()
         

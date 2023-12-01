@@ -42,6 +42,7 @@ class ConstantCoding():
                             # Vulnerable
                             # Only save here if arm. x86 saves on next if (checking if moving to stack)
                             if self.architecture == 'arm':
+                                self.lineStack.clear()
                                 self.lineStack.append(line)
                             self.is_vulnerable = True
                     elif type(arg) == Register:
