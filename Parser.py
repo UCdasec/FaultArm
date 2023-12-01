@@ -201,8 +201,8 @@ class Parser:
         self.total_lines = line_number
 
     def parseArguments(self, line: str, line_number: int):
-        s = re.split(r'\s+(?![^\[]*\])', line)
-        instruction = s[0]
+        s = re.split(r'\s+(?![^\[]*\])', line) # split line into tokens
+        instruction = s[0] # first token is line instruction
         arguments = []
         for args in s[1:]:
             
@@ -232,8 +232,8 @@ class Parser:
             # a location
             elif instruction in ['.global', '.type', '.size', 'bl']:
                 arguments.append(Location(arg, line_number))
-            # Must be register
-            else:
+            # Must be register (checking first condition since that's not part of if-case)
+            elif '[' not in args and ']' not in args:
                 register = Register(arg)
                 arguments.append(register)
 

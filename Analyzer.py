@@ -22,7 +22,7 @@ class Analyzer():
         
         # ! Outdated branch pattern detection
         # self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
-        self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, total_lines, directory_name)
+        self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.constant_detector = ConstantCoding(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.loop_detector = LoopCheck(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         if self.create_directory():
@@ -54,6 +54,7 @@ class Analyzer():
                 self.loop_detector.analysis(line)
                 # print(line)
             elif type(line) == Location:
+                self.constant_detector.analysis(line)
                 self.loop_detector.analysis(line)
                 
                 

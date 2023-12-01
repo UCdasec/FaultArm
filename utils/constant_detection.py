@@ -1,8 +1,8 @@
 from os import path
 from datetime import datetime
-from typing import List
+from typing import List, Union
 
-from Parser import Instruction, IntegerLiteral, Register
+from Parser import Instruction, Location, IntegerLiteral, Register
 from constants import pattern_list, trivial_values
 
 class ConstantCoding():
@@ -17,49 +17,57 @@ class ConstantCoding():
         self.pattern: List[str] = pattern_list[architecture]["constant_coding"]
         self.trivial_values: List[int] = trivial_values["integers"]
         self.lineStack : List[Instruction] = []
-        self.vulnerable_instructions: List[Instruction] = []
+        self.vulnerable_instructions: List[List[Instruction]] = []
         self.is_vulnerable = False
         
         # Hamming weight sensitivity compared to zero
         self.sensitivity = sensitivity
     
-    def analysis(self, line: Instruction) -> None:
-        self.vulnerable_line: Instruction = line
+    def analysis(self, line: Union[Instruction, Location]) -> None:
+        self.vulnerable_line: Union[Instruction, Location] = line
         self.is_vulnerable = False
         
-        if len(line.arguments) > 1:
+        if type(line) == Instruction and len(line.arguments) > 1:
+            # if lineStack is a global variable, clear it
+            if len(self.lineStack) == 1 and type(self.lineStack[0]) == Location:
+                self.lineStack.clear()
+
             for arg in line.arguments:
                 # If it's MOVL, MOVQ, or MOVW
-                if line.name in self.pattern[0:3]:
+                if line.name in self.pattern[0:4]:
                     # If it's argument is an integer # | $
-
                     if type(arg) == IntegerLiteral:
                         # Found numerical variable stored
                         if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values:
                             # Vulnerable
                             # Only save here if arm. x86 saves on next if (checking if moving to stack)
                             if self.architecture == 'arm':
-                                if arg.value == 0:
-                                    self.lineStack.append(line)
-                                else:
-                                    self.vulnerable_instructions.append(self.vulnerable_line)
+                                self.lineStack.append(line)
                             self.is_vulnerable = True
                     elif type(arg) == Register:
                         # Check if is a stack location:
                         if arg.is_stack_pointer(arg.name) and self.is_vulnerable:
                             # Save vulnerable line
-                            self.vulnerable_instructions.append(self.vulnerable_line)
+                            self.vulnerable_instructions.append([self.vulnerable_line])
+
                 # in case we hit an str, we check if the previous line is a mov instruction with the same register and value of 0
-                elif (line.name == 'str' or line.name == 'strh') and len(self.lineStack) >= 1:
-                    if (line.arguments[0].name == self.lineStack[-1].arguments[0].name
-                            and self.lineStack[-1].arguments[1].value == 0):
+                elif (line.name in ['str', 'strh', 'strb']) and len(self.lineStack) >= 1 and type(self.lineStack[-1]) == Instruction:
+                    if line.arguments[0].name == self.lineStack[-1].arguments[0].name:
                         # if its not the very next line, clear stack and ignore
                         if self.vulnerable_line.line_number - self.lineStack[-1].line_number > 1:
                             self.lineStack.clear()
                         # else, potential vulnerable detection
                         else:
-                            self.vulnerable_instructions.append(self.lineStack[-1])
+                            self.lineStack.append(line)
+                            self.vulnerable_instructions.append(self.lineStack.copy())
                             self.lineStack.clear()
+
+        # if it's a location, push to lineStack
+        elif type(line) == Location:
+            if len(self.lineStack) == 0:
+                self.lineStack.append(line)
+            elif len(self.lineStack) == 1 and type(self.lineStack[-1]) == Location:
+                self.lineStack.clear()
 
         # if it's a global variable, i.e., .value or .long
         elif line.name in self.pattern[3:]:
@@ -68,8 +76,22 @@ class ConstantCoding():
                 if type(arg) == IntegerLiteral:
                     if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values:
                         # Vulnerable
-                        self.vulnerable_instructions.append(self.vulnerable_line)
-                        self.is_vulnerable = True
+                        # if previous line was a location
+                        if 1 <= len(self.lineStack) <= 2 and type(self.lineStack[0]) == Location:
+                            if self.vulnerable_line.line_number - self.lineStack[0].line_number == 1:
+                                self.lineStack.append(self.vulnerable_line)
+                            elif self.lineStack[-1].name in self.pattern[3:]:
+                                self.lineStack[-1] = self.vulnerable_line
+                            self.vulnerable_instructions.append(self.lineStack.copy())
+                        # likely part of array
+                        else:
+                            self.vulnerable_instructions.append([self.vulnerable_line])
+                        # self.is_vulnerable = True
+
+        # if lineStack is a global variable, clear it
+        elif len(self.lineStack) == 2 and type(self.lineStack[0]) == Location:
+            self.lineStack.clear()
+            x = 5
 
 
 
@@ -83,11 +105,12 @@ class ConstantCoding():
             print("CONSTANT CODING VULNERABILITY DETECTED")
             print("Printing vulnerable lines...\n")
 
-            print("[Line #] [Opcode]")
+            print("[Line #] [Opcode]\n")
 
-            for line in self.vulnerable_instructions:
-                print(f"\n{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
-            print("\n")
+            for lines in self.vulnerable_instructions:
+                for line in lines:
+                    print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
+                print("\n")
 
             print(f"All vulnerable lines printed.\n\n")
         else:

@@ -6,7 +6,7 @@ from Parser import Instruction, Location
 from constants import pattern_list, branch_opposites
 
 class LoopCheck():
-    def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str, sensitivity: int = 4) -> None:
+    def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str) -> None:
         """
         Represents an object used for fault.LOOP analysis/detection.
 
@@ -44,8 +44,8 @@ class LoopCheck():
                 self.locations.append(line.name)
             # If line is an instruction, compare against pattern
             elif type(line) == Instruction:
-                # If an LDR is found we need to check two scenarios
-                if line.name == self.pattern[0]:
+                # If an LDRxx is found we need to check two scenarios
+                if line.name in self.pattern[0]:
                     # Is the 0 < suspected lines < 3? - The pattern was not reached previously
                     if len(self.suspected_vulnerable) < 3:
                         # If there is anything on the suspected list, clear it.
@@ -121,7 +121,7 @@ class LoopCheck():
                             # Store the line as suspect
                             self.suspected_vulnerable.append(line)
                             # Add the expected branch/jump
-                            self.expected_secured.append(branch_opposites.get(line.name.upper()))
+                            self.expected_secured.append(branch_opposites[self.architecture].get(line.name.upper()))
                 # Instruction not in pattern
                 else:
                     # check if pattern is on-going

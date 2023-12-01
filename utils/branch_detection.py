@@ -2,11 +2,11 @@ from os import path
 from datetime import datetime
 from typing import List
 
-from Parser import Instruction, Location
-from constants import pattern_list
+from Parser import Instruction, Location, IntegerLiteral, Register
+from constants import pattern_list, trivial_values
 
 class BranchV2():
-    def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str) -> None:
+    def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
         """
         Represents a branch object used for fault.branch analysis/detection.
 
@@ -17,7 +17,7 @@ class BranchV2():
         - current_vulnerable (List[Instruction]): List of instructions currently identified as vulnerable.
         - is_vulnerable (bool): Flag indicating if a branch vulnerability is detected.
         """
-        self.trivial_values: List[int] = [0, 1, -1, 2, -2]
+        self.trivial_values: List[int] = trivial_values["integers"]
         self.pattern: List[str | List[str]] = pattern_list[architecture]["branch"]
         self.vulnerable_instructions: List[List[Instruction]] = []
         self.current_vulnerable: List[Instruction] = []
@@ -27,6 +27,9 @@ class BranchV2():
         self.total_lines = total_lines
         self.directory_name = directory_name
         self.architecture = architecture
+
+        # Hamming weight sensitivity compared to zero
+        self.sensitivity = sensitivity
         
     def analysis(self, line: Instruction) -> None:
         """
@@ -38,10 +41,11 @@ class BranchV2():
         if line.name == self.pattern[0]:
             if len(self.current_vulnerable) > 0: self.current_vulnerable.clear()
             self.strip_line(line)
-        elif line.name in self.pattern[1]:
+        elif line.name in self.pattern[1][0] or line.name in self.pattern[1][1]:
             if len(self.current_vulnerable) > 0:
                 self.strip_line(line)
-                    
+        elif len(self.current_vulnerable) > 0:
+            self.update_vulnerable_instructions()
     def strip_line(self, line: Instruction) -> None:
         """
         Strips the given instruction line for vulnerabilities.
@@ -52,16 +56,19 @@ class BranchV2():
         for args in line.arguments:
             # If argument is Location, reached JUMP.
             # Add line to vuln arr
-            if type(line.arguments[0]) == Location and line.name in self.pattern[1]:
+            if type(line.arguments[0]) == Location and line.name in self.pattern[1][0]:
                 self.current_vulnerable.append(line)
                 self.update_vulnerable_instructions()
                 return
-
-            # If not location, must be decimal val
-            # Check for trivial value
-            if self.contains_trivial_numeric_value(args.value):
-                # Add line to vuln arr
+            # if first argument is a register and the line name is a conditional mov
+            elif type(line.arguments[0]) == Register and line.name in self.pattern[1][1]:
                 self.current_vulnerable.append(line)
+            # Check if integer, this is the cmp statement
+            elif type(args) == IntegerLiteral:
+                # if integer, check hamming weight and whether trivial value
+                if self.contains_trivial_numeric_value(args.value) or args.hammingWeight() < self.sensitivity:
+                    # Add line to vuln arr
+                    self.current_vulnerable.append(line)
         
     def contains_trivial_numeric_value(self, value: int) -> bool:
         """
