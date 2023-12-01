@@ -63,13 +63,17 @@ class LoopCheck():
                             self.secured_pattern.append(line)
                         # If not, disregard and start over
                         else:
+                            # if they do not match but all three lines for suspected_vulnerable are recorded, consider it vulnerable
+                            if len(self.suspected_vulnerable) == 3:
+                                self.vulnerable_instructions.append(self.suspected_vulnerable.copy())
+                                self.is_vulnerable = True
                             self.suspected_vulnerable.clear()
                             self.expected_secured.clear()
                             self.secured_pattern.clear()
                     # self.strip_line(line) Don't worry about values yet. Just store the instruction
                 # If a CMP is found
                 elif line.name in self.pattern[1]:
-                    # If the pattern is currently on-going
+                    # If the pattern is currently ongoing
                     if len(self.suspected_vulnerable) > 0:
                         # If the pattern hasn't reached the end
                         if len(self.suspected_vulnerable) < 3:
@@ -88,7 +92,8 @@ class LoopCheck():
                             else:
                                 self.suspected_vulnerable.clear()
                                 self.expected_secured.clear()
-                                self.secured_pattern.clear()       
+                                self.secured_pattern.clear()
+
                 elif self.is_branch_instruction(line.name):
                     # The jump/branch instruction was reached
                     # Check if we reached the end of the insecured pattern

@@ -10,7 +10,7 @@ pattern_list = {
                            ['moveq', 'movne', 'movcs', 'movhs', 'movcc', 'movlo', 'movmi', 'movpl', 'movvs', 'movvc',
                             'movhi', 'movls', 'movge', 'movlt', 'movgt', 'movle']]],
         # ! MOV is repeated here to maintain structure integrity.
-        "constant_coding": ['mov', 'mvn', 'movgt', 'movle', '.short', '.word'],
+        "constant_coding": ['mov', 'mvn', 'movgt', 'movle', 'moveq', 'movne', '.short', '.word'],
         "loop_check": [['ldr', 'ldrb'], 'cmp', 'b'],
     }
 }

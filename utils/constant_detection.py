@@ -33,8 +33,8 @@ class ConstantCoding():
                 self.lineStack.clear()
 
             for arg in line.arguments:
-                # If it's MOVL, MOVQ, or MOVW
-                if line.name in self.pattern[0:4]:
+                # If it's any qualifying mov instruction
+                if line.name in self.pattern[0:6]:
                     # If it's argument is an integer # | $
                     if type(arg) == IntegerLiteral:
                         # Found numerical variable stored
@@ -42,7 +42,8 @@ class ConstantCoding():
                             # Vulnerable
                             # Only save here if arm. x86 saves on next if (checking if moving to stack)
                             if self.architecture == 'arm':
-                                self.lineStack.clear()
+                                if len(self.lineStack) > 0 and line.line_number - self.lineStack[-1].line_number > 1:
+                                    self.lineStack.clear()
                                 self.lineStack.append(line)
                             self.is_vulnerable = True
                     elif type(arg) == Register:
