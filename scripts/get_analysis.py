@@ -171,8 +171,15 @@ class GetAnalysis():
                         # if line is "", empty line in file and vulnerable lines should be written to report
                         if line.strip() == "" and len(current_line_buffer) > 0:
                             # writing line no. range
-                            line_nos = "-".join([current_line_buffer[0].split()[0], current_line_buffer[-1].split()[0]]
-                                                ) if len(current_line_buffer) > 1 else current_line_buffer[0].split()[0]
+                            if len(current_line_buffer) == 1:
+                                line_nos = current_line_buffer[0].split()[0]
+                            elif len(current_line_buffer) > 1:
+                                if int(current_line_buffer[-1].split()[0]) - int(current_line_buffer[0].split()[0]) == len(current_line_buffer) - 1:
+                                    line_nos = "-".join([current_line_buffer[0].split()[0], current_line_buffer[-1].split()[0]])
+                                elif int(current_line_buffer[-1].split()[0]) - int(current_line_buffer[0].split()[0]) >= len(current_line_buffer):
+                                    line_nos = ", ".join(l_no.split()[0] for l_no in current_line_buffer)
+                            # line_nos = "-".join([current_line_buffer[0].split()[0], current_line_buffer[-1].split()[0]]
+                            #                     ) if len(current_line_buffer) > 1 else current_line_buffer[0].split()[0]
                             self.active_sheet.cell(row=row_start, column=2, value=line_nos)
 
                             # writing lines to report
@@ -221,6 +228,26 @@ class GetAnalysis():
             if sheet.cell(row=row, column=column_no).value:
                 return sheet.cell(row=2 if sheet.title in ['OP-0', 'OP-1'] else 3, column=column_no).value
 
+    def extract_numbers(self, number_string):
+        # Pattern for "xxx-xxx" format
+        pattern_dash = re.compile(r'\b(\d+)-(\d+)\b')
+        # Pattern for "xxx, xxx" format
+        pattern_comma = re.compile(r'\b(\d+), (\d+)\b')
+
+        # Check if the input string matches the "xxx-xxx" pattern
+        match_dash = pattern_dash.search(number_string)
+        if match_dash:
+            first_number = match_dash.group(1)
+            return int(first_number)
+
+        # Check if the input string matches the "xxx, xxx" pattern
+        match_comma = pattern_comma.search(number_string)
+        if match_comma:
+            second_number = match_comma.group(2)
+            return int(second_number)
+
+        return None
+
     def check_precision_recall(self, file_name):
         try:
             # set active sheet according to prefix of file
@@ -250,7 +277,7 @@ class GetAnalysis():
                         labelling_line_nos = str(self.active_labelling_sheet.cell(row=labelling_row_no,
                                                                               column=8 if self.active_sheet.title == 'OP-0' else 13).value)
                         # check if the first digits match
-                        if labelling_line_nos is not None and analysis_line_nos.split('-')[0] == labelling_line_nos.split('-')[0]:
+                        if labelling_line_nos is not None and self.extract_numbers(analysis_line_nos) == self.extract_numbers(labelling_line_nos):
                             # get pattern
                             analysis_patterntype = self.get_patternType(self.active_sheet, analysis_row_start, 4)
                             labelling_patterntype = self.get_patternType(self.active_labelling_sheet,labelling_row_no,
