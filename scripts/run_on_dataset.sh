@@ -34,3 +34,6 @@ cd "$scripts_folder" || exit 1
 
 # Run the analysis at the end
 python3 get_analysis.py -f ../out/ -w ../out/Analysis/
+
+# Delete files with the suffix ".s.out"
+find "../out/" -type f -name "*.s.out" -delete
