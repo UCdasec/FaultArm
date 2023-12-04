@@ -59,8 +59,10 @@ class LoopCheck():
                     # If the suspected lines >= 3, then the pattern is continuing
                     else:
                         # Check if it matches the expected secured line
-                        if line == self.expected_secured[0]:
-                            self.secured_pattern.append(line)
+                        if line.name == self.expected_secured[0].name:
+                            if (line.arguments[0].name == self.expected_secured[0].arguments[0].name and
+                                    line.arguments[1].value == self.expected_secured[0].arguments[1].value):
+                                self.secured_pattern.append(line)
                         # If not, disregard and start over
                         else:
                             # if they do not match but all three lines for suspected_vulnerable are recorded, consider it vulnerable
@@ -85,9 +87,11 @@ class LoopCheck():
                         else:
                             # Check if the list is already populated
                             if len(self.expected_secured) > 0:
-                                # Check if the compare matches what is expected
-                                if line == self.expected_secured[1]:
-                                    self.secured_pattern.append(line)
+                                # Check if it matches the expected secured line
+                                if line.name == self.expected_secured[1].name:
+                                    if (line.arguments[0].name == self.expected_secured[1].arguments[0].name and
+                                            line.arguments[1].value == self.expected_secured[1].arguments[1].value):
+                                        self.secured_pattern.append(line)
                             # If expected_secure is empty, clear all.
                             else:
                                 self.suspected_vulnerable.clear()
@@ -97,13 +101,15 @@ class LoopCheck():
                 elif self.is_branch_instruction(line.name):
                     # The jump/branch instruction was reached
                     # Check if we reached the end of the insecured pattern
-                    if len(self.suspected_vulnerable) > 3:
+                    if len(self.suspected_vulnerable) >= 3:
                         # If end, check for secured list
                         if len(self.secured_pattern) < 2 or len(self.secured_pattern) > 2:
-                            # Clear everthing
+                            # Vulnerable
+                            self.vulnerable_instructions.append(self.suspected_vulnerable.copy())
                             self.suspected_vulnerable.clear()
                             self.expected_secured.clear()
-                            self.secured_pattern.clear() 
+                            self.secured_pattern.clear()
+                            self.is_vulnerable = True
                         else:
                             if line.name == self.expected_secured[2]:
                                 # Secured pattern complete. Not insecured, leave
@@ -126,7 +132,12 @@ class LoopCheck():
                             # Store the line as suspect
                             self.suspected_vulnerable.append(line)
                             # Add the expected branch/jump
-                            self.expected_secured.append(branch_opposites[self.architecture].get(line.name.upper()))
+                            self.expected_secured.append(branch_opposites[self.architecture].get(line.name))
+                        else:
+                            # not vulnerable
+                            self.suspected_vulnerable.clear()
+                            self.expected_secured.clear()
+                            self.secured_pattern.clear()
                 # Instruction not in pattern
                 else:
                     # check if pattern is on-going

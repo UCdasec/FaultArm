@@ -38,12 +38,15 @@ class BranchV2():
         Args:
         - line (Instruction): The instruction line to analyze.
         """
+        # a cmp instruction
         if line.name == self.pattern[0]:
             if len(self.current_vulnerable) > 0: self.current_vulnerable.clear()
             self.strip_line(line)
+        # a branch or move instruction (with condition check)
         elif line.name in self.pattern[1][0] or line.name in self.pattern[1][1]:
             if len(self.current_vulnerable) > 0:
                 self.strip_line(line)
+        # or else line is vulnerable independently.
         elif len(self.current_vulnerable) > 0:
             self.update_vulnerable_instructions()
     def strip_line(self, line: Instruction) -> None:
@@ -56,10 +59,15 @@ class BranchV2():
         for args in line.arguments:
             # If argument is Location, reached JUMP.
             # Add line to vuln arr
-            if type(line.arguments[0]) == Location and line.name in self.pattern[1][0]:
-                self.current_vulnerable.append(line)
-                self.update_vulnerable_instructions()
-                return
+            if line.name in self.pattern[1][0]:
+                if type(line.arguments[0]) == Location:
+                    self.current_vulnerable.append(line)
+                    self.update_vulnerable_instructions()
+                    return
+                elif len(line.arguments) == 1 and type(line.arguments[0]) == Register:
+                    self.current_vulnerable.append(line)
+                    self.update_vulnerable_instructions()
+                    return
             # if first argument is a register and the line name is a conditional mov
             elif type(line.arguments[0]) == Register and line.name in self.pattern[1][1]:
                 self.current_vulnerable.append(line)

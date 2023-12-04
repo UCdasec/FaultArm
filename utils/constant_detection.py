@@ -19,6 +19,7 @@ class ConstantCoding():
         self.lineStack : List[Instruction] = []
         self.vulnerable_instructions: List[List[Instruction]] = []
         self.is_vulnerable = False
+        self.location_in_between = False # to mark if there is a location in between a pattern
         
         # Hamming weight sensitivity compared to zero
         self.sensitivity = sensitivity
@@ -55,9 +56,18 @@ class ConstantCoding():
                 # in case we hit an str, we check if the previous line is a mov instruction with the same register and value of 0
                 elif (line.name in ['str', 'strh', 'strb']) and len(self.lineStack) >= 1 and type(self.lineStack[-1]) == Instruction:
                     if line.arguments[0].name == self.lineStack[-1].arguments[0].name:
-                        # if its not the very next line, clear stack and ignore
+                        # if its not the very next line, check if location in between
                         if self.vulnerable_line.line_number - self.lineStack[-1].line_number > 1:
-                            self.lineStack.clear()
+                            # if space of one line and that space is a location, we mark as potentially vulnerable
+                            if self.vulnerable_line.line_number - self.lineStack[-1].line_number == 2 and self.location_in_between:
+                                self.lineStack.append(line)
+                                self.vulnerable_instructions.append(self.lineStack.copy())
+                                self.lineStack.clear()
+                                self.location_in_between = False
+
+                            # else, not a valid constant detection
+                            else:
+                                self.lineStack.clear()
                         # else, potential vulnerable detection
                         else:
                             self.lineStack.append(line)
@@ -68,8 +78,12 @@ class ConstantCoding():
         elif type(line) == Location:
             if len(self.lineStack) == 0:
                 self.lineStack.append(line)
-            elif len(self.lineStack) == 1 and type(self.lineStack[-1]) == Location:
-                self.lineStack.clear()
+            elif len(self.lineStack) >= 1:
+                if line.line_number - self.lineStack[-1].line_number > 1:
+                    self.lineStack.clear()
+                    self.lineStack.append(line)
+                elif line.line_number - self.lineStack[-1].line_number == 1:
+                    self.location_in_between = True
 
         # if it's a global variable, i.e., .value or .long
         elif line.name in self.pattern[3:]:
@@ -88,7 +102,6 @@ class ConstantCoding():
                         # likely part of array
                         else:
                             self.vulnerable_instructions.append([self.vulnerable_line])
-                        # self.is_vulnerable = True
 
         # if lineStack is a global variable, clear it
         elif len(self.lineStack) == 2 and type(self.lineStack[0]) == Location:

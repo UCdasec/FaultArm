@@ -6,7 +6,8 @@ pattern_list = {
     },
     "arm": {
         "branch": ['cmp', [['beq', 'bne', 'bcs', 'bhs', 'bcc', 'blo', 'bmi', 'bpl', 'bvs', 'bvc', 'bhi', 'bls', 'bge',
-                            'blt', 'bgt', 'ble', 'bal'],
+                            'blt', 'bgt', 'ble', 'bal', 'bxeq', 'bxne', 'bxcs', 'bxhs', 'bxcc', 'bxlo', 'bxmi', 'bxpl',
+                            'bxvs', 'bxvc', 'bxhi', 'bxls', 'bxge', 'bxlt', 'bxgt', 'bxle', 'bxal'],
                            ['moveq', 'movne', 'movcs', 'movhs', 'movcc', 'movlo', 'movmi', 'movpl', 'movvs', 'movvc',
                             'movhi', 'movls', 'movge', 'movlt', 'movgt', 'movle']]],
         # ! MOV is repeated here to maintain structure integrity.
@@ -18,18 +19,18 @@ pattern_list = {
 
 branch_opposites = {
     "arm": {
-        "BEQ": "BNE",
-        "BNE": "BEQ",
-        "BGT": "BLE",
-        "BLT": "BGE",
-        "BGE": "BLT",
-        "BLE": "BGT",
-        "BCS": "BCC",
-        "BCC": "BCS",
-        "BMI": "BPL",
-        "BPL": "BMI",
-        "BVS": "BVC",
-        "BVC": "BVS",
-        "BAL": "BAL"  # BAL (always) doesn't really have an opposite
+        "beq": "bne",
+        "bne": "beq",
+        "bgt": "ble",
+        "blt": "bge",
+        "bge": "blt",
+        "ble": "bgt",
+        "bcs": "bcc",
+        "bcc": "bcs",
+        "bmi": "bpl",
+        "bpl": "bmi",
+        "bvs": "bvc",
+        "bvc": "bvs",
+        "bal": "bal"  # bal (always) doesn't really have an opposite
     }
 }
