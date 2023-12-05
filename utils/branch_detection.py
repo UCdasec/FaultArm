@@ -39,7 +39,7 @@ class BranchV2():
         - line (Instruction): The instruction line to analyze.
         """
         # a cmp instruction
-        if line.name == self.pattern[0]:
+        if line.name in self.pattern[0]:
             if len(self.current_vulnerable) > 0: self.current_vulnerable.clear()
             self.strip_line(line)
         # a branch or move instruction (with condition check)

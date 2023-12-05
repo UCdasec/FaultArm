@@ -5,7 +5,7 @@ pattern_list = {
         "loop_check": ['cmpl', 'cmpl', 'j'], #cmpb, cmp??
     },
     "arm": {
-        "branch": ['cmp', [['beq', 'bne', 'bcs', 'bhs', 'bcc', 'blo', 'bmi', 'bpl', 'bvs', 'bvc', 'bhi', 'bls', 'bge',
+        "branch": [['cmp', 'subs', 'rsbs'], [['beq', 'bne', 'bcs', 'bhs', 'bcc', 'blo', 'bmi', 'bpl', 'bvs', 'bvc', 'bhi', 'bls', 'bge',
                             'blt', 'bgt', 'ble', 'bal', 'bxeq', 'bxne', 'bxcs', 'bxhs', 'bxcc', 'bxlo', 'bxmi', 'bxpl',
                             'bxvs', 'bxvc', 'bxhi', 'bxls', 'bxge', 'bxlt', 'bxgt', 'bxle', 'bxal'],
                            ['moveq', 'movne', 'movcs', 'movhs', 'movcc', 'movlo', 'movmi', 'movpl', 'movvs', 'movvc',
