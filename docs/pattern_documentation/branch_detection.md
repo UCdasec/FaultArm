@@ -1,9 +1,9 @@
-# Detecting Branch Vulnerabilities in x86 Assembly
+# Detecting Branch Vulnerabilities in x86 & ARM Assembly
 
-- [Detecting Branch Vulnerabilities in x86 Assembly](#detecting-branch-vulnerabilities-in-x86-assembly)
+- [Detecting Branch Vulnerabilities in x86 \& ARM Assembly](#detecting-branch-vulnerabilities-in-x86--arm-assembly)
   - [Requirements](#requirements)
     - [Generating Assembly Files](#generating-assembly-files)
-  - [Branch Pattern in x86](#branch-pattern-in-x86)
+  - [Branch Pattern](#branch-pattern)
   - [Detection](#detection)
     - [Parse](#parse)
     - [Analysis](#analysis)
@@ -43,7 +43,7 @@ cc -S filename.c -o assembly_filename.s
 
 This directs the compiler to generate assembly source (`assembly_filename.s`) from the provided C source (`filename.c`).
 
-## Branch Pattern in x86
+## Branch Pattern
 
 By comparing multiple assembly files generated from secured and unsecured C sources, a clear pattern was identified:
 
@@ -190,36 +190,28 @@ The process continues in this manner, scanning and analyzing lines until there a
 ### Flowchart
 
 ```mermaid
-flowchart TD
+graph TD
+    A[Start Analysis] --> B[Detect Instruction Line]
+    style A fill:#f9d79c,stroke:#f39c12;
+    style B fill:#f9d79c,stroke:#f39c12;
+    B --> C[Check Instruction]
+    style C fill:#aed6f1,stroke:#3498db;
+    C -- Comparison instruction --> D[Check for Trivial]
+    C -- Other instruction --> G
+    style D fill:#aed6f1,stroke:#3498db;
+    D -- Comparison contains trivial value --> E[Check Next Instruction]
+    D -- Non-trivial value --> G
+    style E fill:#aed6f1,stroke:#3498db;
+    E -- Jump|Branch instruction --> F[Is Vulnerable]
+    E -- Other instruction --> G
+    style F fill:#f1948a,stroke:#e74c3c;
+    F -- Restart --> H
+    G[Not Vulnerable]
+    style G fill:#82e0aa,stroke:#27ae60;
+    G -- Restart --> H
+    H[Restart on Next Line] --> B
+    style H fill:#f9d79c,stroke:#f39c12;
 
-Read_Line("Scan Next Line")
-Read_Line --> Instruction_Line
-
-Disregard("Disregard Line") --> Read_Line
-
-Instruction_Line{"Is the current line an instruction line?"}
-Instruction_Line -- Yes --> Compare{"Is the instruction CMPL?"}
-Instruction_Line -- No --> Disregard
-
-Compare -- No --> Jump{"Is the instruction a jump?"}
-Jump -- Yes --> After_Compare{"Is a CMPL instruction stored?"}
-After_Compare -- Yes --> Store
-After_Compare -- No --> Disregard
-
-
-Compare -- Yes --> Trivial{"Is the value in the CMPL operation trivial?"}
-
-
-Trivial -- Yes --> Store("Store Line")
-Trivial -- No --> Disregard
-
-Store --> Pattern_Complete{"Are there two instructions stored?"}
-Pattern_Complete -- Yes --> Store_Permanent("`Permanently Store Instructions
-&
-Clear Temporary Storage`")
-Pattern_Complete -- No --> Read_Line
-
-Store_Permanent --> Read_Line
 ```
 
 ## References
