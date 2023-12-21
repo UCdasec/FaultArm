@@ -37,15 +37,19 @@ This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```
 
+> For more information about compilers, please see `/docs/developer_notes/architecture_and_compilers.md`.
+
 ### Compiling
 
-If a compiler is already present, then create a high-level example of the vulnerability pattern in question. Meaning, create a new C file and write a simple example of the pattern there. Once completed, compile the file in the following manner:
+Once a compiler is present, compile the file in the following manner:
 
 ```bash
 arm-none-eabi-gcc -S filename.c -o assembly_filename.s
 ```
 
 Which should then generate an assembly (`.s`) file to use with our tool.
+
+> To create a high-level example of the vulnerability pattern. please see `/docs/developer_notes/add_patterns.md`.
 
 ## Patterns
 
