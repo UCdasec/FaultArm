@@ -229,7 +229,7 @@ class Parser:
                 arguments.append(IntegerLiteral(int(arg)))
             elif arg[0] == ".":
                 arguments.append(Location(arg, line_number))
-            # a location
+            # check if a location
             elif instruction in ['.global', '.type', '.size', 'bl']:
                 arguments.append(Location(arg, line_number))
             # Must be register (checking first condition since that's not part of if-case)
