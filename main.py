@@ -4,7 +4,7 @@ from Parser import Parser
 from Analyzer import Analyzer
 
 def main():
-    faulthunter = argparse.ArgumentParser(description='Parse an x86 assembly file and look for vulnerable patterns.')
+    faulthunter = argparse.ArgumentParser(description='Parse an x86 or ARM assembly file and look for vulnerable patterns.')
     faulthunter.add_argument('file', metavar='filename', type=str, nargs=1, help='the target filename')
     args = faulthunter.parse_args()
     
