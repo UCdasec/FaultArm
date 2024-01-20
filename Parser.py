@@ -1,4 +1,5 @@
 import re
+from rich.console import Console
 
 class Register():
     def __init__(self, name: str):
@@ -151,25 +152,24 @@ class Architecture():
             
 
 class Parser:
-    def __init__(self, file: str):
+    def __init__(self, file: str, console: Console):
         self.filename : str = file
         self.program : list[Location | StringLiteral | Instruction] = []
         self.total_lines: int = 0
         
         self.arch = Architecture(line=None, instruction=None)
         
-        self.parseFile()
+        self.parseFile(console)
 
-    def parseFile(self):
-        print(f"Parse Starting\n\n")
-        print(f"Reading file: {self.filename}")
+    def parseFile(self, console: Console):
+        console.log(f"Reading file: {self.filename}")
         with open(self.filename) as f:
             lines: list[str] = f.readlines()
-        print(f"File read successfully!\n\n")
+        console.log(f"[green]File read successfully![/green]\n")
         
-        print(f"Processing assembly data...")
+        console.log(f"Processing assembly data:")
         self.isolateSections(lines)
-        print(f"Assembly data processed successfully!\n\n")
+        console.log(f"[green]Assembly data processed successfully![/green]\n")
 
     def isolateSections(self, lines: list[str]):
         program = []

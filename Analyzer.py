@@ -1,6 +1,7 @@
 import os.path
 from datetime import datetime
 from os import makedirs, path, rmdir
+from rich.console import Console
 
 from Parser import Parser, Instruction, Location
 from utils import BranchV2, ConstantCoding, LoopCheck
@@ -10,7 +11,7 @@ timestamp = datetime.now()
 directory_name = f"./out/analysis_{timestamp.day}_{timestamp.month}_{timestamp.year}_{timestamp.hour}{timestamp.minute}{timestamp.second}{str(timestamp.microsecond)[:3]}"
 
 class Analyzer():
-    def __init__(self, filename: str, parsed_data: Parser, total_lines: int, out_directory: str) -> None:
+    def __init__(self, filename: str, parsed_data: Parser, total_lines: int, out_directory: str, console: Console) -> None:
         """
         Represents an analyzer object used for static analysis.
 
@@ -25,21 +26,22 @@ class Analyzer():
         self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.constant_detector = ConstantCoding(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.loop_detector = LoopCheck(filename, parsed_data.arch.name, total_lines, directory_name)
-        if self.create_directory():
+        if self.create_directory(console):
             self.static_analysis()
         
-    def create_directory(self) -> bool:
+    def create_directory(self, console: Console) -> bool:
         """
         Create directory with timestamp
         """        
-        print(f"Creating Directory...")
+        
+        console.log(f"Creating Directory:")
         makedirs(f"{directory_name}")
         
         if path.exists(directory_name):
-            print(f"Directory Created: {directory_name}\n\n")
+            console.log(f"Directory Created: {directory_name}\n\n")
             return True
         
-        print(f"Error: Did not create directory\n\n")
+        console.log(f"Error: Did not create directory\n")
         return False
         
     def static_analysis(self) -> None:
@@ -48,18 +50,16 @@ class Analyzer():
         """
         for line in self.parsed_data.program:
             if type(line) == Instruction:
-                # self.branchV1_detector.analysis(line)
                 self.branchV2_detector.analysis(line)
                 self.constant_detector.analysis(line)
                 self.loop_detector.analysis(line)
-                # print(line)
             elif type(line) == Location:
                 self.constant_detector.analysis(line)
                 self.loop_detector.analysis(line)
                 
                 
 
-    def just_print_analysis_results(self) -> None:
+    def just_print_analysis_results(self, console: Console) -> None:
         """
         Just prints important details.
         """
@@ -67,59 +67,53 @@ class Analyzer():
         if os.path.isdir(directory_name):
             rmdir(directory_name)
 
-        print(f"Printing Results...\n\n")
+        console.print(f"Printing Results:\n")
 
-        # print(f"Saving Branch-V1...")
-        # self.branchV1_detector.save_and_print_results()
-        # print(f"Saved")
+        console.print(f"[Pattern] [bright_yellow]Branch-V2[/bright_yellow]\n")
+        self.branchV2_detector.just_print_results(console)
+        
+        return
 
-        print(f"Printing Branch-V2...")
-        self.branchV2_detector.just_print_results()
-
-        print(f"Printing ConstantCoding...")
+        console.print(f"[Pattern] [bright_yellow]ConstantCoding[/bright_yellow]")
         self.constant_detector.just_print_results()
         
-        print(f"Printing LoopCheck...")
+        console.print(f"[Pattern] [bright_yellow]LoopCheck[/bright_yellow]")
         self.loop_detector.just_print_results()
 
-    def save_and_print_analysis_results(self) -> None:
+    def save_and_print_analysis_results(self, console: Console) -> None:
         """
         Saves results and prints important details.
         """
-        print(f"Saving Results...\n\n")
+        console.print(f"Saving Results...\n\n")
         
-        # print(f"Saving Branch-V1...")
-        # self.branchV1_detector.save_and_print_results()
-        # print(f"Saved")
-        
-        print(f"Saving Branch-V2...")
+        console.print(f"Saving Branch-V2...")
         self.branchV2_detector.save_and_print_results()
-        print(f"Saved")
+        console.print(f"Saved")
         
-        print(f"Saving ConstantCoding...")
+        console.print(f"Saving ConstantCoding...")
         self.constant_detector.save_and_print_results()
-        print(f"Saved")
+        console.print(f"Saved")
 
-        print(f"Saving LoopCheck...")
+        console.print(f"Saving LoopCheck...")
         self.loop_detector.save_and_print_results()
-        print(f"Saved")
+        console.print(f"Saved")
 
-    def print_total_vulnerable_lines(self) -> None:
+    def print_total_vulnerable_lines(self, console: Console) -> None:
         # total number of vulnerable lines
         total_vulnerable_lines = len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
-        print(f"Total number of vulnerable lines: {total_vulnerable_lines}")
+        console.print(f"Total number of vulnerable lines: {total_vulnerable_lines}")
 
         # total number of branch faults
         total_branch_faults = len(self.branchV2_detector.vulnerable_instructions)
-        print(f"\tTotal number of Branch vulnerabilities: {total_branch_faults}")
+        console.print(f"\tTotal number of Branch vulnerabilities: {total_branch_faults}")
 
         # total number of constant coding faults
         total_constant_faults = len(self.constant_detector.vulnerable_instructions)
-        print(f"\tTotal number of Constant vulnerabilities: {total_constant_faults}")
+        console.print(f"\tTotal number of Constant vulnerabilities: {total_constant_faults}")
         
         # total number of constant coding faults
         total_loop_faults = len(self.loop_detector.vulnerable_instructions)
-        print(f"\tTotal number of Loop Check vulnerabilities: {total_loop_faults}")
+        console.print(f"\tTotal number of Loop Check vulnerabilities: {total_loop_faults}")
 
     def get_total_vulnerable_lines(self) -> int:
         return len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
