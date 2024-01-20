@@ -1,6 +1,8 @@
 from os import path
 from datetime import datetime
 from typing import List
+from rich.table import Table
+from rich.console import Console
 
 from Parser import Instruction, Location, IntegerLiteral, Register
 from constants import pattern_list, trivial_values
@@ -101,25 +103,32 @@ class BranchV2():
         self.vulnerable_instructions.append(self.current_vulnerable.copy())
         self.current_vulnerable.clear()
 
-    def just_print_results(self) -> None:
+    def just_print_results(self, console: Console) -> None:
         """
         Prints the results of the analysis.
         """
         if self.is_vulnerable:
             # Found Branch Vulnerability
-            print("BRANCH-V2 VULNERABILITY DETECTED")
-            print("Printing vulnerable lines...\n")
+            console.print("[bright_red]VULNERABILITY DETECTED[/bright_red]\n")
+            # print("Printing vulnerable lines...\n")
 
-            print("[Line #] [Opcode]\n")
+            # Build Table
+            table = Table(title="Branch Vulnerabilities")
+            
+            table.add_column(header="Line #", justify="center")
+            table.add_column(header="Instructions")
 
             for vulns in self.vulnerable_instructions:
+                table.add_section()
                 for line in vulns:
-                    print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
-                print("\n")
+                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                    # print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                # print("\n")
 
-            print(f"All vulnerable lines printed.\n\n")
+            console.print(table)
+            console.print("\n[green]Completed Branch results.[/green]\n")
         else:
-            print(f"NO BRANCH VULNERABILITIES")
+            print(f"[green]No Branch vulnerability detected![/green]")
 
     def save_and_print_results(self) -> None:
         """
