@@ -7,9 +7,8 @@ from Analyzer import Analyzer
 from utils import console
 
 def main():
-    parser = argparse.ArgumentParser(description='Parse an x86 assembly file and look for vulnerable patterns.')
-    parser.add_argument('file', metavar='filename', type=str, nargs=1, help='the target filename')
-    args = parser.parse_args()
+    parser = argparse.ArgumentParser(description='Parse an ARM or x86 assembly file and look for vulnerable patterns.')
+    parser.add_argument('file', metavar='assembly_file_path', type=str, nargs=1, help='the path to the target assembly file')
     
     # Display Banner
     console.print(Text("""
@@ -19,6 +18,8 @@ def main():
     |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
     |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
     """), style="blue")
+    
+    args = parser.parse_args()
     
     # Parse file
     with console.status("Parsing file...", spinner="line"):
