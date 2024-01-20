@@ -1,6 +1,8 @@
 from os import path
 from datetime import datetime
 from typing import List, Union
+from rich.table import Table
+from rich.console import Console
 
 from Parser import Instruction, Location, IntegerLiteral, Register
 from constants import pattern_list, trivial_values
@@ -110,31 +112,36 @@ class ConstantCoding():
 
 
 
-    def just_print_results(self) -> None:
+    def print_results(self, console: Console) -> None:
         """
         Just prints the results of the analysis.
         """
 
         if len(self.vulnerable_instructions) > 0:
             # Found Branch Vulnerability
-            print("CONSTANT CODING VULNERABILITY DETECTED")
-            print("Printing vulnerable lines...\n")
-
-            print("[Line #] [Opcode]\n")
+            console.print("[bright_red]VULNERABILITY DETECTED[/bright_red]\n")
+            table = Table(title="ConstantCoding Vulnerabilities")
+            
+            table.add_column(header="Line #", justify="center")
+            table.add_column(header="Instructions")
 
             for lines in self.vulnerable_instructions:
+                table.add_section()
                 for line in lines:
-                    print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
-                print("\n")
+                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
 
-            print(f"All vulnerable lines printed.\n\n")
+            console.print(table)
+            console.print("\n")
         else:
-            print(f"NO CONSTANT VULNERABILITIES FOUND")
+            console.print(f"[green]No ConstantCoding vulnerability detected![/green]")
     
-    def save_and_print_results(self) -> None:
+    def save_and_print_results(self, console: Console) -> None:
         """
         Prints the results of the analysis.
         """
+        # Call print
+        self.just_print_results(console)
+        
         # File Header
         header = f"Analyzed file: {self.filename}\n" 
         header += f"{datetime.now().ctime()}\n"
@@ -147,20 +154,13 @@ class ConstantCoding():
             
             if len(self.vulnerable_instructions) > 0:
                 # Found Branch Vulnerability
-                print("CONSTANT CODING VULNERABILITY DETECTED")
                 file.write("CONSTANT CODING VULNERABILITY DETECTED\n\n")
-                print("Printing vulnerable lines...\n")
                 
-                print("[Line #] [Opcode]\n")
                 file.write("[Line #] [Opcode]\n")
                 
                 for line in self.vulnerable_instructions:
-                    print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
                     file.write(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}\n")
-                print("\n")
                 file.write("\n")
                     
-                print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"NO CONSTANT VULNERABILITIES FOUND")
                 file.write(f"SECURED FILE - NO BRANCH VULNERABILITIES")

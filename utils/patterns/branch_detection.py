@@ -103,14 +103,13 @@ class BranchV2():
         self.vulnerable_instructions.append(self.current_vulnerable.copy())
         self.current_vulnerable.clear()
 
-    def just_print_results(self, console: Console) -> None:
+    def print_results(self, console: Console) -> None:
         """
         Prints the results of the analysis.
         """
         if self.is_vulnerable:
             # Found Branch Vulnerability
             console.print("[bright_red]VULNERABILITY DETECTED[/bright_red]\n")
-            # print("Printing vulnerable lines...\n")
 
             # Build Table
             table = Table(title="Branch Vulnerabilities")
@@ -122,18 +121,19 @@ class BranchV2():
                 table.add_section()
                 for line in vulns:
                     table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
-                    # print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
-                # print("\n")
 
             console.print(table)
-            console.print("\n[green]Completed Branch results.[/green]\n")
+            console.print("\n")
         else:
-            print(f"[green]No Branch vulnerability detected![/green]")
+            console.print(f"[green]No Branch vulnerability detected![/green]")
 
-    def save_and_print_results(self) -> None:
+    def save_and_print_results(self, console: Console) -> None:
         """
         Prints the results of the analysis.
         """
+        # Call Print
+        self.print_results(console)
+        
         # File Header
         header = f"Analyzed file: {self.filename}\n" 
         header += f"{datetime.now().ctime()}\n"
@@ -146,23 +146,16 @@ class BranchV2():
             
             if self.is_vulnerable:
                 # Found Branch Vulnerability
-                print("BRANCH-V2 VULNERABILITY DETECTED")
                 file.write("BRANCH-V2 VULNERABILITY DETECTED\n\n")
-                print("Printing vulnerable lines...\n")
                 
-                print("[Line #] [Opcode]\n")
                 file.write("[Line #] [Opcode]\n")
                 
                 for vulns in self.vulnerable_instructions:
                     for line in vulns:
-                        print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
                         file.write(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}\n")
-                    print("\n")
                     file.write("\n")
                     
-                print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"NO BRANCH VULNERABILITIES")
                 file.write(f"SECURED FILE - NO BRANCH VULNERABILITIES")
 
 # ! LEGACY VERSION

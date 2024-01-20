@@ -59,9 +59,9 @@ class Analyzer():
                 
                 
 
-    def just_print_analysis_results(self, console: Console) -> None:
+    def print_analysis_results(self, console: Console) -> None:
         """
-        Just prints important details.
+        Prints important details.
         """
         # remove directory if exists since we are only printing results
         if os.path.isdir(directory_name):
@@ -70,15 +70,13 @@ class Analyzer():
         console.print(f"Printing Results:\n")
 
         console.print(f"[Pattern] [bright_yellow]Branch-V2[/bright_yellow]\n")
-        self.branchV2_detector.just_print_results(console)
+        self.branchV2_detector.print_results(console)
         
-        return
-
-        console.print(f"[Pattern] [bright_yellow]ConstantCoding[/bright_yellow]")
-        self.constant_detector.just_print_results()
+        console.print(f"[Pattern] [bright_yellow]ConstantCoding[/bright_yellow]\n")
+        self.constant_detector.print_results(console)
         
-        console.print(f"[Pattern] [bright_yellow]LoopCheck[/bright_yellow]")
-        self.loop_detector.just_print_results()
+        console.print(f"[Pattern] [bright_yellow]LoopCheck[/bright_yellow]\n")
+        self.loop_detector.print_results(console)
 
     def save_and_print_analysis_results(self, console: Console) -> None:
         """
@@ -87,15 +85,15 @@ class Analyzer():
         console.print(f"Saving Results...\n\n")
         
         console.print(f"Saving Branch-V2...")
-        self.branchV2_detector.save_and_print_results()
+        self.branchV2_detector.save_and_print_results(console)
         console.print(f"Saved")
         
         console.print(f"Saving ConstantCoding...")
-        self.constant_detector.save_and_print_results()
+        self.constant_detector.save_and_print_results(console)
         console.print(f"Saved")
 
         console.print(f"Saving LoopCheck...")
-        self.loop_detector.save_and_print_results()
+        self.loop_detector.save_and_print_results(console)
         console.print(f"Saved")
 
     def print_total_vulnerable_lines(self, console: Console) -> None:
