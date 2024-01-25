@@ -15,7 +15,7 @@
 
 ## Introduction
 
-This document explains the Python code for parsing an x86 assembly file and detecting its architecture.
+This document explains the Python code for parsing an assembly file and detecting its architecture.
 
 ## Architecture Detection
 

@@ -7,83 +7,59 @@
     - [Requirements](#requirements)
     - [Compiling](#compiling)
   - [Patterns](#patterns)
-    - [Fault.BRANCH](#faultbranch)
-      - [Insecure Example](#insecure-example)
-      - [Secure Example](#secure-example)
-      - [Implementation](#implementation)
   - [Structure](#structure)
     - [main.py](#mainpy)
     - [Parser.py](#parserpy)
     - [Analysis.py](#analysispy)
-      - [Branch Class](#branch-class)
       - [Analyzer Class](#analyzer-class)
       - [Utility](#utility)
 
 ## Project Introduction
 
-FaultHunter_ASM is a tool created to automatically detect fault injection vulnerabilities within x86 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
+FaultHunter_ASM is a tool created to automatically detect fault injection vulnerabilities within ARM and x86 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
 
 ### Usage
 
 ```bash
-python3 main.py [target file]
+python3 main.py [target_assembly_file]
 ```
 
 ## Generating sample files
 
 ### Requirements
 
-In order to generate sample files, a C compiler is needed. In the case of this project, `CC 11.3.0` or `>` should work fine:
+In order to generate sample files, a C compiler is needed. In the case of this project, we use `gcc-arm-none-eabi-10.3-2021.10`:
 
 ```terminal
-cc (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0
-Copyright (C) 2021 Free Software Foundation, Inc.
+arm-none-eabi-gcc (15:9-2019-q4-0ubuntu1) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]
+Copyright (C) 2019 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```
 
+> For more information about compilers, please see `/docs/developer_notes/architecture_and_compilers.md`.
+
 ### Compiling
 
-If a compiler is already present, then create a high-level example of the vulnerability pattern in question. Meaning, create a new C file and write a simple example of the pattern there. Once completed, compile the file in the following manner:
+Once a compiler is present, compile the file in the following manner:
 
 ```bash
-cc -S filename.c -o assembly_filename.s
+arm-none-eabi-gcc -S filename.c -o assembly_filename.s
 ```
 
-Which should then generate an assembly (`.s`) file to use with `Parser.py`.
+Which should then generate an assembly (`.s`) file to use with our tool.
+
+> To create a high-level example of the vulnerability pattern. please see `/docs/developer_notes/add_patterns.md`.
 
 ## Patterns
 
-### Fault.BRANCH
+For information regarding the currently supported patterns, please look at `/docs/pattern_documentation`.
 
-The first vulnerability to automatically detect is `FAULT.BRANCH`. This involves the usage of trivial values for boolean operations within critical conditional statements.
+We currently support the following patterns:
+- Branch
+- ConstantCoding
+- LoopCheck
 
-#### Insecure Example
-
-The vulnerable pattern identified is the following:
-
-```asm
-movl $1, -4(%rbp)
-cmpl $1, -4(%rbp)
-jne .L2
-```
-
-Where `%rbp` is the stack pointer. Since this trivial value is an integer, a subtraction of 4 bytes is necessary to store the integer type. Hence, `$1` is moved to the top of the stack.
-For an attacker, it is easier to manipulated the trivial value 1 to bypass a critical condition.
-
-#### Secure Example
-
-A secured pattern would contain a non-trivial value:
-
-```asm
-movl $15525, -4(%rbp)
-cmpl $15525, -4(%rbp)
-jne .L2
-```
-
-#### Implementation
-
-In progress...
 
 ## Structure
 
@@ -91,11 +67,11 @@ FaultHunter_ASM (currently) is separated between two modules: `Parser.py` and `A
 
 ### main.py
 
-The entrypoint to the program. `main.py` serves as a central location to utilize both modules.
+The entrypoint to the program, `main.py`, serves as a central location to utilize both modules. All we do in this file is import the modules and utilize them.
 
 ### Parser.py
 
-Main parsing module. Intended to parse 32-bit x86 assembly code. It combs through the source code and creates objects depending on what it encounters. Once the source code is transformed into a list of objects, it can be more easily worked with to discover patterns. It uses Python’s type hints to be more transparent.
+Main parsing module. Intended to parse assembly code. It combs through the source code and creates objects depending on what it encounters. Once the source code is transformed into a list of objects, it can be more easily worked with to discover patterns. It uses Python’s type hints to be more transparent.
 
 `Locations` are spots in the code that can be referenced and jumped to. Example: .LC0 and main.
 
@@ -113,54 +89,35 @@ There are certain features that need to be added such as parsing memory location
 
 Performs static analysis on a program's instructions to detect fault injection vulnerabilities.
 
-As of today's writing (06/19/2023), there are only two classes:
-
-- Branch
-- Analyzer
-
-Planned Updates/Additions:
-
-- Constant
-- DefaultFail
-- TBD
-
-#### Branch Class
-
-The `Branch` class represents a branch object used for branch analysis. It contains the following attributes:
-
-- `trivial_values`: A list of trivial integer values that are considered vulnerable.
-- `pattern`: A list of patterns to match instructions. The patterns are used to identify vulnerable branches.
-- `vulnerable_instructions`: A list of vulnerable instructions found during analysis.
-- `current_vulnerable`: A list of instructions currently identified as vulnerable.
-- `is_vulnerable`: A boolean flag indicating whether a branch vulnerability is detected.
-
-The `Branch` class provides the following methods:
-
-- `branch_analysis(line)`: Analyzes the given instruction line for branch vulnerability.
-- `strip_line(line)`: Strips the given instruction line for vulnerabilities.
-- `contains_trivial_numeric_value(value)`: Checks if the given value is a trivial numeric value.
-- `update_vulnerable_instructions()`: Updates the list of vulnerable instructions with the current vulnerable instructions.
-
 #### Analyzer Class
 
-The `Analyzer` class performs static analysis on a program's instructions using the `Branch` class. It has the following attributes:
+The `Analyzer` class performs static analysis on a program's instructions using the different pattern classes. It has the following attributes:
 
+- `filename`: The name of the file being analyzed.
 - `parsed_data`: The parsed data object containing the program instructions.
-- `branch_detector`: An instance of the `Branch` class used for branch analysis.
+- `totla_lines`: The amount of lines in the assembly file.
+- `out_directory`: A path to output analysis results.
+- `X_detector`: An instance of the respective `X` pattern class used for pattern analysis.
 
 The `Analyzer` class provides the following methods:
 
+- `create_directory`: Creates a directory with the current timestamp.
 - `static_analysis()`: Performs static analysis on the program instructions.
-- `print_analysis_results()`: Prints the analysis results.
+- `just_print_analysis_results()`: Prints the analysis results.
+- `save_and_print_analysis_results`: Saves and prints the analysis results.
+- `print_total_vulnerable_lines`: Prints the total number of vulnerable lines found.
+- `get_total_vulnerable_lines`: Returns the number of vulnerable lines for all patterns in the current file.
 
 #### Utility
 
 To use the Branch Vulnerability Analyzer, follow these steps:
 
-1. Instantiate a `Parser` object and pass the parsed program instructions to the `Analyzer` constructor.
-2. Call the `static_analysis()` method of the `Analyzer` object to perform static analysis on the program instructions.
-3. Call the `print_analysis_results()` method of the `Analyzer` object to print the analysis results.
+1. Instantiate a `Parser` object and pass the provided assembly file.
+2. Pass the output from `Parser` to the `Analyzer` constructor.
+3. Call the `static_analysis()` method of the `Analyzer` object to perform static analysis on the program.
+4. Call one of the `print_analysis_results()` method of the `Analyzer` object to print the analysis results.
 
-If any branch vulnerabilities are detected, the program will display the vulnerable lines of code.
-
-Note: The provided code assumes the existence of other classes (`Instruction`, `Location`, and `Parser`) which are not included in the code snippet. Make sure to define or import these classes before using the Branch Vulnerability Analyzer.
+If any vulnerabilities are detected, the program will display:
+- Line number
+- Instruction
+- Pattern
