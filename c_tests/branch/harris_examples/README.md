@@ -1,4 +1,4 @@
-# New Patterns Found x86
+# New Patterns Found
 
 ## Using function arguments/parameters (registers) for comparison of trivial values
 

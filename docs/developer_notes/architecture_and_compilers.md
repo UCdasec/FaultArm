@@ -30,7 +30,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 ## Architectures
 
-With `gcc` as our compiler of choice, all of the generated assembly files will remain compiled/written as `x86` assembly. We can start cross-compiling C files utilizing `arm-linux-gnueabi-gcc`, a popular GNU C compiler.
+With `gcc` as our compiler of choice, all of the generated assembly files will remain compiled/written as `x86` assembly. We can start cross-compiling C files utilizing `arm-none-eabi-gcc`.
 
 ## Cross-compiling
 
@@ -39,7 +39,7 @@ In order to compile the dataset, scripts will be provided in order to have both 
 ### ARM
 
 ```bash
-arm-linux-gnueabi-gcc -S -o filename.s /path/to/filename.c
+arm-none-eabi-gcc -S -o filename.s /path/to/filename.c
 ```
 
 ### x86
