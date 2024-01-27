@@ -123,7 +123,7 @@ class BranchV2():
 
     def save_and_print_results(self) -> None:
         """
-        Prints the results of the analysis.
+        Prints the results of the analysis and stores to a file.
         """
         # File Header
         header = f"Analyzed file: {self.filename}\n" 
