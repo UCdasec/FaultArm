@@ -119,7 +119,7 @@ class BranchV2():
 
             print(f"All vulnerable lines printed.\n\n")
         else:
-            print(f"NO BRANCH VULNERABILITIES")
+            print(f"NO BRANCH VULNERABILITIES\n")
 
     def save_and_print_results(self) -> None:
         """
@@ -153,7 +153,7 @@ class BranchV2():
                     
                 print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"NO BRANCH VULNERABILITIES")
+                print(f"NO BRANCH VULNERABILITIES\n")
                 file.write(f"SECURED FILE - NO BRANCH VULNERABILITIES")
 
 # ! LEGACY VERSION

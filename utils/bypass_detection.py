@@ -3,7 +3,8 @@ from typing import List
 from datetime import datetime
 from os import path
 
-from Parser import Instruction, Location, IntegerLiteral, Register
+from Parser import Instruction
+
 from constants import pattern_list
 
 class Bypass():
@@ -32,8 +33,8 @@ class Bypass():
         pattern_insecure (List[str]) : A list of instructions that are considered insecure w.r.t. bypass.        
         '''
         self.current_state = self.DetectionState.NO_PATTERN
-        self.vulnerable_set = List[List[Instruction]] = []
-        self.line_set = List[Instruction] = []
+        self.vulnerable_set: List[List[Instruction]] = []
+        self.line_set: List[Instruction] = []
         self.pattern_secure = pattern_list[architecture]["bypass"][0]
         self.pattern_insecure = pattern_list[architecture]["bypass"][1]
 
@@ -132,7 +133,7 @@ class Bypass():
 
             print(f"All vulnerable lines printed.\n\n")
         else:
-            print(f"NO BYPASS VULNERABILITIES FOUND")
+            print(f"NO BYPASS VULNERABILITIES FOUND\n")
 
     def save_and_print_results(self) -> None:
         '''
@@ -166,9 +167,5 @@ class Bypass():
 
                 print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"NO BYPASS VULNERABILITIES FOUND")
+                print(f"NO BYPASS VULNERABILITIES FOUND\n")
                 file.write(f"SECURED FILE - NO BYPASS VULNERABILITIES")
-
-
-
-

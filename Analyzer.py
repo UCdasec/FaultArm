@@ -109,9 +109,14 @@ class Analyzer():
         self.loop_detector.save_and_print_results()
         print(f"Saved")
 
+        print(f"Saving Bypass...")
+        self.bypass_detector.save_and_print_results()
+        print(f"Saved")
+
     def print_total_vulnerable_lines(self) -> None:
         # total number of vulnerable lines
-        total_vulnerable_lines = len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions) + len(self.loop_detector.vulnerable_instructions)
+        total_vulnerable_lines = (len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
+                                  + len(self.loop_detector.vulnerable_instructions) + len(self.bypass_detector.vulnerable_set))
         print(f"Total number of vulnerable lines: {total_vulnerable_lines}")
 
         # total number of branch faults
@@ -131,4 +136,5 @@ class Analyzer():
         print(f"\tTotal number of Bypass vulnerabilities: {total_bypass_faults}")
 
     def get_total_vulnerable_lines(self) -> int:
-        return len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions) + len(self.loop_detector.vulnerable_instructions)
+        return (len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
+                + len(self.loop_detector.vulnerable_instructions) + len(self.bypass_detector.vulnerable_set))

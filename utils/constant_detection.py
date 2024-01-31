@@ -129,7 +129,7 @@ class ConstantCoding():
 
             print(f"All vulnerable lines printed.\n\n")
         else:
-            print(f"NO CONSTANT VULNERABILITIES FOUND")
+            print(f"NO CONSTANT VULNERABILITIES FOUND\n")
     
     def save_and_print_results(self) -> None:
         """
@@ -162,5 +162,5 @@ class ConstantCoding():
                     
                 print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"NO CONSTANT VULNERABILITIES FOUND")
+                print(f"NO CONSTANT VULNERABILITIES FOUND\n")
                 file.write(f"SECURED FILE - NO BRANCH VULNERABILITIES")

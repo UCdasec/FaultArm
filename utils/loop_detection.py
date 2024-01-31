@@ -179,7 +179,7 @@ class LoopCheck():
 
             print(f"All vulnerable lines printed.\n\n")
         else:
-            print(f"NO LOOP_CHECK VULNERABILITIES")
+            print(f"NO LOOP_CHECK VULNERABILITIES\n")
 
     def save_and_print_results(self) -> None:
         """
@@ -213,7 +213,7 @@ class LoopCheck():
                     
                 print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"NO LOOP_CHECK VULNERABILITIES")
+                print(f"NO LOOP_CHECK VULNERABILITIES\n")
                 file.write(f"SECURED FILE - NO LOOP_CHECK VULNERABILITIES")
 
         
