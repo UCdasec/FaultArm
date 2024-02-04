@@ -4,7 +4,7 @@ from os import makedirs, path, rmdir
 from rich.console import Console
 
 from Parser import Parser, Instruction, Location
-from utils import BranchV2, ConstantCoding, LoopCheck
+from utils import BranchV2, ConstantCoding, LoopCheck, Bypass
 
 
 timestamp = datetime.now()
@@ -26,6 +26,7 @@ class Analyzer():
         self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.constant_detector = ConstantCoding(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.loop_detector = LoopCheck(filename, parsed_data.arch.name, total_lines, directory_name)
+        self.bypass_detector = Bypass(filename, parsed_data.arch.name, total_lines, directory_name)
         if self.create_directory(console):
             self.static_analysis()
         
@@ -53,6 +54,7 @@ class Analyzer():
                 self.branchV2_detector.analysis(line)
                 self.constant_detector.analysis(line)
                 self.loop_detector.analysis(line)
+                self.bypass_detector.analysis(line)
             elif type(line) == Location:
                 self.constant_detector.analysis(line)
                 self.loop_detector.analysis(line)
@@ -78,6 +80,9 @@ class Analyzer():
         console.print(f"[Pattern] [bright_yellow]LoopCheck[/bright_yellow]\n")
         self.loop_detector.print_results(console)
 
+        console.print(f"[Pattern] [bright_yellow]Bypass[/bright_yellow]\n")
+        self.bypass_detector.just_print_results()
+
     def save_and_print_analysis_results(self, console: Console) -> None:
         """
         Saves results and prints important details.
@@ -96,10 +101,15 @@ class Analyzer():
         self.loop_detector.save_and_print_results(console)
         console.print(f"Saved")
 
+        console.print(f"Saving Bypass...")
+        self.bypass_detector.save_and_print_results()
+        console.print(f"Saved")
+
     def print_total_vulnerable_lines(self, console: Console) -> None:
         # total number of vulnerable lines
-        total_vulnerable_lines = len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
-        console.print(f"Total number of vulnerable lines: {total_vulnerable_lines}")
+        total_vulnerable_lines = (len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
+                                  + len(self.loop_detector.vulnerable_instructions) + len(self.bypass_detector.vulnerable_set))
+        print(f"Total number of vulnerable lines: {total_vulnerable_lines}")
 
         # total number of branch faults
         total_branch_faults = len(self.branchV2_detector.vulnerable_instructions)
@@ -113,5 +123,10 @@ class Analyzer():
         total_loop_faults = len(self.loop_detector.vulnerable_instructions)
         console.print(f"\tTotal number of Loop Check vulnerabilities: {total_loop_faults}")
 
+        # total number of bypass faults
+        total_bypass_faults = len(self.bypass_detector.vulnerable_set)
+        print(f"\tTotal number of Bypass vulnerabilities: {total_bypass_faults}")
+
     def get_total_vulnerable_lines(self) -> int:
-        return len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions) + len(self.loop_detector.vulnerable_instructions)
+        return (len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
+                + len(self.loop_detector.vulnerable_instructions) + len(self.bypass_detector.vulnerable_set))

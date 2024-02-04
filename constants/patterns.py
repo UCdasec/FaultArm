@@ -13,6 +13,7 @@ pattern_list = {
         # ! MOV is repeated here to maintain structure integrity.
         "constant_coding": ['mov', 'mvn', 'movgt', 'movle', 'moveq', 'movne', '.short', '.word'],
         "loop_check": [['ldr', 'ldrb'], 'cmp', 'b'],
+        "bypass": [['bl', 'str', 'ldr', 'cmp', 'beq'],['bl', 'mov', 'cmp', 'beq']]
     }
 }
 

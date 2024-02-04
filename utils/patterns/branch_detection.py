@@ -129,7 +129,7 @@ class BranchV2():
 
     def save_and_print_results(self, console: Console) -> None:
         """
-        Prints the results of the analysis.
+        Prints the results of the analysis and stores to a file.
         """
         # Call Print
         self.print_results(console)
