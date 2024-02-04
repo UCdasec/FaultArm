@@ -81,7 +81,7 @@ class Analyzer():
         self.loop_detector.print_results(console)
 
         console.print(f"[Pattern] [bright_yellow]Bypass[/bright_yellow]\n")
-        self.bypass_detector.just_print_results()
+        self.bypass_detector.print_results(console)
 
     def save_and_print_analysis_results(self, console: Console) -> None:
         """
@@ -102,7 +102,7 @@ class Analyzer():
         console.print(f"Saved")
 
         console.print(f"Saving Bypass...")
-        self.bypass_detector.save_and_print_results()
+        self.bypass_detector.save_and_print_results(console)
         console.print(f"Saved")
 
     def print_total_vulnerable_lines(self, console: Console) -> None:
