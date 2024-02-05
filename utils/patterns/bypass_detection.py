@@ -2,6 +2,8 @@ from enum import Enum
 from typing import List
 from datetime import datetime
 from os import path
+from rich.table import Table
+from rich.console import Console
 
 from Parser import Instruction
 
@@ -116,29 +118,38 @@ class Bypass():
                 self.current_state = self.DetectionState.NO_PATTERN
                 self.line_set.clear()
 
-    def just_print_results(self) -> None:
+    def print_results(self, console: Console) -> None:
         '''
         Prints the results of the Bypass analysis.
         '''
         if len(self.vulnerable_set) > 0:
-            print(f"BYPASS VULNERABILITY DETECTED")
-            print("Printing vulnerable lines...\n")
+            console.print("[bright_red]VULNERABILITY DETECTED[/bright_red]\n")
 
-            print("[Line #] [Opcode]\n")
+            # Build Table
+            table = Table(title="Bypass Vulnerabilities")
+
+            table.add_column(header="Line #", justify="center")
+            table.add_column(header="Instructions")
 
             for set in self.vulnerable_set:
+                table.add_section()
                 for line in set:
-                    print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
-                print("\n")
+                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
+
+            console.print(table)
+            console.print("\n")
 
             print(f"All vulnerable lines printed.\n\n")
         else:
-            print(f"NO BYPASS VULNERABILITIES FOUND\n")
+            console.print(f"[green]No Bypass vulnerability detected![/green]")
 
-    def save_and_print_results(self) -> None:
+    def save_and_print_results(self, console: Console) -> None:
         '''
         Saves the results of the Bypass analysis and prints the results.
         '''
+        # Call Print
+        self.print_results(console)
+
         # File Header
         header = f"Analyzed file: {self.filename}\n"
         header += f"{datetime.now().ctime()}\n"
@@ -151,21 +162,14 @@ class Bypass():
 
             if len(self.vulnerable_set) > 0:
                 # Found Branch Vulnerability
-                print("BYPASS VULNERABILITY DETECTED")
                 file.write("BYPASS VULNERABILITY DETECTED\n\n")
-                print("Printing vulnerable lines...\n")
 
-                print("[Line #] [Opcode]\n")
                 file.write("[Line #] [Opcode]\n")
 
                 for set in self.vulnerable_set:
                     for line in set:
-                        print(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
                         file.write(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}\n")
-                    print("\n")
                     file.write("\n")
 
-                print(f"All vulnerable lines printed.\n\n")
             else:
-                print(f"NO BYPASS VULNERABILITIES FOUND\n")
                 file.write(f"SECURED FILE - NO BYPASS VULNERABILITIES")
