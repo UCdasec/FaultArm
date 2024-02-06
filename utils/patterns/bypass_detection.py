@@ -126,8 +126,8 @@ class Bypass():
             console.print("[bright_red]VULNERABILITY DETECTED[/bright_red]\n")
 
             # Build Table
-            table = Table(title="Branch Vulnerabilities")
-            
+            table = Table(title="Bypass Vulnerabilities")
+
             table.add_column(header="Line #", justify="center")
             table.add_column(header="Instructions")
 
@@ -135,7 +135,7 @@ class Bypass():
                 table.add_section()
                 for line in set:
                     table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
-            
+
             console.print(table)
             console.print("\n")
 
@@ -149,7 +149,7 @@ class Bypass():
         '''
         # Call Print
         self.print_results(console)
-        
+
         # File Header
         header = f"Analyzed file: {self.filename}\n"
         header += f"{datetime.now().ctime()}\n"
