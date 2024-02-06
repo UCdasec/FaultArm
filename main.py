@@ -25,8 +25,8 @@ def main():
     with console.status("Parsing file...", spinner="line"):
         try:
             parsed_data = Parser(args.file[0], console)
-        except FileNotFoundError:
-            console.print(f"Error: File {args.file[0]} not found.", style="bold red")
+        except (FileNotFoundError, IsADirectoryError):
+            console.print(f"[bright_red]Error: File {args.file[0]} not found or not valid.[/bright_red]")
             exit(1)
 
     console.log(f"Architecture Detected: [bright_yellow]{parsed_data.arch.name}[/bright_yellow]\n")
@@ -40,7 +40,7 @@ def main():
     analyzed_data.print_analysis_results(console)
 
     # Add total lines analyzed, total vulnerable lines, lines for each vulnerability.
-    #printing analytical results
+    # Printing analytical results
     console.print(f"\nTotal lines analyzed: {parsed_data.total_lines}\n")
     analyzed_data.print_total_vulnerable_lines(console)
     console.print(f"\nPercentage of lines vulnerable: {round(float(analyzed_data.get_total_vulnerable_lines()/parsed_data.total_lines)*100,2)}%")
