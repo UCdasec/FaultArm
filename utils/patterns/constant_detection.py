@@ -140,7 +140,7 @@ class ConstantCoding():
         Prints the results of the analysis.
         """
         # Call print
-        self.just_print_results(console)
+        self.print_results(console)
         
         # File Header
         header = f"Analyzed file: {self.filename}\n" 
