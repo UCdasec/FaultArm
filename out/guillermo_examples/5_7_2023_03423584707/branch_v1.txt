@@ -1,8 +1,0 @@
-Analyzed file: c_tests/guillermo_examples/asm/complex_secure.s
-Wed Jul  5 00:34:23 2023
-Lines Analyzed: 94
-Vulnerable Lines: 0
-
-BranchV1 Results:
-
-SECURED FILE - NO BRANCH VULNERABILITIES

@@ -1,8 +1,0 @@
-Analyzed file: c_tests/harris_examples/asm/simple_secure.s
-Wed Jul  5 00:38:56 2023
-Lines Analyzed: 68
-Vulnerable Lines: 0
-
-BranchV1 Results:
-
-SECURED FILE - NO BRANCH VULNERABILITIES

@@ -1,8 +1,0 @@
-Analyzed file: c_tests/harris_examples/asm/secure_struct_example.s
-Wed Jul  5 00:48:16 2023
-Lines Analyzed: 88
-Vulnerable Lines: 0
-
-BranchV2 Results:
-
-SECURED FILE - NO BRANCH VULNERABILITIES
