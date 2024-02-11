@@ -1,6 +1,8 @@
 import re
 from rich.console import Console
 
+from constants import optimization_levels
+
 class Register():
     def __init__(self, name: str):
         self.name: str = name
@@ -147,9 +149,6 @@ class Architecture():
                         self.architecture_found("x86")
                         self.instruction = instruction
                         return
-                        
-            
-            
 
 class Parser:
     def __init__(self, file: str, console: Console):
@@ -158,6 +157,7 @@ class Parser:
         self.total_lines: int = 0
         
         self.arch = Architecture(line=None, instruction=None)
+        self.opt : str
         
         self.parseFile(console)
 
@@ -174,6 +174,8 @@ class Parser:
     def isolateSections(self, lines: list[str]):
         program = []
         line_number = 1
+
+        global attribute_1, attribute_2 # For determining optimization level
         for line in lines:
             s = line.strip()
             # Line is a location 
@@ -192,11 +194,21 @@ class Parser:
             # Identity of compiler, everything from this point is metadata
             elif s.startswith(".ident"):
                 break
+            # if line starts with .eabi_attribute 30, we get 1st attribute for optimization level
+            elif s.startswith(".eabi_attribute 30"):
+                attribute_1 = self.get_eabi_attribute(s)
+            # if line starts with .eabi_attribute 23, we get 2nd attribute for optimization level
+            elif s.startswith(".eabi_attribute 23"):
+                attribute_2 = self.get_eabi_attribute(s)
             # Line is an instruction
             else:
                 program.append(self.parseArguments(s, line_number))
-            
             line_number += 1
+
+        # if we successfully received both attributes, we can assign an optimization level to the program
+        if attribute_1 and attribute_2:
+            self.opt = optimization_levels[(attribute_1, attribute_2)]
+
         self.program = program
         self.total_lines = line_number
 
@@ -253,3 +265,13 @@ class Parser:
             return True
         else:
             return False
+
+    def get_eabi_attribute(self, s: str):
+        tag_pattern = r'eabi_attribute (\d+), (\d+)'
+        tag_match = re.search(tag_pattern, s)
+        if tag_match:
+            tag_value = int(tag_match.group(1))
+            if tag_value in [30, 23]:
+                return int(tag_match.group(2))
+        else:
+            return None

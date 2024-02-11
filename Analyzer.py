@@ -6,7 +6,6 @@ from rich.console import Console
 from Parser import Parser, Instruction, Location
 from utils import BranchV2, ConstantCoding, LoopCheck, Bypass
 
-
 timestamp = datetime.now()
 directory_name = f"./out/analysis_{timestamp.day}_{timestamp.month}_{timestamp.year}_{timestamp.hour}{timestamp.minute}{timestamp.second}{str(timestamp.microsecond)[:3]}"
 
@@ -26,7 +25,7 @@ class Analyzer():
         self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.constant_detector = ConstantCoding(filename, parsed_data.arch.name, total_lines, directory_name, sensitivity=4)
         self.loop_detector = LoopCheck(filename, parsed_data.arch.name, total_lines, directory_name)
-        self.bypass_detector = Bypass(filename, parsed_data.arch.name, total_lines, directory_name)
+        self.bypass_detector = Bypass(filename, parsed_data.arch.name, parsed_data.opt, total_lines, directory_name)
         if self.create_directory(console):
             self.static_analysis()
         
@@ -47,7 +46,8 @@ class Analyzer():
         
     def static_analysis(self) -> None:
         """
-        Performs static analysis on the program instructions.
+        Performs static analysis on the program instructions.expected that in the future, support wlll be extended to other optimization levels as well.
+
         """
         for line in self.parsed_data.program:
             if type(line) == Instruction:
@@ -125,7 +125,7 @@ class Analyzer():
 
         # total number of bypass faults
         total_bypass_faults = len(self.bypass_detector.vulnerable_set)
-        print(f"\tTotal number of Bypass vulnerabilities: {total_bypass_faults}")
+        console.print(f"\tTotal number of Bypass vulnerabilities: {total_bypass_faults}")
 
     def get_total_vulnerable_lines(self) -> int:
         return (len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)

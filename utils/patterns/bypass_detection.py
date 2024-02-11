@@ -9,21 +9,24 @@ from Parser import Instruction
 
 from constants import pattern_list
 
+
 class Bypass():
     # The following are the states that the Bypass object can be in depending on the current line of code being analyzed.
     class DetectionState(Enum):
-        NO_PATTERN = 0 # No pattern has been detected yet.
-        FUNCTION_CALL = 1 # Initial function call has been detected.
-        SECURE_REGISTER_STORE = 2 # Register store after function call
-        SECURE_REGISTER_LOAD = 3 # Register load after register store
-        SECURE_COMPARE = 4 # Compare statement after secure register load
-        INSECURE_MOVE = 5 # move statement after function call
-        INSECURE_COMPARE = 6 # compare statement after insecure move
-    def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str):
+        NO_PATTERN = 0  # No pattern has been detected yet.
+        FUNCTION_CALL = 1  # Initial function call has been detected.
+        SECURE_REGISTER_STORE = 2  # Register store after function call
+        SECURE_REGISTER_LOAD = 3  # Register load after register store
+        SECURE_COMPARE = 4  # Compare statement after secure register load
+        INSECURE_MOVE = 5  # move statement after function call
+        INSECURE_COMPARE = 6  # compare statement after insecure move
+
+    def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str):
         self.filename = filename
         self.total_lines = total_lines
         self.directory_name = directory_name
         self.architecture = architecture
+        self.optimization = optimization
         '''
         Represents the Bypass object used for fault.Bypass analysis/detection.
         
@@ -63,6 +66,10 @@ class Bypass():
             elif line.name in self.pattern_insecure[1]:
                 self.current_state = self.DetectionState.INSECURE_MOVE
                 self.line_set.append(line)
+            # in op1 and op2, the insecure pattern can do CMP directly after BL
+            elif line.name in self.pattern_insecure[2] and self.optimization in ['O1', 'O2']:
+                self.current_state = self.DetectionState.INSECURE_COMPARE
+                self.line_set.append(line)
             # out of pattern
             else:
                 self.current_state = self.DetectionState.NO_PATTERN
@@ -86,7 +93,7 @@ class Bypass():
                 self.current_state = self.DetectionState.NO_PATTERN
                 self.line_set.clear()
 
-        # to detect 'beq' instruction. If detected, the line set is secure; no need to add to vulnerable set.
+        # to detect 'beq/ble/bgt/moveq/movgt/movle' instruction. If detected, the line set is secure; no need to add to vulnerable set.
         elif self.current_state == self.DetectionState.SECURE_COMPARE:
             if line.name in self.pattern_secure[4]:
                 self.line_set.clear()
@@ -106,7 +113,7 @@ class Bypass():
                 self.current_state = self.DetectionState.NO_PATTERN
                 self.line_set.clear()
 
-        # to detect 'beq' instruction. If detected, The line set is insecure; add to vulnerable set.
+        # to detect 'beq/ble/bgt/moveq/movgt/movle' instruction. If detected, The line set is insecure; add to vulnerable set.
         elif self.current_state == self.DetectionState.INSECURE_COMPARE:
             if line.name in self.pattern_insecure[3]:
                 self.line_set.append(line)
@@ -134,7 +141,8 @@ class Bypass():
             for set in self.vulnerable_set:
                 table.add_section()
                 for line in set:
-                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
+                    table.add_row(f"{line.line_number}",
+                                  f"{line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
 
             console.print(table)
             console.print("\n")
@@ -168,7 +176,8 @@ class Bypass():
 
                 for set in self.vulnerable_set:
                     for line in set:
-                        file.write(f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}\n")
+                        file.write(
+                            f"{line.line_number} {line.name} {', '.join(str(arguments) for arguments in line.arguments)}\n")
                     file.write("\n")
 
             else:

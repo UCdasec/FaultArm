@@ -13,7 +13,8 @@ pattern_list = {
         # ! MOV is repeated here to maintain structure integrity.
         "constant_coding": ['mov', 'mvn', 'movgt', 'movle', 'moveq', 'movne', '.short', '.word'],
         "loop_check": [['ldr', 'ldrb'], 'cmp', 'b'],
-        "bypass": [['bl', 'str', 'ldr', 'cmp', ['beq', 'movne', 'moveq', 'movgt']],['bl', 'mov', 'cmp', ['beq', 'movne', 'moveq', 'movgt']]]
+        "bypass": [['bl', 'str', 'ldr', 'cmp', ['beq', 'bgt', 'ble', 'movne', 'moveq', 'movgt']],
+                   ['bl', 'mov', ['cmp', 'subs'], ['beq', 'bgt', 'ble', 'movne', 'moveq', 'movgt']]]
     }
 }
 
@@ -34,4 +35,12 @@ branch_opposites = {
         "bvc": "bvs",
         "bal": "bal"  # bal (always) doesn't really have an opposite
     }
+}
+
+optimization_levels = {
+    (6, 3): "O0",
+    (1, 3): "O1", # can also be Og
+    (2, 3): "O2",
+    (2, 1): "Ofast",
+    (4, 3): "Os"
 }
