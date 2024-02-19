@@ -8,11 +8,12 @@ from Parser import Instruction, Location, IntegerLiteral, Register
 from constants import pattern_list, trivial_values
 
 class ConstantCoding():
-    def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
+    def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
         self.filename = filename
         self.total_lines = total_lines
         self.directory_name = directory_name
         self.architecture = architecture
+        self.optimization = optimization
         
         # Pattern - Stack Storage
         # movl #, -#(%rsp)
@@ -25,22 +26,37 @@ class ConstantCoding():
         
         # Hamming weight sensitivity compared to zero
         self.sensitivity = sensitivity
-    
+
+    # TODO: Rewrite detection by phasing out x86
     def analysis(self, line: Union[Instruction, Location]) -> None:
+        """
+        This method analyzes a given line of code to detect potential vulnerabilities related to constant coding.
+
+        Parameters:
+        line (Union[Instruction, Location]): The line of code to be analyzed. It can be an Instruction or a Location.
+
+        Returns:
+        None
+        """
+
+        # The line of code that is currently being analyzed for vulnerabilities
         self.vulnerable_line: Union[Instruction, Location] = line
+        # A flag to indicate whether the current line of code is vulnerable or not
         self.is_vulnerable = False
-        
+
+        # If the line is an instruction and has more than one argument
         if type(line) == Instruction and len(line.arguments) > 1:
-            # if lineStack is a global variable, clear it
+            # If lineStack is not empty, clear it
             if len(self.lineStack) == 1 and type(self.lineStack[0]) == Location:
                 self.lineStack.clear()
 
+            # Iterate over the arguments of the instruction
             for arg in line.arguments:
                 # If it's any qualifying mov instruction
                 if line.name in self.pattern[0:6]:
-                    # If it's argument is an integer # | $
+                    # If it's argument is an integer
                     if type(arg) == IntegerLiteral:
-                        # Found numerical variable stored
+                        # Calculate hamming weight and compare to sensitivity declared or check if it's a trivial value
                         if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values:
                             # Vulnerable
                             # Only save here if arm. x86 saves on next if (checking if moving to stack)
@@ -55,28 +71,28 @@ class ConstantCoding():
                             # Save vulnerable line
                             self.vulnerable_instructions.append([self.vulnerable_line])
 
-                # in case we hit an str, we check if the previous line is a mov instruction with the same register and value of 0
+                # In case we hit an str, we check if the previous line is a mov instruction with the same register and value
                 elif (line.name in ['str', 'strh', 'strb']) and len(self.lineStack) >= 1 and type(self.lineStack[-1]) == Instruction:
                     if line.arguments[0].name == self.lineStack[-1].arguments[0].name:
-                        # if its not the very next line, check if location in between
+                        # If it's not the very next line, check if location in between
                         if self.vulnerable_line.line_number - self.lineStack[-1].line_number > 1:
-                            # if space of one line and that space is a location, we mark as potentially vulnerable
+                            # If space of one line and that space is a location, we mark as potentially vulnerable
                             if self.vulnerable_line.line_number - self.lineStack[-1].line_number == 2 and self.location_in_between:
                                 self.lineStack.append(line)
                                 self.vulnerable_instructions.append(self.lineStack.copy())
                                 self.lineStack.clear()
                                 self.location_in_between = False
 
-                            # else, not a valid constant detection
+                            # Else, not a valid constant detection
                             else:
                                 self.lineStack.clear()
-                        # else, potential vulnerable detection
+                        # Else, potential vulnerable detection
                         else:
                             self.lineStack.append(line)
                             self.vulnerable_instructions.append(self.lineStack.copy())
                             self.lineStack.clear()
 
-        # if it's a location, push to lineStack
+        # If it's a location, push to lineStack
         elif type(line) == Location:
             if len(self.lineStack) == 0:
                 self.lineStack.append(line)
@@ -87,25 +103,25 @@ class ConstantCoding():
                 elif line.line_number - self.lineStack[-1].line_number == 1:
                     self.location_in_between = True
 
-        # if it's a global variable, i.e., .value or .long
+        # If it's a global variable, i.e., .value or .long
         elif line.name in self.pattern[3:]:
             for arg in line.arguments:
-                # check if integer literal
+                # Check if integer literal
                 if type(arg) == IntegerLiteral:
                     if arg.hammingWeight() < self.sensitivity or arg.value in self.trivial_values:
                         # Vulnerable
-                        # if previous line was a location
+                        # If previous line was a location
                         if 1 <= len(self.lineStack) <= 2 and type(self.lineStack[0]) == Location:
                             if self.vulnerable_line.line_number - self.lineStack[0].line_number == 1:
                                 self.lineStack.append(self.vulnerable_line)
                             elif self.lineStack[-1].name in self.pattern[3:]:
                                 self.lineStack[-1] = self.vulnerable_line
                             self.vulnerable_instructions.append(self.lineStack.copy())
-                        # likely part of array
+                        # Likely part of array
                         else:
                             self.vulnerable_instructions.append([self.vulnerable_line])
 
-        # if lineStack is a global variable, clear it
+        # If lineStack is a global variable, clear it
         elif len(self.lineStack) == 2 and type(self.lineStack[0]) == Location:
             self.lineStack.clear()
             x = 5

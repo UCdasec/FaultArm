@@ -8,7 +8,7 @@ from Parser import Instruction, Location
 from constants import pattern_list, branch_opposites
 
 class LoopCheck():
-    def __init__(self, filename: str, architecture: str, total_lines: int, directory_name: str) -> None:
+    def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str) -> None:
         """
         Represents an object used for fault.LOOP analysis/detection.
 
@@ -31,6 +31,7 @@ class LoopCheck():
         self.total_lines = total_lines
         self.directory_name = directory_name
         self.architecture = architecture
+        self.optimization = optimization
         
     def analysis(self, line: Instruction | Location) -> None:
         """
@@ -77,10 +78,15 @@ class LoopCheck():
                     # self.strip_line(line) Don't worry about values yet. Just store the instruction
                 # If a CMP is found
                 elif line.name in self.pattern[1]:
-                    # If the pattern is currently ongoing
-                    if len(self.suspected_vulnerable) > 0:
+                    # If the pattern is currently ongoing or the optimization is O1/O2 (in which case, this would be the start)
+                    if len(self.suspected_vulnerable) > 0 or self.optimization in ["O1", "O2"]:
                         # If the pattern hasn't reached the end
                         if len(self.suspected_vulnerable) < 3:
+                            # If the list is already populated and the optimization if O1/O2
+                            if len(self.suspected_vulnerable) > 0 and self.optimization in ["O1", "O2"]:
+                                self.suspected_vulnerable.clear()
+                                self.expected_secured.clear()
+                                self.secured_pattern.clear()
                             # Append line
                             self.suspected_vulnerable.append(line)
                             self.expected_secured.append(line)
@@ -91,9 +97,14 @@ class LoopCheck():
                             if len(self.expected_secured) > 0:
                                 # Check if it matches the expected secured line
                                 if line.name == self.expected_secured[1].name:
-                                    if (line.arguments[0].name == self.expected_secured[1].arguments[0].name and
-                                            line.arguments[1].value == self.expected_secured[1].arguments[1].value):
-                                        self.secured_pattern.append(line)
+                                    if self.optimization == "O0":
+                                        if (line.arguments[0].name == self.expected_secured[1].arguments[0].name and
+                                                line.arguments[1].value == self.expected_secured[1].arguments[1].value):
+                                            self.secured_pattern.append(line)
+                                    elif self.optimization in ["O1", "O2"]:
+                                        if ([line.arguments[0].name, line.arguments[1].value] == [self.expected_secured[1].arguments[0].name, self.expected_secured[1].arguments[1].value] or
+                                                [line.arguments[0].name, line.arguments[1].value] == [self.expected_secured[1].arguments[1].name, self.expected_secured[1].arguments[0].value]):
+                                            self.secured_pattern.append(line)
                             # If expected_secure is empty, clear all.
                             else:
                                 self.suspected_vulnerable.clear()
@@ -105,7 +116,7 @@ class LoopCheck():
                     # Check if we reached the end of the insecured pattern
                     if len(self.suspected_vulnerable) >= 3:
                         # If end, check for secured list
-                        if len(self.secured_pattern) < 2 or len(self.secured_pattern) > 2:
+                        if len(self.secured_pattern) != 2 and self.optimization == "O0":
                             # Vulnerable
                             self.vulnerable_instructions.append(self.suspected_vulnerable.copy())
                             self.suspected_vulnerable.clear()
@@ -113,19 +124,27 @@ class LoopCheck():
                             self.secured_pattern.clear()
                             self.is_vulnerable = True
                         else:
-                            if line.name == self.expected_secured[2]:
+                            if line.name == self.expected_secured[2] and self.optimization == "O0":
                                 # Secured pattern complete. Not insecured, leave
                                 self.suspected_vulnerable.clear()
                                 self.expected_secured.clear()
                                 self.secured_pattern.clear() 
                             else:
-                                # Vulnerable
-                                self.vulnerable_instructions.append(self.suspected_vulnerable.copy())
-                                self.suspected_vulnerable.clear()
-                                self.expected_secured.clear()
-                                self.secured_pattern.clear()
-                                self.is_vulnerable = True 
-                    elif len(self.suspected_vulnerable) == 2:
+                                if line.name in self.pattern[2] and self.optimization in ["O1", "O2"]:
+                                    # Secured pattern complete. Not insecured, leave
+                                    self.suspected_vulnerable.clear()
+                                    self.expected_secured.clear()
+                                    self.secured_pattern.clear()
+                                else:
+                                    # Vulnerable
+                                    self.vulnerable_instructions.append(self.suspected_vulnerable.copy())
+                                    self.suspected_vulnerable.clear()
+                                    self.expected_secured.clear()
+                                    self.secured_pattern.clear()
+                                    self.is_vulnerable = True
+                    # If this condition passes, we are in the backwards branch that is expected in a loop
+                    elif ((len(self.suspected_vulnerable) == 2 and self.optimization == "O0")
+                          or (len(self.suspected_vulnerable) == 1 and self.optimization in ["O1", "O2"])):
                         # LAST of insecure pattern
                         # We need to check a few things, though
                         # More specifically, we need to check that this jump/branch is going backwards
@@ -143,12 +162,14 @@ class LoopCheck():
                 # Instruction not in pattern
                 else:
                     # check if pattern is on-going
-                    if len(self.suspected_vulnerable) > 0 and len(self.suspected_vulnerable) < 3:
+                    if ((len(self.suspected_vulnerable) > 0 and len(self.suspected_vulnerable) < 3 and self.optimization == "O0")
+                            or (len(self.suspected_vulnerable) < 2 and self.optimization in ["O1", "O2"])):
                         # clean
                         self.suspected_vulnerable.clear()
                         self.expected_secured.clear()
                         self.secured_pattern.clear()
-                    elif len(self.suspected_vulnerable) == 3:
+
+                    elif (len(self.suspected_vulnerable) == 3 and self.optimization == "O0") or (len(self.suspected_vulnerable) == 2 and self.optimization in ["O1", "O2"]):
                         # If this is reached, we were looking for secured patterns
                         
                         # TODO: ADD SENSITIVITY HERE
@@ -159,9 +180,6 @@ class LoopCheck():
                         self.expected_secured.clear()
                         self.secured_pattern.clear()
                         self.is_vulnerable = True
-        else:
-            # x86 code here...
-            print("TBD")
 
     def print_results(self, console: Console) -> None:
         """

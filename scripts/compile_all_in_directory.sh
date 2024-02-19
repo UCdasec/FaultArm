@@ -32,12 +32,12 @@ for file in "$source_dir"/*.c; do
     if [ -f "$file" ]; then
         filename=$(basename "$file")
         
-        if [ ! -d "$dest_dir/arm" ]; then
-            mkdir -p "$dest_dir/arm"
-        fi
+#        if [ ! -d "$dest_dir/arm" ]; then
+#            mkdir -p "$dest_dir/arm"
+#        fi
         
-        assembly_file="$dest_dir/arm/${filename%.c}.s"
-        
+#        assembly_file="$dest_dir/arm/${filename%.c}.s"
+        assembly_file="$dest_dir/${filename%.c}.s"
         # Compile to assembly using the selected compiler
         "arm-none-eabi-gcc" -S "$file" -o "$assembly_file" -"$optimization_level"
         
