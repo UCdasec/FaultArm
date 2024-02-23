@@ -187,7 +187,7 @@ class LoopCheck():
         """
         if self.is_vulnerable:
             # Found Branch Vulnerability
-            print("[bright_red]VULNERABILITY DETECTED[/bright_red]\n")
+            console.print("[bright_red]VULNERABILITY DETECTED[/bright_red]\n")
             table = Table(title="LoopCheck Vulnerabilities")
             
             table.add_column(header="Line #", justify="center")
