@@ -51,9 +51,10 @@ class BranchV2():
             if len(self.current_vulnerable) > 0:
                 self.strip_line(line)
         # or else line is vulnerable independently in O0
-        elif len(self.current_vulnerable) > 0 and self.optimization == 'O0':
+        elif len(self.current_vulnerable) > 0 and self.optimization in ['O0', 'O1']:
             self.update_vulnerable_instructions()
-        elif len(self.current_vulnerable) > 0 and self.optimization in ['O1','O2']:
+        # check if there is a random instruction in between the vulnerable code, we ignore it in O2 (current tolerance is 1 line)
+        elif len(self.current_vulnerable) > 0 and self.optimization == 'O2':
             if line.line_number - self.current_vulnerable[0].line_number == 1: self.is_between_relevant_code = True
             else:
                 self.is_between_relevant_code = False
