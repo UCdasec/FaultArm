@@ -83,7 +83,8 @@ class LoopCheck():
                         # If the pattern hasn't reached the end
                         if len(self.suspected_vulnerable) < 3:
                             # If the list is already populated and the optimization if O1/O2
-                            if len(self.suspected_vulnerable) > 0 and self.optimization in ["O1", "O2"]:
+                            if (len(self.suspected_vulnerable) > 0 and line.line_number - self.suspected_vulnerable[-1].line_number > 1
+                                    and self.optimization in ["O1", "O2"]):
                                 self.suspected_vulnerable.clear()
                                 self.expected_secured.clear()
                                 self.secured_pattern.clear()
@@ -144,7 +145,7 @@ class LoopCheck():
                                     self.is_vulnerable = True
                     # If this condition passes, we are in the backwards branch that is expected in a loop
                     elif ((len(self.suspected_vulnerable) == 2 and self.optimization == "O0")
-                          or (len(self.suspected_vulnerable) == 1 and self.optimization in ["O1", "O2"])):
+                          or (len(self.suspected_vulnerable) >= 1 and self.optimization in ["O1", "O2"])):
                         # LAST of insecure pattern
                         # We need to check a few things, though
                         # More specifically, we need to check that this jump/branch is going backwards
@@ -162,8 +163,7 @@ class LoopCheck():
                 # Instruction not in pattern
                 else:
                     # check if pattern is on-going
-                    if ((len(self.suspected_vulnerable) > 0 and len(self.suspected_vulnerable) < 3 and self.optimization == "O0")
-                            or (len(self.suspected_vulnerable) < 2 and self.optimization in ["O1", "O2"])):
+                    if (len(self.suspected_vulnerable) > 0 and len(self.suspected_vulnerable) < 3):
                         # clean
                         self.suspected_vulnerable.clear()
                         self.expected_secured.clear()
