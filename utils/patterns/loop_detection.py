@@ -4,7 +4,7 @@ from typing import List
 from rich.table import Table
 from rich.console import Console
 
-from Parser import Instruction, Location
+from Parser import Address, Instruction, Location
 from constants import pattern_list, branch_opposites
 
 class LoopCheck():
@@ -193,10 +193,19 @@ class LoopCheck():
             table.add_column(header="Line #", justify="center")
             table.add_column(header="Instructions")
 
+            line: Instruction
             for vulns in self.vulnerable_instructions:
                 table.add_section()
                 for line in vulns:
-                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                    arguments: List[str] = []
+                    for arg in line.arguments:
+                        # ! For address, anything surrounded with "[]", we need to add a backslash \ to escape the tag
+                        # This is mainly to let "Rich", the library we use to print tables,
+                        # To leave the content with brackets unprocessed, or not rendered.
+                        if type(arg) == Address:
+                            arguments.append(f"\{arg.value}")
+                        else: arguments.append(str(arg))
+                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(argument) for argument in arguments)}")
 
             console.print(table)
             console.print("\n")
