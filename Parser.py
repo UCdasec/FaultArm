@@ -67,7 +67,7 @@ class Instruction():
     def __init__(self, name: str, arguments: list[Register | IntegerLiteral | Location], line_number: int):
         self.name : str = name
         self.line_number: int = line_number
-        self.arguments : list[Register | IntegerLiteral | Location] = arguments
+        self.arguments : list[Register | Address | IntegerLiteral | Location] = arguments
 
     def __str__(self) -> str:
         if len(self.arguments) > 0:
@@ -92,7 +92,7 @@ class Address():
         args = {}
         indicator = value.find(',')
         
-        args["register"] = Register(value[:indicator-1]) if indicator != -1 else Register(value)
+        args["register"] = Register(value[:indicator]) if indicator != -1 else Register(value)
         
         if indicator != -1:
             # The string has two args
@@ -217,6 +217,13 @@ class Parser:
         instruction = s[0] # first token is line instruction
         arguments = []
         for args in s[1:]:
+            
+            # ! "@" Check if the args is a comment
+            if "@" in args:
+                # Ignore the rest of the args, because they're comments
+                # The presence of a `@' anywhere on a line indicates 
+                # the start of a comment that extends to the end of that line.
+                break
             
             # ! Check for address or memory location before replacing
             if '[' in args or ']' in args:
