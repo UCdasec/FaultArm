@@ -130,7 +130,8 @@ class BranchV2():
             for vulns in self.vulnerable_instructions:
                 table.add_section()
                 for line in vulns:
-                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                    table.add_row(f"{line.line_number}", 
+                                  f"{line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
 
             console.print(table)
             console.print("\n")

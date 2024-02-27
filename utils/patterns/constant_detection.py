@@ -144,7 +144,7 @@ class ConstantCoding():
             for lines in self.vulnerable_instructions:
                 table.add_section()
                 for line in lines:
-                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
+                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join( "\\" + str(arguments) if str(arguments)[0] == "[" else str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
 
             console.print(table)
             console.print("\n")

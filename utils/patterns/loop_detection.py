@@ -1,6 +1,6 @@
 from os import path
 from datetime import datetime
-from typing import List
+from typing import List, Union
 from rich.table import Table
 from rich.console import Console
 
@@ -197,15 +197,8 @@ class LoopCheck():
             for vulns in self.vulnerable_instructions:
                 table.add_section()
                 for line in vulns:
-                    arguments: List[str] = []
-                    for arg in line.arguments:
-                        # ! For address, anything surrounded with "[]", we need to add a backslash \ to escape the tag
-                        # This is mainly to let "Rich", the library we use to print tables,
-                        # To leave the content with brackets unprocessed, or not rendered.
-                        if type(arg) == Address:
-                            arguments.append(f"\{arg.value}")
-                        else: arguments.append(str(arg))
-                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(argument) for argument in arguments)}")
+                    table.add_row(f"{line.line_number}", 
+                                  f"{line.name} {', '.join( "\\" + str(arguments) if str(arguments)[0] == "[" else str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
 
             console.print(table)
             console.print("\n")
@@ -257,5 +250,3 @@ class LoopCheck():
         
         # Check if the instruction is a branch instruction
         return instruction_name in branch_instructions or instruction_name.startswith("B")
-
-    
