@@ -17,6 +17,8 @@ FaultHunter_ASM Currently supports the x86 architecture. All assembly files have
 
 The goal is to support both `x86` and `ARM` architectures.
 
+**NOTE:** As of Spring 2024, the focus of the tool as been shifted to `ARM` and `RISC-V` architectures.
+
 ### Compiler
 
 For further development the compiler of choice will be `gcc`:
@@ -42,6 +44,11 @@ In order to compile the dataset, scripts will be provided in order to have both 
 arm-none-eabi-gcc -S -o filename.s /path/to/filename.c
 ```
 
+### RISC-V
+The RISC-V GCC toolchain and its installation instructions can be found at this [link](https://github.com/riscv-collab/riscv-gnu-toolchain). Once you have installed the toolchain successfully, you can  create Assembly binaries with the following command:
+```bash
+riscv64-unknown-elf-gcc -S -o filename.s /path/to/filename.c
+```
 ### x86
 
 ```bash

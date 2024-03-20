@@ -8,7 +8,8 @@ from Parser import Instruction, Location, IntegerLiteral, Register
 from constants import pattern_list, trivial_values
 
 class BranchV2():
-    def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
+    # def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
+    def __init__(self, filename: str, architecture: str, optimization: str, directory_name: str, sensitivity: int) -> None:
         """
         Represents a branch object used for fault.branch analysis/detection.
 
@@ -27,7 +28,7 @@ class BranchV2():
         self.is_between_relevant_code = False
         
         self.filename = filename
-        self.total_lines = total_lines
+        # self.total_lines = total_lines
         self.directory_name = directory_name
         self.architecture = architecture
         self.optimization = optimization
@@ -50,7 +51,7 @@ class BranchV2():
         elif line.name in self.pattern[1] or line.name in self.pattern[2]:
             if len(self.current_vulnerable) > 0:
                 self.strip_line(line)
-        # or else line is vulnerable independently in O0
+        # or else line is vulnerable independently in O0 and O1
         elif len(self.current_vulnerable) > 0 and self.optimization in ['O0', 'O1']:
             self.update_vulnerable_instructions()
         # check if there is a random instruction in between the vulnerable code, we ignore it in O2 (current tolerance is 1 line)

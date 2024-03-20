@@ -1,0 +1,5626 @@
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:51] Reading file: ../dataset/op_1/ai/rpm_plot.s                          
+[11:58:51] File read successfully!                                              
+                                                                                
+[11:58:51] Processing assembly data:                                            
+[11:58:51] Assembly data processed successfully!                                
+                                                                                
+[11:58:51] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   47   │ subs r8, r0, 0 │
+│   48   │ beq .L4        │
+├────────┼────────────────┤
+│  115   │ cmp r0, 0      │
+│  116   │ beq .L16       │
+├────────┼────────────────┤
+│  129   │ cmp r0, 1      │
+│  130   │ beq .L11       │
+├────────┼────────────────┤
+│  136   │ cmp r3, 81     │
+│  137   │ bne .L17       │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   46   │ bl fopen       │
+│   47   │ subs r8, r0, 0 │
+│   48   │ beq .L4        │
+├────────┼────────────────┤
+│  114   │ bl fopen       │
+│  115   │ cmp r0, 0      │
+│  116   │ beq .L16       │
+├────────┼────────────────┤
+│  128   │ bl scanf       │
+│  129   │ cmp r0, 1      │
+│  130   │ beq .L11       │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 192
+
+Total number of vulnerable lines: 7
+        Total number of Branch vulnerabilities: 4
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 3
+
+Percentage of lines vulnerable: 3.65%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:51] Reading file: ../dataset/op_1/ai/data_encryption_xor.s               
+[11:58:51] File read successfully!                                              
+                                                                                
+[11:58:51] Processing assembly data:                                            
+[11:58:51] Assembly data processed successfully!                                
+                                                                                
+[11:58:51] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   26   │ cmp r3, 0    │
+│   27   │ bxeq lr      │
+├────────┼──────────────┤
+│   32   │ cmp r3, 0    │
+│   33   │ bne .L3      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   31   │ ldrb r3, [r0, #1] │
+│   32   │ cmp r3, 0         │
+│   33   │ bne .L3           │
+└────────┴───────────────────┘
+
+
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 95
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.16%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:51] Reading file: ../dataset/op_1/ai/secure_data_wipe.s                  
+[11:58:51] File read successfully!                                              
+                                                                                
+[11:58:51] Processing assembly data:                                            
+[11:58:51] Assembly data processed successfully!                                
+                                                                                
+[11:58:51] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   25   │ cmp r1, 0    │
+│   26   │ bxeq lr      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   30   │ mov r1, 0    │
+│   32   │ strb r1,     │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 90
+
+Total number of vulnerable lines: 2
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 2.22%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file: ../dataset/op_1/ai/calibration.s                       
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│  125   │ cmp r3, 76     │
+│  126   │ bne .L5        │
+├────────┼────────────────┤
+│  130   │ subs r4, r0, 0 │
+│  131   │ beq .L9        │
+├────────┼────────────────┤
+│  224   │ subs r4, r0, 0 │
+│  225   │ beq .L10       │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│  129   │ bl fopen       │
+│  130   │ subs r4, r0, 0 │
+│  131   │ beq .L9        │
+├────────┼────────────────┤
+│  223   │ bl fopen       │
+│  224   │ subs r4, r0, 0 │
+│  225   │ beq .L10       │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 310
+
+Total number of vulnerable lines: 5
+        Total number of Branch vulnerabilities: 3
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 1.61%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file: ../dataset/op_1/ai/rate_limiting_brute_force.s         
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   32   │ rsbs r0, r0, 1 │
+│   33   │ movcc r0, 0    │
+├────────┼────────────────┤
+│   82   │ cmp r0, 0      │
+│   83   │ bne .L11       │
+├────────┼────────────────┤
+│   88   │ subs r4, r4, 1 │
+│   89   │ bne .L8        │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+    Bypass Vulnerabilities    
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   31   │ bl strcmp         │
+│   32   │ rsbs r0, r0, 1    │
+│   33   │ movcc r0, 0       │
+├────────┼───────────────────┤
+│   81   │ bl check_password │
+│   82   │ cmp r0, 0         │
+│   83   │ bne .L11          │
+└────────┴───────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 112
+
+Total number of vulnerable lines: 5
+        Total number of Branch vulnerabilities: 3
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 4.46%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file: ../dataset/op_1/ai/caesarCipher.s                      
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   25   │ cmp r3, 0      │
+│   26   │ bxeq lr        │
+├────────┼────────────────┤
+│   32   │ cmp r3, 0      │
+│   33   │ beq .L10       │
+├────────┼────────────────┤
+│   36   │ cmp r2, 25     │
+│   37   │ bhi .L3        │
+├────────┼────────────────┤
+│   95   │ subs r4, r0, 0 │
+│   96   │ beq .L18       │
+├────────┼────────────────┤
+│  101   │ cmp r0, 0      │
+│  102   │ beq .L19       │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   94   │ bl fopen       │
+│   95   │ subs r4, r0, 0 │
+│   96   │ beq .L18       │
+├────────┼────────────────┤
+│  100   │ bl fgets       │
+│  101   │ cmp r0, 0      │
+│  102   │ beq .L19       │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 150
+
+Total number of vulnerable lines: 7
+        Total number of Branch vulnerabilities: 5
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 4.67%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file: ../dataset/op_1/ai/data_integrity_checksum.s           
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   27   │ cmp r3, 0    │
+│   28   │ beq .L4      │
+├────────┼──────────────┤
+│   34   │ cmp r3, 0    │
+│   35   │ bne .L3      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   33   │ ldrb r3, [r2, #1] │
+│   34   │ cmp r3, 0         │
+│   35   │ bne .L3           │
+└────────┴───────────────────┘
+
+
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 92
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.26%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file: ../dataset/op_1/ai/simple_password_check.s             
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+   Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions    ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│   32   │ rsbs r0, r0, 1  │
+│   33   │ movcc r0, 0     │
+├────────┼─────────────────┤
+│   74   │ cmp r0, 0       │
+│   75   │ ldrne r0, .L9+8 │
+└────────┴─────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+    Bypass Vulnerabilities    
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   31   │ bl strcmp         │
+│   32   │ rsbs r0, r0, 1    │
+│   33   │ movcc r0, 0       │
+├────────┼───────────────────┤
+│   73   │ bl check_password │
+│   74   │ cmp r0, 0         │
+│   75   │ ldrne r0, .L9+8   │
+└────────┴───────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 91
+
+Total number of vulnerable lines: 4
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 4.4%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file: ../dataset/op_1/manual/harris_branch_complex_insecure.s
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions  ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│   55   │ cmp r0, 1     │
+│   56   │ ldreq r0, .L9 │
+└────────┴───────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 109
+
+Total number of vulnerable lines: 1
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.92%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file: ../dataset/op_1/manual/harris_branch_simple_insecure.s 
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 43
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file:                                                        
+           ../dataset/op_1/manual/guillermo_compiler_complex_insecure.s         
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   28   │ subs r0, r3, 1 │
+│   29   │ movne r0, 1    │
+├────────┼────────────────┤
+│   56   │ cmp r0, 1      │
+│   57   │ bne .L3        │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   27   │ str r3,        │
+│   28   │ subs r0, r3, 1 │
+│   29   │ movne r0, 1    │
+├────────┼────────────────┤
+│   55   │ bl foo         │
+│   56   │ cmp r0, 1      │
+│   57   │ bne .L3        │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 77
+
+Total number of vulnerable lines: 4
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 5.19%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:52] Reading file:                                                        
+           ../dataset/op_1/manual/prateek_constant_global_local_secure_insecure.
+           s                                                                    
+[11:58:52] File read successfully!                                              
+                                                                                
+[11:58:52] Processing assembly data:                                            
+[11:58:52] Assembly data processed successfully!                                
+                                                                                
+[11:58:52] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+       ConstantCoding        
+       Vulnerabilities       
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions     ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
+│   71   │ global_insecure  │
+│   72   │ .word 1          │
+├────────┼──────────────────┤
+│   75   │ global_secure    │
+│   76   │ .word 255        │
+└────────┴──────────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 77
+
+Total number of vulnerable lines: 2
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 2
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 2.6%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file: ../dataset/op_1/manual/guillermo_loop_simple_secure.s  
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   50   │ cmp r4, 10   │
+│   51   │ bne .L3      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 60
+
+Total number of vulnerable lines: 1
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 1.67%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file:                                                        
+           ../dataset/op_1/manual/guillermo_constant_simple_secure.s            
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file:                                                        
+           ../dataset/op_1/manual/guillermo_branch_complex_secure.s             
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 52
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file:                                                        
+           ../dataset/op_1/manual/guillermo_compiler_simple_insecure.s          
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   25   │ mov r3, 1    │
+│   26   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 55
+
+Total number of vulnerable lines: 1
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 1.82%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file: ../dataset/op_1/manual/harris_branch_simple_secure.s   
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file:                                                        
+           ../dataset/op_1/manual/guillermo_compiler_simple_secure.s            
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 59
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file:                                                        
+           ../dataset/op_1/manual/guillermo_branch_complex_insecure.s           
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 84
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file: ../dataset/op_1/manual/harris_branch_complex_secure.s  
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   31   │ mov r3, 13   │
+│   32   │ str r3,      │
+├────────┼──────────────┤
+│   33   │ mov r3, 192  │
+│   34   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 51
+
+Total number of vulnerable lines: 2
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 2
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.92%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:53] Reading file:                                                        
+           ../dataset/op_1/manual/harris_branch_insecure_pointer_example.s      
+[11:58:53] File read successfully!                                              
+                                                                                
+[11:58:53] Processing assembly data:                                            
+[11:58:53] Assembly data processed successfully!                                
+                                                                                
+[11:58:53] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 64
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file:                                                        
+           ../dataset/op_1/manual/harris_branch_secure_pointer_example.s        
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 64
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file:                                                        
+           ../dataset/op_1/manual/harris_constant_simple_insecure.s             
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file:                                                        
+           ../dataset/op_1/manual/guillermo_constant_simple_insecure.s          
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file: ../dataset/op_1/manual/guillermo_practical_pin_check.s 
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   40   │ cmp r0, 0      │
+│   41   │ moveq r0, 1    │
+├────────┼────────────────┤
+│   46   │ cmp r0, 3      │
+│   47   │ movgt r0, 0    │
+├────────┼────────────────┤
+│   71   │ cmp r3, 0      │
+│   72   │ beq .L8        │
+├────────┼────────────────┤
+│   76   │ cmp r1, 0      │
+│   77   │ beq .L15       │
+├────────┼────────────────┤
+│   82   │ cmp r3, 0      │
+│   83   │ bne .L9        │
+├────────┼────────────────┤
+│   86   │ rsbs r0, r3, 1 │
+│   87   │ movcc r0, 0    │
+├────────┼────────────────┤
+│   93   │ rsbs r0, r3, 1 │
+│   94   │ movcc r0, 0    │
+├────────┼────────────────┤
+│  122   │ cmp r0, 1      │
+│  123   │ beq .L23       │
+├────────┼────────────────┤
+│  127   │ cmp r0, 4      │
+│  128   │ ble .L24       │
+├────────┼────────────────┤
+│  132   │ cmp r0, 1      │
+│  133   │ movne r0, 0    │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   81   │ ldrb r3, [r0, #1] │
+│   82   │ cmp r3, 0         │
+│   83   │ bne .L9           │
+└────────┴───────────────────┘
+
+
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   39   │ bl fopen       │
+│   40   │ cmp r0, 0      │
+│   41   │ moveq r0, 1    │
+├────────┼────────────────┤
+│   45   │ bl fscanf      │
+│   46   │ cmp r0, 3      │
+│   47   │ movgt r0, 0    │
+├────────┼────────────────┤
+│  121   │ bl import_data │
+│  122   │ cmp r0, 1      │
+│  123   │ beq .L23       │
+├────────┼────────────────┤
+│  126   │ bl scanf       │
+│  127   │ cmp r0, 4      │
+│  128   │ ble .L24       │
+├────────┼────────────────┤
+│  131   │ bl verify_pin  │
+│  132   │ cmp r0, 1      │
+│  133   │ movne r0, 0    │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 160
+
+Total number of vulnerable lines: 16
+        Total number of Branch vulnerabilities: 10
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 5
+
+Percentage of lines vulnerable: 10.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file:                                                        
+           ../dataset/op_1/manual/harris_branch_insecure_struct_example.s       
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 46
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file: ../dataset/op_1/manual/guillermo_branch_simple_secure.s
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file:                                                        
+           ../dataset/op_1/manual/prateek_constant_global_variables.s           
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   35   │ local_arr    │
+│   36   │ .word 1      │
+├────────┼──────────────┤
+│   35   │ local_arr    │
+│   37   │ .word 2      │
+├────────┼──────────────┤
+│   35   │ local_arr    │
+│   38   │ .word 4      │
+├────────┼──────────────┤
+│   35   │ local_arr    │
+│   39   │ .word 8      │
+├────────┼──────────────┤
+│   35   │ local_arr    │
+│   40   │ .word 16     │
+├────────┼──────────────┤
+│   43   │ local_var    │
+│   44   │ .word 15     │
+├────────┼──────────────┤
+│   47   │ global_var   │
+│   48   │ .word 255    │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 49
+
+Total number of vulnerable lines: 7
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 7
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 14.29%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file:                                                        
+           ../dataset/op_1/manual/guillermo_branch_simple_insecure.s            
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:54] Reading file:                                                        
+           ../dataset/op_1/manual/harris_branch_secure_struct_example.s         
+[11:58:54] File read successfully!                                              
+                                                                                
+[11:58:54] Processing assembly data:                                            
+[11:58:54] Assembly data processed successfully!                                
+                                                                                
+[11:58:54] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 46
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_1/manual/harris_constant_simple_secure.s 
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:55] Assembly data processed successfully!                                
+                                                                                
+[11:58:55] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_1/manual/guillermo_loop_simple_insecure.s
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:55] Assembly data processed successfully!                                
+                                                                                
+[11:58:55] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   50   │ cmp r4, 10   │
+│   51   │ bne .L3      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 60
+
+Total number of vulnerable lines: 1
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 1.67%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_0/ai/rpm_plot.s                          
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:55] Assembly data processed successfully!                                
+                                                                                
+[11:58:55] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   50   │ cmp r3, 0    │
+│   51   │ bne .L2      │
+├────────┼──────────────┤
+│  124   │ cmp r3, 0    │
+│  125   │ bne .L6      │
+├────────┼──────────────┤
+│  143   │ cmp r3, 1    │
+│  144   │ beq .L8      │
+├────────┼──────────────┤
+│  153   │ cmp r3, 81   │
+│  154   │ beq .L9      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+ Bypass Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│  141   │ bl scanf     │
+│  142   │ mov r3, r0   │
+│  143   │ cmp r3, 1    │
+│  144   │ beq .L8      │
+└────────┴──────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 217
+
+Total number of vulnerable lines: 5
+        Total number of Branch vulnerabilities: 4
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 1
+
+Percentage of lines vulnerable: 2.3%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_0/ai/data_encryption_xor.s               
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:55] Assembly data processed successfully!                                
+                                                                                
+[11:58:55] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   46   │ cmp r3, 0    │
+│   47   │ bne .L3      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+LoopCheck Vulnerabilities 
+┏━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions  ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│   45   │ ldrb r3, [r3] │
+│   46   │ cmp r3, 0     │
+│   47   │ bne .L3       │
+└────────┴───────────────┘
+
+
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 125
+
+Total number of vulnerable lines: 2
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 1.6%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_0/ai/secure_data_wipe.s                  
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:55] Assembly data processed successfully!                                
+                                                                                
+[11:58:55] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   30   │ mov r3, 0    │
+│   31   │ str r3,      │
+├────────┼──────────────┤
+│   37   │ mov r2, 0    │
+│   38   │ strb r2,     │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+   LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions       ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━┩
+│   44   │ ldr r3, [fp, #-20] │
+│   45   │ cmp r2, r3         │
+│   46   │ bcc .L3            │
+└────────┴────────────────────┘
+
+
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 115
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 2
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 2.61%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_0/ai/calibration.s                       
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:55] Assembly data processed successfully!                                
+                                                                                
+[11:58:55] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│  178   │ cmp r3, 0    │
+│  179   │ bne .L4      │
+├────────┼──────────────┤
+│  238   │ cmp r3, 76   │
+│  239   │ beq .L7      │
+├────────┼──────────────┤
+│  249   │ cmp r3, 0    │
+│  250   │ bne .L9      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 363
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 3
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.83%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_0/ai/rate_limiting_brute_force.s         
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:55] Assembly data processed successfully!                                
+                                                                                
+[11:58:55] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   39   │ cmp r3, 0    │
+│   40   │ moveq r3, 1  │
+├────────┼──────────────┤
+│   97   │ cmp r3, 0    │
+│   98   │ beq .L7      │
+├────────┼──────────────┤
+│  113   │ cmp r3, 2    │
+│  114   │ ble .L9      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   83   │ mov r3, 0    │
+│   84   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│  112   │ ldr r3, [fp, #-8] │
+│  113   │ cmp r3, 2         │
+│  114   │ ble .L9           │
+└────────┴───────────────────┘
+
+
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+    Bypass Vulnerabilities    
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   37   │ bl strcmp         │
+│   38   │ mov r3, r0        │
+│   39   │ cmp r3, 0         │
+│   40   │ moveq r3, 1       │
+├────────┼───────────────────┤
+│   95   │ bl check_password │
+│   96   │ mov r3, r0        │
+│   97   │ cmp r3, 0         │
+│   98   │ beq .L7           │
+└────────┴───────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 133
+
+Total number of vulnerable lines: 7
+        Total number of Branch vulnerabilities: 3
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 5.26%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_0/ai/caesarCipher.s                      
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:55] Assembly data processed successfully!                                
+                                                                                
+[11:58:55] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   38   │ cmp r3, 64   │
+│   39   │ bls .L3      │
+├────────┼──────────────┤
+│   81   │ cmp r3, 0    │
+│   82   │ bne .L4      │
+├────────┼──────────────┤
+│  136   │ cmp r3, 0    │
+│  137   │ bne .L8      │
+├────────┼──────────────┤
+│  151   │ cmp r3, 0    │
+│  152   │ bne .L10     │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   30   │ mov r3, 0    │
+│   31   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+LoopCheck Vulnerabilities 
+┏━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions  ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│   80   │ ldrb r3, [r3] │
+│   81   │ cmp r3, 0     │
+│   82   │ bne .L4       │
+└────────┴───────────────┘
+
+
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+ Bypass Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│  149   │ bl fgets     │
+│  150   │ mov r3, r0   │
+│  151   │ cmp r3, 0    │
+│  152   │ bne .L10     │
+└────────┴──────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 200
+
+Total number of vulnerable lines: 7
+        Total number of Branch vulnerabilities: 4
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 1
+
+Percentage of lines vulnerable: 3.5%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:55] Reading file: ../dataset/op_0/ai/data_integrity_checksum.s           
+[11:58:55] File read successfully!                                              
+                                                                                
+[11:58:55] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   44   │ cmp r3, 0    │
+│   45   │ bne .L3      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   29   │ mov r3, 0    │
+│   30   │ strb r3,     │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+LoopCheck Vulnerabilities 
+┏━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions  ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│   43   │ ldrb r3, [r3] │
+│   44   │ cmp r3, 0     │
+│   45   │ bne .L3       │
+└────────┴───────────────┘
+
+
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 111
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 2.7%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:56] Reading file: ../dataset/op_0/ai/simple_password_check.s             
+[11:58:56] File read successfully!                                              
+                                                                                
+[11:58:56] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   39   │ cmp r3, 0    │
+│   40   │ moveq r3, 1  │
+├────────┼──────────────┤
+│   90   │ cmp r3, 0    │
+│   91   │ beq .L6      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+    Bypass Vulnerabilities    
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   37   │ bl strcmp         │
+│   38   │ mov r3, r0        │
+│   39   │ cmp r3, 0         │
+│   40   │ moveq r3, 1       │
+├────────┼───────────────────┤
+│   88   │ bl check_password │
+│   89   │ mov r3, r0        │
+│   90   │ cmp r3, 0         │
+│   91   │ beq .L6           │
+└────────┴───────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 113
+
+Total number of vulnerable lines: 4
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 3.54%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:56] Reading file: ../dataset/op_0/manual/harris_branch_complex_insecure.s
+[11:58:56] File read successfully!                                              
+                                                                                
+[11:58:56] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   61   │ cmp r3, 1    │
+│   62   │ bne .L3      │
+├────────┼──────────────┤
+│  127   │ cmp r3, 0    │
+│  128   │ beq .L9      │
+├────────┼──────────────┤
+│  143   │ cmp r3, 0    │
+│  144   │ bne .L11     │
+├────────┼──────────────┤
+│  153   │ cmp r3, 0    │
+│  154   │ beq .L13     │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   27   │ mov r3, 1    │
+│   28   │ str r3,      │
+├────────┼──────────────┤
+│  114   │ mov r3, 1    │
+│  115   │ str r3,      │
+├────────┼──────────────┤
+│  116   │ mov r3, 8    │
+│  117   │ str r3,      │
+├────────┼──────────────┤
+│  118   │ mov r3, 10   │
+│  119   │ str r3,      │
+├────────┼──────────────┤
+│  136   │ mov r3, 0    │
+│  137   │ str r3,      │
+├────────┼──────────────┤
+│  138   │ mov r3, 12   │
+│  139   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+   Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions    ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│  125   │ bl branch_check │
+│  126   │ mov r3, r0      │
+│  127   │ cmp r3, 0       │
+│  128   │ beq .L9         │
+├────────┼─────────────────┤
+│  141   │ bl branch_check │
+│  142   │ mov r3, r0      │
+│  143   │ cmp r3, 0       │
+│  144   │ bne .L11        │
+├────────┼─────────────────┤
+│  151   │ bl branch_check │
+│  152   │ mov r3, r0      │
+│  153   │ cmp r3, 0       │
+│  154   │ beq .L13        │
+└────────┴─────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 181
+
+Total number of vulnerable lines: 13
+        Total number of Branch vulnerabilities: 4
+        Total number of Constant vulnerabilities: 6
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 3
+
+Percentage of lines vulnerable: 7.18%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:56] Reading file: ../dataset/op_0/manual/harris_branch_simple_insecure.s 
+[11:58:56] File read successfully!                                              
+                                                                                
+[11:58:56] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   38   │ cmp r3, 1    │
+│   39   │ bne .L2      │
+├────────┼──────────────┤
+│   41   │ cmp r3, 1    │
+│   42   │ bne .L3      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   35   │ mov r3, 1    │
+│   36   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 68
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 4.41%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:56] Reading file:                                                        
+           ../dataset/op_0/manual/guillermo_compiler_complex_insecure.s         
+[11:58:56] File read successfully!                                              
+                                                                                
+[11:58:56] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   36   │ cmp r3, 1    │
+│   37   │ bne .L2      │
+├────────┼──────────────┤
+│   77   │ cmp r3, 1    │
+│   78   │ bne .L5      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+ Bypass Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   75   │ bl foo       │
+│   76   │ mov r3, r0   │
+│   77   │ cmp r3, 1    │
+│   78   │ bne .L5      │
+└────────┴──────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 99
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 1
+
+Percentage of lines vulnerable: 3.03%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:56] Reading file:                                                        
+           ../dataset/op_0/manual/prateek_constant_global_local_secure_insecure.
+           s                                                                    
+[11:58:56] File read successfully!                                              
+                                                                                
+[11:58:56] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+       ConstantCoding        
+       Vulnerabilities       
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions     ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
+│   18   │ global_secure    │
+│   19   │ .word 255        │
+├────────┼──────────────────┤
+│   24   │ global_insecure  │
+│   25   │ .word 1          │
+├────────┼──────────────────┤
+│   28   │ .LC0             │
+│   29   │ .word 1          │
+├────────┼──────────────────┤
+│   28   │ .LC0             │
+│   30   │ .word 2          │
+├────────┼──────────────────┤
+│   28   │ .LC0             │
+│   31   │ .word 4          │
+├────────┼──────────────────┤
+│   28   │ .LC0             │
+│   32   │ .word 8          │
+├────────┼──────────────────┤
+│   28   │ .LC0             │
+│   33   │ .word 16         │
+├────────┼──────────────────┤
+│   49   │ mov r3, 16       │
+│   50   │ str r3,          │
+├────────┼──────────────────┤
+│   51   │ mvn r3, 0        │
+│   52   │ strh r3,         │
+└────────┴──────────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 110
+
+Total number of vulnerable lines: 9
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 9
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 8.18%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:56] Reading file: ../dataset/op_0/manual/guillermo_loop_simple_secure.s  
+[11:58:56] File read successfully!                                              
+                                                                                
+[11:58:56] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   63   │ cmp r3, 9    │
+│   64   │ ble .L4      │
+├────────┼──────────────┤
+│   66   │ cmp r3, 9    │
+│   67   │ bgt .L5      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   51   │ mov r3, 0    │
+│   52   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 81
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.7%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:56] Reading file:                                                        
+           ../dataset/op_0/manual/guillermo_constant_simple_secure.s            
+[11:58:56] File read successfully!                                              
+                                                                                
+[11:58:56] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 85
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:56] Reading file:                                                        
+           ../dataset/op_0/manual/guillermo_branch_complex_secure.s             
+[11:58:56] File read successfully!                                              
+                                                                                
+[11:58:56] Processing assembly data:                                            
+[11:58:56] Assembly data processed successfully!                                
+                                                                                
+[11:58:56] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   51   │ cmp r3, 256  │
+│   52   │ bne .L2      │
+├────────┼──────────────┤
+│   62   │ cmp r3, 160  │
+│   63   │ bne .L4      │
+├────────┼──────────────┤
+│   73   │ cmp r3, 13   │
+│   74   │ bne .L6      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 99
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 3
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.03%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file:                                                        
+           ../dataset/op_0/manual/guillermo_compiler_simple_insecure.s          
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   67   │ cmp r3, 1    │
+│   68   │ bne .L3      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   29   │ mov r3, 1    │
+│   30   │ str r3,      │
+├────────┼──────────────┤
+│   61   │ mov r3, 0    │
+│   62   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 89
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 2
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.37%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file: ../dataset/op_0/manual/harris_branch_simple_secure.s   
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 72
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file:                                                        
+           ../dataset/op_0/manual/guillermo_compiler_simple_secure.s            
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   66   │ mov r3, 0    │
+│   67   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 96
+
+Total number of vulnerable lines: 1
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 1.04%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file:                                                        
+           ../dataset/op_0/manual/guillermo_branch_complex_insecure.s           
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   44   │ cmp r3, 1    │
+│   45   │ bne .L2      │
+├────────┼──────────────┤
+│   56   │ cmp r3, 0    │
+│   57   │ beq .L4      │
+├────────┼──────────────┤
+│  119   │ cmp r3, 0    │
+│  120   │ beq .L10     │
+├────────┼──────────────┤
+│  137   │ cmp r3, 0    │
+│  138   │ bne .L12     │
+├────────┼──────────────┤
+│  159   │ cmp r3, 0    │
+│  160   │ beq .L15     │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   41   │ mov r3, 1    │
+│   42   │ str r3,      │
+├────────┼──────────────┤
+│   53   │ mov r3, 0    │
+│   54   │ str r3,      │
+├────────┼──────────────┤
+│  112   │ mov r3, 1    │
+│  113   │ str r3,      │
+├────────┼──────────────┤
+│  114   │ mov r3, 5    │
+│  115   │ str r3,      │
+├────────┼──────────────┤
+│  116   │ mov r3, 10   │
+│  117   │ str r3,      │
+├────────┼──────────────┤
+│  132   │ mov r3, 0    │
+│  133   │ str r3,      │
+├────────┼──────────────┤
+│  134   │ mov r3, 15   │
+│  135   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 184
+
+Total number of vulnerable lines: 12
+        Total number of Branch vulnerabilities: 5
+        Total number of Constant vulnerabilities: 7
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 6.52%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file: ../dataset/op_0/manual/harris_branch_complex_secure.s  
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 59
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file:                                                        
+           ../dataset/op_0/manual/harris_branch_insecure_pointer_example.s      
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   86   │ cmp r3, 0    │
+│   87   │ beq .L4      │
+├────────┼──────────────┤
+│  123   │ cmp r3, 0    │
+│  124   │ beq .L9      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   61   │ mov r3, 1    │
+│   62   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 177
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 1.69%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file:                                                        
+           ../dataset/op_0/manual/harris_branch_secure_pointer_example.s        
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   86   │ cmp r3, 0    │
+│   87   │ beq .L4      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 184
+
+Total number of vulnerable lines: 1
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.54%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file:                                                        
+           ../dataset/op_0/manual/harris_constant_simple_insecure.s             
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   17   │ num1         │
+│   18   │ .short 255   │
+├────────┼──────────────┤
+│   45   │ mov r3, 0    │
+│   46   │ str r3,      │
+├────────┼──────────────┤
+│   47   │ mov r3, 1    │
+│   48   │ str r3,      │
+├────────┼──────────────┤
+│   49   │ mov r3, 4    │
+│   50   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 64
+
+Total number of vulnerable lines: 4
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 4
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 6.25%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:57] Reading file:                                                        
+           ../dataset/op_0/manual/guillermo_constant_simple_insecure.s          
+[11:58:57] File read successfully!                                              
+                                                                                
+[11:58:57] Processing assembly data:                                            
+[11:58:57] Assembly data processed successfully!                                
+                                                                                
+[11:58:57] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   17   │ trivial_1    │
+│   18   │ .short 255   │
+├────────┼──────────────┤
+│   22   │ trivial_2    │
+│   23   │ .short 1     │
+├────────┼──────────────┤
+│   45   │ mov r3, 1    │
+│   46   │ str r3,      │
+├────────┼──────────────┤
+│   47   │ mov r3, 0    │
+│   48   │ str r3,      │
+├────────┼──────────────┤
+│   49   │ mov r3, 3    │
+│   50   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 64
+
+Total number of vulnerable lines: 5
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 5
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 7.81%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file: ../dataset/op_0/manual/guillermo_practical_pin_check.s 
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   47   │ cmp r3, 1    │
+│   48   │ bne .L2      │
+├────────┼──────────────┤
+│   59   │ cmp r3, 4    │
+│   60   │ bgt .L4      │
+├────────┼──────────────┤
+│   72   │ cmp r3, 1    │
+│   73   │ bne .L5      │
+├────────┼──────────────┤
+│  121   │ cmp r3, 0    │
+│  122   │ bne .L10     │
+├────────┼──────────────┤
+│  131   │ cmp r3, 3    │
+│  132   │ bgt .L12     │
+├────────┼──────────────┤
+│  186   │ cmp r3, 0    │
+│  187   │ beq .L19     │
+├────────┼──────────────┤
+│  190   │ cmp r3, 0    │
+│  191   │ bne .L20     │
+├────────┼──────────────┤
+│  195   │ cmp r3, 0    │
+│  196   │ bne .L21     │
+├────────┼──────────────┤
+│  199   │ cmp r3, 0    │
+│  200   │ bne .L21     │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+LoopCheck Vulnerabilities 
+┏━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions  ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│  189   │ ldrb r3, [r3] │
+│  190   │ cmp r3, 0     │
+│  191   │ bne .L20      │
+└────────┴───────────────┘
+
+
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   45   │ bl import_data │
+│   46   │ mov r3, r0     │
+│   47   │ cmp r3, 1      │
+│   48   │ bne .L2        │
+├────────┼────────────────┤
+│   57   │ bl scanf       │
+│   58   │ mov r3, r0     │
+│   59   │ cmp r3, 4      │
+│   60   │ bgt .L4        │
+├────────┼────────────────┤
+│   70   │ bl verify_pin  │
+│   71   │ mov r3, r0     │
+│   72   │ cmp r3, 1      │
+│   73   │ bne .L5        │
+├────────┼────────────────┤
+│  129   │ bl fscanf      │
+│  130   │ mov r3, r0     │
+│  131   │ cmp r3, 3      │
+│  132   │ bgt .L12       │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 212
+
+Total number of vulnerable lines: 14
+        Total number of Branch vulnerabilities: 9
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 4
+
+Percentage of lines vulnerable: 6.6%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file:                                                        
+           ../dataset/op_0/manual/harris_branch_insecure_struct_example.s       
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   46   │ cmp r3, 0    │
+│   47   │ beq .L2      │
+├────────┼──────────────┤
+│   49   │ cmp r3, 1    │
+│   50   │ bne .L2      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   41   │ mov r3, 0    │
+│   42   │ str r3,      │
+├────────┼──────────────┤
+│   43   │ mov r3, 1    │
+│   44   │ str r3,      │
+├────────┼──────────────┤
+│   60   │ mov r3, 15   │
+│   61   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 91
+
+Total number of vulnerable lines: 5
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 3
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 5.49%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file: ../dataset/op_0/manual/guillermo_branch_simple_secure.s
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 62
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file:                                                        
+           ../dataset/op_0/manual/prateek_constant_global_variables.s           
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   18   │ global_var   │
+│   19   │ .word 255    │
+├────────┼──────────────┤
+│   24   │ local_var    │
+│   25   │ .word 15     │
+├────────┼──────────────┤
+│   30   │ local_arr    │
+│   31   │ .word 1      │
+├────────┼──────────────┤
+│   30   │ local_arr    │
+│   32   │ .word 2      │
+├────────┼──────────────┤
+│   30   │ local_arr    │
+│   33   │ .word 4      │
+├────────┼──────────────┤
+│   30   │ local_arr    │
+│   34   │ .word 8      │
+├────────┼──────────────┤
+│   30   │ local_arr    │
+│   35   │ .word 16     │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 58
+
+Total number of vulnerable lines: 7
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 7
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 12.07%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file:                                                        
+           ../dataset/op_0/manual/guillermo_branch_simple_insecure.s            
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   38   │ cmp r3, 1    │
+│   39   │ bne .L2      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   35   │ mov r3, 1    │
+│   36   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 60
+
+Total number of vulnerable lines: 2
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.33%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file:                                                        
+           ../dataset/op_0/manual/harris_branch_secure_struct_example.s         
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 93
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file: ../dataset/op_0/manual/harris_constant_simple_secure.s 
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   45   │ mov r3, 0    │
+│   46   │ str r3,      │
+├────────┼──────────────┤
+│   47   │ mov r3, 1    │
+│   48   │ str r3,      │
+├────────┼──────────────┤
+│   49   │ mov r3, 4    │
+│   50   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 64
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 3
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 4.69%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file: ../dataset/op_0/manual/guillermo_loop_simple_insecure.s
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   63   │ cmp r3, 9    │
+│   64   │ ble .L4      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   51   │ mov r3, 0    │
+│   52   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   62   │ ldr r3, [fp, #-8] │
+│   63   │ cmp r3, 9         │
+│   64   │ ble .L4           │
+└────────┴───────────────────┘
+
+
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 76
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.95%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:58] Reading file: ../dataset/op_2/ai/rpm_plot.s                          
+[11:58:58] File read successfully!                                              
+                                                                                
+[11:58:58] Processing assembly data:                                            
+[11:58:58] Assembly data processed successfully!                                
+                                                                                
+[11:58:58] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   47   │ subs r4, r0, 0 │
+│   48   │ beq .L5        │
+├────────┼────────────────┤
+│  114   │ cmp r0, 0      │
+│  115   │ beq .L17       │
+├────────┼────────────────┤
+│  128   │ cmp r0, 1      │
+│  129   │ beq .L12       │
+├────────┼────────────────┤
+│  135   │ cmp r3, 81     │
+│  136   │ bne .L18       │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   46   │ bl fopen       │
+│   47   │ subs r4, r0, 0 │
+│   48   │ beq .L5        │
+├────────┼────────────────┤
+│  113   │ bl fopen       │
+│  114   │ cmp r0, 0      │
+│  115   │ beq .L17       │
+├────────┼────────────────┤
+│  127   │ bl scanf       │
+│  128   │ cmp r0, 1      │
+│  129   │ beq .L12       │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 191
+
+Total number of vulnerable lines: 7
+        Total number of Branch vulnerabilities: 4
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 3
+
+Percentage of lines vulnerable: 3.66%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:59] Reading file: ../dataset/op_2/ai/data_encryption_xor.s               
+[11:58:59] File read successfully!                                              
+                                                                                
+[11:58:59] Processing assembly data:                                            
+[11:58:59] Assembly data processed successfully!                                
+                                                                                
+[11:58:59] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   26   │ cmp r3, 0    │
+│   27   │ bxeq lr      │
+├────────┼──────────────┤
+│   32   │ cmp r3, 0    │
+│   33   │ bne .L3      │
+├────────┼──────────────┤
+│   71   │ cmp r3, 0    │
+│   72   │ beq .L10     │
+├────────┼──────────────┤
+│   79   │ cmp r3, 0    │
+│   80   │ bne .L11     │
+├────────┼──────────────┤
+│   86   │ cmp r3, 0    │
+│   87   │ beq .L12     │
+├────────┼──────────────┤
+│   94   │ cmp r3, 0    │
+│   95   │ bne .L13     │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   31   │ ldrb r3, [r0, #1] │
+│   32   │ cmp r3, 0         │
+│   33   │ bne .L3           │
+├────────┼───────────────────┤
+│   78   │ ldrb r3, [r2, #1] │
+│   79   │ cmp r3, 0         │
+│   80   │ bne .L11          │
+├────────┼───────────────────┤
+│   93   │ ldrb r3, [r2, #1] │
+│   94   │ cmp r3, 0         │
+│   95   │ bne .L13          │
+└────────┴───────────────────┘
+
+
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 113
+
+Total number of vulnerable lines: 9
+        Total number of Branch vulnerabilities: 6
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 3
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 7.96%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:59] Reading file: ../dataset/op_2/ai/secure_data_wipe.s                  
+[11:58:59] File read successfully!                                              
+                                                                                
+[11:58:59] Processing assembly data:                                            
+[11:58:59] Assembly data processed successfully!                                
+                                                                                
+[11:58:59] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   25   │ cmp r1, 0    │
+│   26   │ bxeq lr      │
+├────────┼──────────────┤
+│   72   │ cmp r0, 0    │
+│   73   │ beq .L10     │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+ Bypass Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   71   │ bl strlen    │
+│   72   │ cmp r0, 0    │
+│   73   │ beq .L10     │
+└────────┴──────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 97
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 1
+
+Percentage of lines vulnerable: 3.09%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:59] Reading file: ../dataset/op_2/ai/calibration.s                       
+[11:58:59] File read successfully!                                              
+                                                                                
+[11:58:59] Processing assembly data:                                            
+[11:58:59] Assembly data processed successfully!                                
+                                                                                
+[11:58:59] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│  125   │ cmp r3, 76     │
+│  126   │ bne .L5        │
+├────────┼────────────────┤
+│  130   │ subs r4, r0, 0 │
+│  131   │ beq .L10       │
+├────────┼────────────────┤
+│  231   │ subs r4, r0, 0 │
+│  232   │ beq .L11       │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│  129   │ bl fopen       │
+│  130   │ subs r4, r0, 0 │
+│  131   │ beq .L10       │
+├────────┼────────────────┤
+│  230   │ bl fopen       │
+│  231   │ subs r4, r0, 0 │
+│  232   │ beq .L11       │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 316
+
+Total number of vulnerable lines: 5
+        Total number of Branch vulnerabilities: 3
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 1.58%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:59] Reading file: ../dataset/op_2/ai/rate_limiting_brute_force.s         
+[11:58:59] File read successfully!                                              
+                                                                                
+[11:58:59] Processing assembly data:                                            
+[11:58:59] Assembly data processed successfully!                                
+                                                                                
+[11:58:59] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   32   │ rsbs r0, r0, 1 │
+│   33   │ movcc r0, 0    │
+├────────┼────────────────┤
+│   90   │ subs r4, r4, 1 │
+│   91   │ bne .L11       │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions     ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
+│  102   │ ldr r3, [sp, #8] │
+│  103   │ cmp r3, r9       │
+│  104   │ bne .L12         │
+└────────┴──────────────────┘
+
+
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   31   │ bl strcmp      │
+│   32   │ rsbs r0, r0, 1 │
+│   33   │ movcc r0, 0    │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 123
+
+Total number of vulnerable lines: 4
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 1
+
+Percentage of lines vulnerable: 3.25%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:59] Reading file: ../dataset/op_2/ai/caesarCipher.s                      
+[11:58:59] File read successfully!                                              
+                                                                                
+[11:58:59] Processing assembly data:                                            
+[11:58:59] Assembly data processed successfully!                                
+                                                                                
+[11:58:59] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   25   │ cmp r3, 0      │
+│   26   │ bxeq lr        │
+├────────┼────────────────┤
+│   32   │ cmp r2, 25     │
+│   33   │ bhi .L3        │
+├────────┼────────────────┤
+│   45   │ cmp r3, 0      │
+│   46   │ bne .L4        │
+├────────┼────────────────┤
+│   93   │ subs r4, r0, 0 │
+│   94   │ beq .L28       │
+├────────┼────────────────┤
+│   99   │ cmp r0, 0      │
+│  100   │ beq .L29       │
+├────────┼────────────────┤
+│  109   │ cmp r3, 0      │
+│  111   │ beq .L20       │
+├────────┼────────────────┤
+│  117   │ cmp r2, 25     │
+│  118   │ bhi .L21       │
+├────────┼────────────────┤
+│  130   │ cmp r3, 0      │
+│  131   │ bne .L22       │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   44   │ ldrb r3, [r0, #1] │
+│   45   │ cmp r3, 0         │
+│   46   │ bne .L4           │
+├────────┼───────────────────┤
+│  129   │ ldrb r3, [r1, #1] │
+│  130   │ cmp r3, 0         │
+│  131   │ bne .L22          │
+└────────┴───────────────────┘
+
+
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   92   │ bl fopen       │
+│   93   │ subs r4, r0, 0 │
+│   94   │ beq .L28       │
+├────────┼────────────────┤
+│   98   │ bl fgets       │
+│   99   │ cmp r0, 0      │
+│  100   │ beq .L29       │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 168
+
+Total number of vulnerable lines: 12
+        Total number of Branch vulnerabilities: 8
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 2
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 7.14%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:59] Reading file: ../dataset/op_2/ai/data_integrity_checksum.s           
+[11:58:59] File read successfully!                                              
+                                                                                
+[11:58:59] Processing assembly data:                                            
+[11:58:59] Assembly data processed successfully!                                
+                                                                                
+[11:58:59] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   26   │ cmp r3, 0    │
+│   28   │ beq .L4      │
+├────────┼──────────────┤
+│   33   │ cmp r3, 0    │
+│   35   │ bne .L3      │
+├────────┼──────────────┤
+│   81   │ cmp r5, 0    │
+│   83   │ bne .L12     │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+  LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions      ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│   32   │ ldrb r3, [r2, #1] │
+│   33   │ cmp r3, 0         │
+│   35   │ bne .L3           │
+└────────┴───────────────────┘
+
+
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 102
+
+Total number of vulnerable lines: 4
+        Total number of Branch vulnerabilities: 3
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 3.92%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:59] Reading file: ../dataset/op_2/ai/simple_password_check.s             
+[11:58:59] File read successfully!                                              
+                                                                                
+[11:58:59] Processing assembly data:                                            
+[11:58:59] Assembly data processed successfully!                                
+                                                                                
+[11:58:59] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   32   │ rsbs r0, r0, 1 │
+│   33   │ movcc r0, 0    │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+   LoopCheck Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions       ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━┩
+│   92   │ ldrh r3, [sp, #12] │
+│   93   │ cmp r3, 51         │
+│   94   │ bne .L7            │
+└────────┴────────────────────┘
+
+
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   31   │ bl strcmp      │
+│   32   │ rsbs r0, r0, 1 │
+│   33   │ movcc r0, 0    │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 107
+
+Total number of vulnerable lines: 3
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 1
+
+Percentage of lines vulnerable: 2.8%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:58:59] Reading file: ../dataset/op_2/manual/harris_branch_complex_insecure.s
+[11:58:59] File read successfully!                                              
+                                                                                
+[11:58:59] Processing assembly data:                                            
+[11:58:59] Assembly data processed successfully!                                
+                                                                                
+[11:58:59] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   55   │ cmp r0, 1      │
+│   56   │ ldreq r0, .L10 │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 109
+
+Total number of vulnerable lines: 1
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.92%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file: ../dataset/op_2/manual/harris_branch_simple_insecure.s 
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 43
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file:                                                        
+           ../dataset/op_2/manual/guillermo_compiler_complex_insecure.s         
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   28   │ subs r0, r3, 1 │
+│   29   │ movne r0, 1    │
+├────────┼────────────────┤
+│   52   │ cmp r0, 0      │
+│   53   │ beq .L7        │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   27   │ str r3,        │
+│   28   │ subs r0, r3, 1 │
+│   29   │ movne r0, 1    │
+├────────┼────────────────┤
+│   51   │ bl getchar     │
+│   52   │ cmp r0, 0      │
+│   53   │ beq .L7        │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 71
+
+Total number of vulnerable lines: 4
+        Total number of Branch vulnerabilities: 2
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 2
+
+Percentage of lines vulnerable: 5.63%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file:                                                        
+           ../dataset/op_2/manual/prateek_constant_global_local_secure_insecure.
+           s                                                                    
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+       ConstantCoding        
+       Vulnerabilities       
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions     ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
+│   76   │ global_insecure  │
+│   77   │ .word 1          │
+├────────┼──────────────────┤
+│   80   │ global_secure    │
+│   81   │ .word 255        │
+└────────┴──────────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 82
+
+Total number of vulnerable lines: 2
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 2
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 2.44%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file: ../dataset/op_2/manual/guillermo_loop_simple_secure.s  
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   50   │ cmp r4, 10   │
+│   51   │ bne .L4      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+ Bypass Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   49   │ bl printf    │
+│   50   │ cmp r4, 10   │
+│   51   │ bne .L4      │
+└────────┴──────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 60
+
+Total number of vulnerable lines: 2
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 1
+
+Percentage of lines vulnerable: 3.33%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file:                                                        
+           ../dataset/op_2/manual/guillermo_constant_simple_secure.s            
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file:                                                        
+           ../dataset/op_2/manual/guillermo_branch_complex_secure.s             
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 52
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file:                                                        
+           ../dataset/op_2/manual/guillermo_compiler_simple_insecure.s          
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   25   │ mov r3, 1    │
+│   26   │ str r3,      │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 55
+
+Total number of vulnerable lines: 1
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 1
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 1.82%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file: ../dataset/op_2/manual/harris_branch_simple_secure.s   
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:00] Reading file:                                                        
+           ../dataset/op_2/manual/guillermo_compiler_simple_secure.s            
+[11:59:00] File read successfully!                                              
+                                                                                
+[11:59:00] Processing assembly data:                                            
+[11:59:00] Assembly data processed successfully!                                
+                                                                                
+[11:59:00] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 59
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file:                                                        
+           ../dataset/op_2/manual/guillermo_branch_complex_insecure.s           
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 84
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file: ../dataset/op_2/manual/harris_branch_complex_secure.s  
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 50
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file:                                                        
+           ../dataset/op_2/manual/harris_branch_insecure_pointer_example.s      
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 64
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file:                                                        
+           ../dataset/op_2/manual/harris_branch_secure_pointer_example.s        
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 64
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file:                                                        
+           ../dataset/op_2/manual/harris_constant_simple_insecure.s             
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file:                                                        
+           ../dataset/op_2/manual/guillermo_constant_simple_insecure.s          
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file: ../dataset/op_2/manual/guillermo_practical_pin_check.s 
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+  Branch Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   40   │ cmp r0, 0      │
+│   41   │ moveq r0, 1    │
+├────────┼────────────────┤
+│   46   │ cmp r0, 3      │
+│   47   │ movgt r0, 0    │
+├────────┼────────────────┤
+│   84   │ cmp r0, 1      │
+│   85   │ beq .L24       │
+├────────┼────────────────┤
+│   89   │ cmp r0, 4      │
+│   90   │ ble .L11       │
+├────────┼────────────────┤
+│   92   │ cmp r3, 0      │
+│   93   │ beq .L18       │
+├────────┼────────────────┤
+│   99   │ cmp r3, 0      │
+│  101   │ beq .L12       │
+├────────┼────────────────┤
+│  106   │ cmp r1, 0      │
+│  107   │ moveq r3, 1    │
+├────────┼────────────────┤
+│  108   │ cmp r3, 0      │
+│  109   │ beq .L22       │
+├────────┼────────────────┤
+│  121   │ cmp r3, 0      │
+│  122   │ bne .L14       │
+├────────┼────────────────┤
+│  157   │ cmp r3, 0      │
+│  158   │ beq .L28       │
+├────────┼────────────────┤
+│  163   │ cmp r3, 0      │
+│  165   │ beq .L28       │
+├────────┼────────────────┤
+│  170   │ cmp r1, 0      │
+│  171   │ moveq r3, 1    │
+├────────┼────────────────┤
+│  172   │ cmp r3, 0      │
+│  173   │ beq .L30       │
+├────────┼────────────────┤
+│  178   │ rsbs r0, r0, 1 │
+│  179   │ movcc r0, 0    │
+└────────┴────────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+VULNERABILITY DETECTED
+
+LoopCheck Vulnerabilities 
+┏━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions  ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│  120   │ ldrb r3, [r1] │
+│  121   │ cmp r3, 0     │
+│  122   │ bne .L14      │
+└────────┴───────────────┘
+
+
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+  Bypass Vulnerabilities   
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions   ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+│   39   │ bl fopen       │
+│   40   │ cmp r0, 0      │
+│   41   │ moveq r0, 1    │
+├────────┼────────────────┤
+│   45   │ bl fscanf      │
+│   46   │ cmp r0, 3      │
+│   47   │ movgt r0, 0    │
+├────────┼────────────────┤
+│   83   │ bl import_data │
+│   84   │ cmp r0, 1      │
+│   85   │ beq .L24       │
+├────────┼────────────────┤
+│   88   │ bl scanf       │
+│   89   │ cmp r0, 4      │
+│   90   │ ble .L11       │
+└────────┴────────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 182
+
+Total number of vulnerable lines: 19
+        Total number of Branch vulnerabilities: 14
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 1
+        Total number of Bypass vulnerabilities: 4
+
+Percentage of lines vulnerable: 10.44%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file:                                                        
+           ../dataset/op_2/manual/harris_branch_insecure_struct_example.s       
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 46
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:01] Reading file: ../dataset/op_2/manual/guillermo_branch_simple_secure.s
+[11:59:01] File read successfully!                                              
+                                                                                
+[11:59:01] Processing assembly data:                                            
+[11:59:01] Assembly data processed successfully!                                
+                                                                                
+[11:59:01] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:02] Reading file:                                                        
+           ../dataset/op_2/manual/prateek_constant_global_variables.s           
+[11:59:02] File read successfully!                                              
+                                                                                
+[11:59:02] Processing assembly data:                                            
+[11:59:02] Assembly data processed successfully!                                
+                                                                                
+[11:59:02] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+VULNERABILITY DETECTED
+
+     ConstantCoding      
+     Vulnerabilities     
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   36   │ local_arr    │
+│   37   │ .word 1      │
+├────────┼──────────────┤
+│   36   │ local_arr    │
+│   38   │ .word 2      │
+├────────┼──────────────┤
+│   36   │ local_arr    │
+│   39   │ .word 4      │
+├────────┼──────────────┤
+│   36   │ local_arr    │
+│   40   │ .word 8      │
+├────────┼──────────────┤
+│   36   │ local_arr    │
+│   41   │ .word 16     │
+├────────┼──────────────┤
+│   44   │ local_var    │
+│   45   │ .word 15     │
+├────────┼──────────────┤
+│   48   │ global_var   │
+│   49   │ .word 255    │
+└────────┴──────────────┘
+
+
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 50
+
+Total number of vulnerable lines: 7
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 7
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 14.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:02] Reading file:                                                        
+           ../dataset/op_2/manual/guillermo_branch_simple_insecure.s            
+[11:59:02] File read successfully!                                              
+                                                                                
+[11:59:02] Processing assembly data:                                            
+[11:59:02] Assembly data processed successfully!                                
+                                                                                
+[11:59:02] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:02] Reading file:                                                        
+           ../dataset/op_2/manual/harris_branch_secure_struct_example.s         
+[11:59:02] File read successfully!                                              
+                                                                                
+[11:59:02] Processing assembly data:                                            
+[11:59:02] Assembly data processed successfully!                                
+                                                                                
+[11:59:02] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 46
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:02] Reading file: ../dataset/op_2/manual/harris_constant_simple_secure.s 
+[11:59:02] File read successfully!                                              
+                                                                                
+[11:59:02] Processing assembly data:                                            
+[11:59:02] Assembly data processed successfully!                                
+                                                                                
+[11:59:02] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+No Branch vulnerability detected!
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+No Bypass vulnerability detected!
+
+Total lines analyzed: 40
+
+Total number of vulnerable lines: 0
+        Total number of Branch vulnerabilities: 0
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 0
+
+Percentage of lines vulnerable: 0.0%
+
+     _____           _ _   _   _             _            
+    |  ___|_ _ _   _| | |_| | | |_   _ _ __ | |_ ___ _ __ 
+    | |_ / _` | | | | | __| |_| | | | | '_ \| __/ _ \ '__|
+    |  _| (_| | |_| | | |_|  _  | |_| | | | | ||  __/ |   
+    |_|  \__,_|\__,_|_|\__|_| |_|\__,_|_| |_|\__\___|_|   
+    
+[11:59:02] Reading file: ../dataset/op_2/manual/guillermo_loop_simple_insecure.s
+[11:59:02] File read successfully!                                              
+                                                                                
+[11:59:02] Processing assembly data:                                            
+[11:59:02] Assembly data processed successfully!                                
+                                                                                
+[11:59:02] Architecture Detected: arm                                           
+                                                                                
+Printing Results:
+
+[Pattern] Branch-V2
+
+VULNERABILITY DETECTED
+
+ Branch Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   50   │ cmp r4, 10   │
+│   51   │ bne .L4      │
+└────────┴──────────────┘
+
+
+[Pattern] ConstantCoding
+
+No ConstantCoding vulnerability detected!
+[Pattern] LoopCheck
+
+No LoopCheck vulnerability detected!
+[Pattern] Bypass
+
+VULNERABILITY DETECTED
+
+ Bypass Vulnerabilities  
+┏━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Line # ┃ Instructions ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━┩
+│   49   │ bl printf    │
+│   50   │ cmp r4, 10   │
+│   51   │ bne .L4      │
+└────────┴──────────────┘
+
+
+All vulnerable lines printed.
+
+
+
+Total lines analyzed: 60
+
+Total number of vulnerable lines: 2
+        Total number of Branch vulnerabilities: 1
+        Total number of Constant vulnerabilities: 0
+        Total number of Loop Check vulnerabilities: 0
+        Total number of Bypass vulnerabilities: 1
+
+Percentage of lines vulnerable: 3.33%

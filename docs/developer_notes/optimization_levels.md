@@ -32,7 +32,7 @@ expected that in the future, support will be extended to other optimization leve
 
 - **O1 and Og :** The optimization levels O1 and Og are indistinguishable from one another purely based on `eabi_attribute`s.
 At this time, the scope of this program does not test for Og optimization, and so it is to be assumed that if `eabi_attribute 30`
-``and `eabi_attribute 23` are 1 and 3 respectively, it is optimization level O1.``
+ and `eabi_attribute 23` are 1 and 3 respectively, it is optimization level O1.``
 
 
 - **Additional Resources :** For more information on `eabi_attribute`s and what each one is supposed to signify, please
