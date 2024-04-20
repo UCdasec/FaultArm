@@ -1,14 +1,16 @@
 from os import path
 from datetime import datetime
-from typing import List, Union
+from typing import List
 from rich.table import Table
 from rich.console import Console
 
-from Parser import Address, Instruction, Location
-from constants import pattern_list, branch_opposites
+from Parser import Instruction, Location
+from constants import branch_opposites
+from utils.patterns.PatternBase import PatternBase
 
-class LoopCheck():
+class LoopCheck(PatternBase):
     def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str) -> None:
+        super().__init__(filename, "loop_check", architecture, optimization, total_lines, directory_name)
         """
         Represents an object used for fault.LOOP analysis/detection.
 
@@ -20,18 +22,11 @@ class LoopCheck():
         - is_vulnerable (bool): Flag indicating if a loop check vulnerability is detected.
         """
         self.locations: List[str] = []
-        self.pattern: List[str | List[str]] = pattern_list[architecture]["loop_check"]
-        self.vulnerable_instructions: List[List[Instruction]] = []
         self.suspected_vulnerable: List[Instruction] = []
         self.expected_secured: List[Instruction] = []
         self.secured_pattern: List[Instruction] = []
         self.is_vulnerable = False
         
-        self.filename = filename
-        self.total_lines = total_lines
-        self.directory_name = directory_name
-        self.architecture = architecture
-        self.optimization = optimization
         
     def analysis(self, line: Instruction | Location) -> None:
         """
