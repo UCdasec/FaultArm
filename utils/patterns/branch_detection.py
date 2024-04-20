@@ -25,7 +25,7 @@ class BranchV2(PatternBase):
         elif line.name in self.pattern[1] or line.name in self.pattern[2]:
             if len(self.current_vulnerable) > 0:
                 self.strip_line(line)
-        # or else line is vulnerable independently in O0
+        # or else line is vulnerable independently in O0 and O1
         elif len(self.current_vulnerable) > 0 and self.optimization in ['O0', 'O1']:
             self.update_vulnerable_instructions()
         # check if there is a random instruction in between the vulnerable code, we ignore it in O2 (current tolerance is 1 line)

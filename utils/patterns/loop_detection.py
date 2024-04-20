@@ -26,7 +26,8 @@ class LoopCheck(PatternBase):
         self.expected_secured: List[Instruction] = []
         self.secured_pattern: List[Instruction] = []
         self.is_vulnerable = False
-        
+        self.is_between_relevant_code = False
+
         
     def analysis(self, line: Instruction | Location) -> None:
         """
@@ -78,7 +79,8 @@ class LoopCheck(PatternBase):
                         # If the pattern hasn't reached the end
                         if len(self.suspected_vulnerable) < 3:
                             # If the list is already populated and the optimization if O1/O2
-                            if len(self.suspected_vulnerable) > 0 and self.optimization in ["O1", "O2"]:
+                            if (len(self.suspected_vulnerable) > 0 and line.line_number - self.suspected_vulnerable[-1].line_number > 1
+                                    and self.optimization in ["O1", "O2"]):
                                 self.suspected_vulnerable.clear()
                                 self.expected_secured.clear()
                                 self.secured_pattern.clear()
@@ -139,7 +141,7 @@ class LoopCheck(PatternBase):
                                     self.is_vulnerable = True
                     # If this condition passes, we are in the backwards branch that is expected in a loop
                     elif ((len(self.suspected_vulnerable) == 2 and self.optimization == "O0")
-                          or (len(self.suspected_vulnerable) == 1 and self.optimization in ["O1", "O2"])):
+                          or (len(self.suspected_vulnerable) >= 1 and self.optimization in ["O1", "O2"])):
                         # LAST of insecure pattern
                         # We need to check a few things, though
                         # More specifically, we need to check that this jump/branch is going backwards
@@ -157,12 +159,22 @@ class LoopCheck(PatternBase):
                 # Instruction not in pattern
                 else:
                     # check if pattern is on-going
-                    if ((len(self.suspected_vulnerable) > 0 and len(self.suspected_vulnerable) < 3 and self.optimization == "O0")
-                            or (len(self.suspected_vulnerable) < 2 and self.optimization in ["O1", "O2"])):
-                        # clean
-                        self.suspected_vulnerable.clear()
-                        self.expected_secured.clear()
-                        self.secured_pattern.clear()
+                    if (len(self.suspected_vulnerable) > 0 and len(self.suspected_vulnerable) < 3):
+                        if self.optimization in ['O0', 'O1']:
+                            # clean
+                            self.suspected_vulnerable.clear()
+                            self.expected_secured.clear()
+                            self.secured_pattern.clear()
+
+                        elif self.optimization in ['O2']:
+                            # check if there is an irrelevant instruction in between
+                            if line.line_number - self.suspected_vulnerable[-1].line_number == 1: self.is_between_relevant_code = True
+                            else:
+                                # clean
+                                self.is_between_relevant_code = False
+                                self.suspected_vulnerable.clear()
+                                self.expected_secured.clear()
+                                self.secured_pattern.clear()
 
                     elif (len(self.suspected_vulnerable) == 3 and self.optimization == "O0") or (len(self.suspected_vulnerable) == 2 and self.optimization in ["O1", "O2"]):
                         # If this is reached, we were looking for secured patterns

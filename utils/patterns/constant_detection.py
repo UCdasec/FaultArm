@@ -91,8 +91,8 @@ class ConstantCoding(PatternBase):
                 elif line.line_number - self.lineStack[-1].line_number == 1:
                     self.location_in_between = True
 
-        # If it's a global variable, i.e., .value or .long
-        elif line.name in self.pattern[3:]:
+        # If it's a global variable, i.e., .value or .long / .word or .short
+        elif line.name in (self.pattern[3:] if self.architecture == 'x86' else self.pattern[6:]):
             for arg in line.arguments:
                 # Check if integer literal
                 if type(arg) == IntegerLiteral:
@@ -102,7 +102,7 @@ class ConstantCoding(PatternBase):
                         if 1 <= len(self.lineStack) <= 2 and type(self.lineStack[0]) == Location:
                             if self.vulnerable_line.line_number - self.lineStack[0].line_number == 1:
                                 self.lineStack.append(self.vulnerable_line)
-                            elif self.lineStack[-1].name in self.pattern[3:]:
+                            elif self.lineStack[-1].name in (self.pattern[3:] if self.architecture == 'x86' else self.pattern[6:]):
                                 self.lineStack[-1] = self.vulnerable_line
                             self.vulnerable_instructions.append(self.lineStack.copy())
                         # Likely part of array
@@ -110,10 +110,8 @@ class ConstantCoding(PatternBase):
                             self.vulnerable_instructions.append([self.vulnerable_line])
 
         # If lineStack is a global variable, clear it
-        elif len(self.lineStack) == 2 and type(self.lineStack[0]) == Location:
+        elif len(self.lineStack) >= 2:
             self.lineStack.clear()
-            x = 5
-
 
     def print_results(self, console: Console) -> None:
         """
