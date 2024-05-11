@@ -41,23 +41,23 @@ In order to compile the dataset, scripts will be provided in order to have both 
 ### ARM
 
 ```bash
-arm-none-eabi-gcc -S -o filename.s /path/to/filename.c
+arm-none-eabi-gcc -S -O[optimization level] -o filename.s /path/to/filename.c
 ```
 
 ### RISC-V
 The RISC-V GCC toolchain and its installation instructions can be found at this [link](https://github.com/riscv-collab/riscv-gnu-toolchain). Once you have installed the toolchain successfully, you can  create Assembly binaries with the following command:
 ```bash
-riscv64-unknown-elf-gcc -S -o filename.s /path/to/filename.c
+riscv64-unknown-elf-gcc -S -O[optimization level] -o filename.s /path/to/filename.c
 ```
 ### x86
 
 ```bash
-gcc -S -o filename.s /path/to/filename.c
+gcc -S -O[optimization level] -o filename.s /path/to/filename.c
 ```
 
 ## Tool Chain Conventions
 
-Tool chains have  a loose name convention like **arc [-vendor] [-os] - eabi**
+Tool chains have  a loose name convention like **arch [-vendor] [-os] -eabi**
 
 
     arch - refers to target architecture (which in our case is ARM)
