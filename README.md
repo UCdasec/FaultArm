@@ -1,6 +1,6 @@
 # FaultHunter_ASM - Assembly Fault Injection Vulnerability Detector
 
-- [FaultHunter\_ASM - Assembly Fault Injection Vulnerability Detector](#faulthunter_asm---assembly-fault-injection-vulnerability-detector)
+- [FaultArm - Assembly Fault Injection Vulnerability Detector](#faulthunter_asm---assembly-fault-injection-vulnerability-detector)
   - [Project Introduction](#project-introduction)
     - [Usage](#usage)
   - [Generating sample files](#generating-sample-files)
