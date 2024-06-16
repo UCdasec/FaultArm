@@ -1,40 +1,14 @@
 from os import path
 from datetime import datetime
-from typing import List
 from rich.table import Table
 from rich.console import Console
 
 from Parser import Instruction, Location, IntegerLiteral, Register
-from constants import pattern_list, trivial_values
+from utils.patterns.PatternBase import PatternBase
 
-class BranchV2():
-    # def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
-    def __init__(self, filename: str, architecture: str, optimization: str, directory_name: str, sensitivity: int) -> None:
-        """
-        Represents a branch object used for fault.branch analysis/detection.
-
-        Attributes:
-        - trivial_values (List[int]): List of trivial integer values.
-        - pattern (List[str | List[str]]): List of patterns to match instructions.
-        - vulnerable_instructions (List[List[Instruction]]): List of vulnerable instructions.
-        - current_vulnerable (List[Instruction]): List of instructions currently identified as vulnerable.
-        - is_vulnerable (bool): Flag indicating if a branch vulnerability is detected.
-        """
-        self.trivial_values: List[int] = trivial_values["integers"]
-        self.pattern: List[str | List[str]] = pattern_list[architecture]["branch"]
-        self.vulnerable_instructions: List[List[Instruction]] = []
-        self.current_vulnerable: List[Instruction] = []
-        self.is_vulnerable = False
-        self.is_between_relevant_code = False
-        
-        self.filename = filename
-        # self.total_lines = total_lines
-        self.directory_name = directory_name
-        self.architecture = architecture
-        self.optimization = optimization
-
-        # Hamming weight sensitivity compared to zero
-        self.sensitivity = sensitivity
+class BranchV2(PatternBase):
+    def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
+        super().__init__(filename, "branch", architecture, optimization, total_lines, directory_name, sensitivity)
         
     def analysis(self, line: Instruction) -> None:
         """
@@ -131,7 +105,8 @@ class BranchV2():
             for vulns in self.vulnerable_instructions:
                 table.add_section()
                 for line in vulns:
-                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
+                    table.add_row(f"{line.line_number}", 
+                                  f"{line.name} {', '.join(str(arguments) for arguments in line.arguments)}")
 
             console.print(table)
             console.print("\n")

@@ -5,27 +5,15 @@ from rich.table import Table
 from rich.console import Console
 
 from Parser import Instruction, Location, IntegerLiteral, Register
-from constants import pattern_list, trivial_values
+from utils.patterns.PatternBase import PatternBase
 
-class ConstantCoding():
+class ConstantCoding(PatternBase):
     def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str, sensitivity: int) -> None:
-        self.filename = filename
-        self.total_lines = total_lines
-        self.directory_name = directory_name
-        self.architecture = architecture
-        self.optimization = optimization
-        
-        # Pattern - Stack Storage
-        # movl #, -#(%rsp)
-        self.pattern: List[str] = pattern_list[architecture]["constant_coding"]
-        self.trivial_values: List[int] = trivial_values["integers"]
+        super().__init__(filename, "constant_coding", architecture, optimization, total_lines, directory_name)
+       
         self.lineStack : List[Instruction] = []
-        self.vulnerable_instructions: List[List[Instruction]] = []
-        self.is_vulnerable = False
         self.location_in_between = False # to mark if there is a location in between a pattern
         
-        # Hamming weight sensitivity compared to zero
-        self.sensitivity = sensitivity
 
     # TODO: Rewrite detection by phasing out x86
     def analysis(self, line: Union[Instruction, Location]) -> None:
@@ -125,7 +113,6 @@ class ConstantCoding():
         elif len(self.lineStack) >= 2:
             self.lineStack.clear()
 
-
     def print_results(self, console: Console) -> None:
         """
         Just prints the results of the analysis.
@@ -142,7 +129,7 @@ class ConstantCoding():
             for lines in self.vulnerable_instructions:
                 table.add_section()
                 for line in lines:
-                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
+                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join( "\\" + str(arguments) if str(arguments)[0] == "[" else str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
 
             console.print(table)
             console.print("\n")

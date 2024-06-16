@@ -4,11 +4,13 @@ from typing import List
 from rich.table import Table
 from rich.console import Console
 
-from Parser import Address, Instruction, Location
-from constants import pattern_list, branch_opposites
+from Parser import Instruction, Location
+from constants import branch_opposites
+from utils.patterns.PatternBase import PatternBase
 
-class LoopCheck():
+class LoopCheck(PatternBase):
     def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str) -> None:
+        super().__init__(filename, "loop_check", architecture, optimization, total_lines, directory_name)
         """
         Represents an object used for fault.LOOP analysis/detection.
 
@@ -20,19 +22,12 @@ class LoopCheck():
         - is_vulnerable (bool): Flag indicating if a loop check vulnerability is detected.
         """
         self.locations: List[str] = []
-        self.pattern: List[str | List[str]] = pattern_list[architecture]["loop_check"]
-        self.vulnerable_instructions: List[List[Instruction]] = []
         self.suspected_vulnerable: List[Instruction] = []
         self.expected_secured: List[Instruction] = []
         self.secured_pattern: List[Instruction] = []
         self.is_vulnerable = False
         self.is_between_relevant_code = False
 
-        self.filename = filename
-        self.total_lines = total_lines
-        self.directory_name = directory_name
-        self.architecture = architecture
-        self.optimization = optimization
         
     def analysis(self, line: Instruction | Location) -> None:
         """
@@ -209,15 +204,8 @@ class LoopCheck():
             for vulns in self.vulnerable_instructions:
                 table.add_section()
                 for line in vulns:
-                    arguments: List[str] = []
-                    for arg in line.arguments:
-                        # ! For address, anything surrounded with "[]", we need to add a backslash \ to escape the tag
-                        # This is mainly to let "Rich", the library we use to print tables,
-                        # To leave the content with brackets unprocessed, or not rendered.
-                        if type(arg) == Address:
-                            arguments.append(f"\{arg.value}")
-                        else: arguments.append(str(arg))
-                    table.add_row(f"{line.line_number}", f"{line.name} {', '.join(str(argument) for argument in arguments)}")
+                    table.add_row(f"{line.line_number}", 
+                                  f"{line.name} {', '.join( "\\" + str(arguments) if str(arguments)[0] == "[" else str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
 
             console.print(table)
             console.print("\n")
@@ -269,5 +257,3 @@ class LoopCheck():
         
         # Check if the instruction is a branch instruction
         return instruction_name in branch_instructions or instruction_name.startswith("B")
-
-    
