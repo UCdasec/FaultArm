@@ -73,6 +73,8 @@ The entrypoint to the program, `main.py`, serves as a central location to utiliz
 
 Main parsing module. Intended to parse assembly code. It combs through the source code and creates objects depending on what it encounters. Once the source code is transformed into a list of objects, it can be more easily worked with to discover patterns. It uses Python’s type hints to be more transparent.
 
+> If passed a compiled binary, the parser uses [capstone](https://www.capstone-engine.org/) in combination with [pyefltools](https://github.com/eliben/pyelftools) to dissassemble and parse the binary.
+
 `Locations` are spots in the code that can be referenced and jumped to. Example: .LC0 and main.
 
 `IntegerLiterals` are integers. In 32-bit syntax, these are prefaced with a “#”
