@@ -19,13 +19,17 @@ class Analyzer():
         """
         self.filename = filename
         self.parsed_data = parsed_data
-        
+
         # ! Outdated branch pattern detection
         # self.branchV1_detector = BranchV1(filename, total_lines, directory_name)
         self.branchV2_detector = BranchV2(filename, parsed_data.arch.name, parsed_data.opt, directory_name, directory_name, sensitivity=4)
         self.constant_detector = ConstantCoding(filename, parsed_data.arch.name, parsed_data.opt, total_lines, directory_name, sensitivity=4)
         self.loop_detector = LoopCheck(filename, parsed_data.arch.name, parsed_data.opt, total_lines, directory_name)
         self.bypass_detector = Bypass(filename, parsed_data.arch.name, parsed_data.opt, total_lines, directory_name)
+        # TODO: Instantiate a list of detectors, then iterate on detectors for other functions
+        # Doing the above avoids the below condition on subsequent function calls
+        if parsed_data.arch.name  == "x86":       
+            self.bypass_detector = None
         # if self.create_directory(console):
         self.static_analysis()
         
@@ -54,7 +58,8 @@ class Analyzer():
                 self.branchV2_detector.analysis(line)
                 self.constant_detector.analysis(line)
                 self.loop_detector.analysis(line)
-                self.bypass_detector.analysis(line)
+                if self.bypass_detector:
+                    self.bypass_detector.analysis(line)
             elif type(line) == Location:
                 self.constant_detector.analysis(line)
                 self.loop_detector.analysis(line)
@@ -80,8 +85,9 @@ class Analyzer():
         console.print(f"[Pattern] [bright_yellow]LoopCheck[/bright_yellow]\n")
         self.loop_detector.print_results(console)
 
-        console.print(f"[Pattern] [bright_yellow]Bypass[/bright_yellow]\n")
-        self.bypass_detector.print_results(console)
+        if self.bypass_detector:
+            console.print(f"[Pattern] [bright_yellow]Bypass[/bright_yellow]\n")
+            self.bypass_detector.print_results(console)
 
     def save_and_print_analysis_results(self, console: Console) -> None:
         """
@@ -101,14 +107,18 @@ class Analyzer():
         self.loop_detector.save_and_print_results(console)
         console.print(f"Saved")
 
-        console.print(f"Saving Bypass...")
-        self.bypass_detector.save_and_print_results(console)
-        console.print(f"Saved")
+        if self.bypass_detector:
+            console.print(f"Saving Bypass...")
+            self.bypass_detector.save_and_print_results(console)
+            console.print(f"Saved")
 
     def print_total_vulnerable_lines(self, console: Console) -> None:
         # total number of vulnerable lines
         total_vulnerable_lines = (len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
-                                  + len(self.loop_detector.vulnerable_instructions) + len(self.bypass_detector.vulnerable_set))
+                                  + len(self.loop_detector.vulnerable_instructions))
+        
+        if self.bypass_detector:
+            total_vulnerable_lines += len(self.bypass_detector.vulnerable_set)
         print(f"Total number of vulnerable lines: {total_vulnerable_lines}")
 
         # total number of branch faults
@@ -124,9 +134,15 @@ class Analyzer():
         console.print(f"\tTotal number of Loop Check vulnerabilities: {total_loop_faults}")
 
         # total number of bypass faults
-        total_bypass_faults = len(self.bypass_detector.vulnerable_set)
-        console.print(f"\tTotal number of Bypass vulnerabilities: {total_bypass_faults}")
+        if self.bypass_detector:
+            total_bypass_faults = len(self.bypass_detector.vulnerable_set)
+            console.print(f"\tTotal number of Bypass vulnerabilities: {total_bypass_faults}")
 
     def get_total_vulnerable_lines(self) -> int:
-        return (len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
-                + len(self.loop_detector.vulnerable_instructions) + len(self.bypass_detector.vulnerable_set))
+        total_lines = (len(self.branchV2_detector.vulnerable_instructions) + len(self.constant_detector.vulnerable_instructions)
+                + len(self.loop_detector.vulnerable_instructions))
+        
+        if self.bypass_detector:
+            total_lines += len(self.bypass_detector.vulnerable_set)
+        
+        return total_lines

@@ -6,6 +6,7 @@
   - [Architectures](#architectures)
   - [Cross-compiling](#cross-compiling)
     - [ARM](#arm)
+    - [RISC-V](#risc-v)
     - [x86](#x86)
   - [Tool Chain Conventions](#tool-chain-conventions)
 
@@ -42,6 +43,10 @@ In order to compile the dataset, scripts will be provided in order to have both 
 
 ```bash
 arm-none-eabi-gcc -S -o filename.s /path/to/filename.c
+```
+
+```bash
+arm-none-eabi-gcc --specs=nosys.specs -o filename /path/to/filename.c
 ```
 
 ### RISC-V
