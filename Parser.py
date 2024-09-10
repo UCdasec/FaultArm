@@ -184,8 +184,15 @@ class Parser:
                 data_section = elf_file.get_section_by_name(".data")
                 rodata_section = elf_file.get_section_by_name(".rodata")
                 # Sections print for debugging
-                # for section in e.iter_sections():
-                #     print(hex(section["sh_addr"]), section.name)
+                for section in elf_file.iter_sections():
+                    print(hex(section["sh_addr"]), section.name)
+
+                symtab = elf_file.get_section_by_name(".symtab")
+                for i in range(5):
+                    print("symbol #{} - {}".format(i, symtab.get_symbol(i).name))
+                    
+                main_offset = symtab.get_symbol_by_name("main")[0].entry["st_value"]
+                main_size = symtab.get_symbol_by_name("main")[0].entry["st_value"]
 
                 # Code
                 ops = text_section.data()
@@ -212,8 +219,8 @@ class Parser:
                 # Dissassemble and store lines
                 lines = []
                 for i in md.disasm(code=ops, offset=addr):
-                    lines.append("{} {}".format(i.mnemonic, i.op_str))
-                    # print("0x%x:\t%s\t%s" %(i.address, i.mnemonic, i.op_str))
+                    # lines.append("{} {}".format(i.mnemonic, i.op_str))
+                    print("0x%x:\t%s\t%s" %(i.address, i.mnemonic, i.op_str))
         console.log(f"[green]File read successfully![/green]\n")
 
         
