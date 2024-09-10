@@ -1,7 +1,10 @@
 import re
+from subprocess import check_output
+from capstone import *
 from rich.console import Console
+from elftools.elf.elffile import ELFFile
 
-from constants import optimization_levels
+from constants import Architectures, BinaryModes, optimization_levels
 
 class Register():
     def __init__(self, name: str):
@@ -97,7 +100,10 @@ class Address():
         if indicator != -1:
             # The string has two args
             # The +2 here is because of the ', #' that will be at index "indicator"
-            args["offset"] = IntegerLiteral(int(value[value.index('#')+1:]))
+            try:
+                args["offset"] = IntegerLiteral(int(value[value.index('#')+1:]))
+            except ValueError:
+                args["offset"] = IntegerLiteral(int(value[value.index('#')+1:], 16))
         
         return args
         
@@ -157,15 +163,59 @@ class Parser:
         self.total_lines: int = 0
         
         self.arch = Architecture(line=None, instruction=None)
-        self.opt : str
+        self.opt : str = "O0"
+        self.is_binary = False
         
         self.parseFile(console)
 
     def parseFile(self, console: Console):
         console.log(f"Reading file: {self.filename}")
-        with open(self.filename) as f:
-            lines: list[str] = f.readlines()
+        lines: list[str] = []
+            
+            # Source file parsing
+        if self.__is_file_source(self.filename):
+            with open(self.filename, mode="r") as source_file:
+                lines = source_file.readlines()
+        else:
+            self.is_binary = True
+            with open(self.filename, mode="rb") as binary_file:
+                elf_file = ELFFile(binary_file)
+                text_section = elf_file.get_section_by_name(".text")
+                data_section = elf_file.get_section_by_name(".data")
+                rodata_section = elf_file.get_section_by_name(".rodata")
+                # Sections print for debugging
+                # for section in e.iter_sections():
+                #     print(hex(section["sh_addr"]), section.name)
+
+                # Code
+                ops = text_section.data()
+                addr = text_section["sh_addr"]
+
+                # Global Vars
+                dops = data_section.data()
+                daddr = data_section["sh_addr"]
+
+                # Strings
+                rdops = rodata_section.data()
+                rdaddr = rodata_section["sh_addr"]
+
+                # Determine architecture and mode for Capstone
+                file_target_system = self.__determine_binary_architecture(elf_file)
+                self.arch.architecture_found(file_target_system.name.lower())
+                file_mode = None
+                if file_target_system == Architectures.ARM:
+                    file_mode = CS_MODE_ARM
+                else:
+                    file_mode = self.__determine_binary_mode(elf_file).value
+
+                md = Cs(file_target_system.value, file_mode)
+                # Dissassemble and store lines
+                lines = []
+                for i in md.disasm(code=ops, offset=addr):
+                    lines.append("{} {}".format(i.mnemonic, i.op_str))
+                    # print("0x%x:\t%s\t%s" %(i.address, i.mnemonic, i.op_str))
         console.log(f"[green]File read successfully![/green]\n")
+
         
         console.log(f"Processing assembly data:")
         self.isolateSections(lines)
@@ -175,7 +225,9 @@ class Parser:
         program = []
         line_number = 1
 
-        global attribute_1, attribute_2 # For determining optimization level
+        # For determining optimization level
+        attribute_1 = None
+        attribute_2 = None
         for line in lines:
             s = line.strip()
             # Line is a location 
@@ -195,10 +247,10 @@ class Parser:
             elif s.startswith(".ident"):
                 break
             # if line starts with .eabi_attribute 30, we get 1st attribute for optimization level
-            elif s.startswith(".eabi_attribute 30"):
+            elif s.startswith(".eabi_attribute 30") and not self.is_binary:
                 attribute_1 = self.get_eabi_attribute(s)
             # if line starts with .eabi_attribute 23, we get 2nd attribute for optimization level
-            elif s.startswith(".eabi_attribute 23"):
+            elif s.startswith(".eabi_attribute 23") and not self.is_binary:
                 attribute_2 = self.get_eabi_attribute(s)
             # Line is an instruction
             else:
@@ -241,7 +293,11 @@ class Parser:
             
             # Check if a number
             if self.isNumber(arg):
-                arguments.append(IntegerLiteral(int(arg[1:] if arg.startswith('#') or arg.startswith('$') else arg)))
+                try:
+                    arguments.append(IntegerLiteral(int(arg[1:] if arg.startswith('#') or arg.startswith('$') else arg)))
+                except ValueError:
+                    arguments.append(IntegerLiteral(int(arg[1:] if arg.startswith('#') or arg.startswith('$') else arg, 16)))
+
             # ! This notation can also be used in ARM for LDR
             elif re.search(r"\.long|\.value", instruction) and self.isNumber(arg):
                 # in case its a global variable
@@ -282,3 +338,22 @@ class Parser:
                 return int(tag_match.group(2))
         else:
             return None
+        
+    def __is_file_source(self, file_path: str):
+        """Uses `file` command on the provided file path and determines its type from the command output
+
+        Args:
+            file_path (str): Path to the file being analyzed
+        """
+        file_output = check_output(["file", file_path]).decode()
+
+        if re.match(r".*ASCII\stext\s.*", file_output):
+            # File is source
+            return True
+        return False
+
+    def __determine_binary_mode(self, elf_file: ELFFile):
+        return BinaryModes.from_elf_class(elf_file.elfclass)
+    
+    def __determine_binary_architecture(self, elf_file: ELFFile):
+        return Architectures.from_elf_machine(elf_file.header.get("e_machine", ""))
