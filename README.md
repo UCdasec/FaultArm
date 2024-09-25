@@ -16,7 +16,7 @@
 
 ## Project Introduction
 
-FaultHunter_ASM is a tool created to automatically detect fault injection vulnerabilities within ARM and x86 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
+FaultArm is a tool created to automatically detect fault injection vulnerabilities within ARM and x86 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
 
 ### Usage
 
