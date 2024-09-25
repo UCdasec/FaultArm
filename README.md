@@ -14,6 +14,13 @@
       - [Analyzer Class](#analyzer-class)
       - [Utility](#utility)
 
+## Reference
+When reporting results that use the dataset or code in this repository, please cite the paper below:
+
+Prateek Kharangate, Guillermo Rached, Harris Musungu, Nan Niu, Boyang Wang, ``FaultArm: Detecting Fault Injection Vulnerabilities in Arm Assembly," IEEE National Aerospace and Electronics Conference (NAECON 2024), July 15-18, 2024.
+
+**The dataset and code are for research purpose only**
+
 ## Project Introduction
 
 FaultArm is a tool created to automatically detect fault injection vulnerabilities within ARM and x86 assembly. The current method of analysis requires an assembly file; however, the aim of this tool is to support the analysis of compiled binaries.
@@ -121,3 +128,10 @@ If any vulnerabilities are detected, the program will display:
 - Line number
 - Instruction
 - Pattern
+
+## Contacts
+Prateek Kharangate, kharanpv@mail.uc.edu
+
+Guillermo Rached, rachedge@mail.uc.edu
+
+Boyang Wang, boyang.wang@uc.edu
