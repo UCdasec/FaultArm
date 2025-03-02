@@ -8,9 +8,10 @@ from rich.console import Console
 from Parser import Instruction
 
 from constants import pattern_list
+from utils.patterns.PatternBase import PatternBase
 
 
-class Bypass():
+class Bypass(PatternBase):
     # The following are the states that the Bypass object can be in depending on the current line of code being analyzed.
     class DetectionState(Enum):
         NO_PATTERN = 0  # No pattern has been detected yet.
@@ -22,11 +23,7 @@ class Bypass():
         INSECURE_COMPARE = 6  # compare statement after insecure move
 
     def __init__(self, filename: str, architecture: str, optimization: str, total_lines: int, directory_name: str):
-        self.filename = filename
-        self.total_lines = total_lines
-        self.directory_name = directory_name
-        self.architecture = architecture
-        self.optimization = optimization
+        super().__init__(filename, "bypass", architecture, optimization, total_lines, directory_name)
         '''
         Represents the Bypass object used for fault.Bypass analysis/detection.
         
@@ -142,7 +139,7 @@ class Bypass():
                 table.add_section()
                 for line in set:
                     table.add_row(f"{line.line_number}",
-                                  f"{line.name} {', '.join(str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
+                                  f"{line.name} {', '.join( "\\" + str(arguments) if str(arguments)[0] == "[" else str(arguments) for arguments in line.arguments) if type(line) == Instruction else ''}")
 
             console.print(table)
             console.print("\n")

@@ -1,8 +1,9 @@
 pattern_list = {
     "x86": {
-        "branch": ['cmpl', ['jne', 'je', 'jnz', 'jz']], #cmp??
+        "branch": [['cmpl'], ['jne', 'je', 'jnz', 'jz'], []], #cmp??
         "constant_coding": ['movl', 'movq', 'movw', '.value', ".long"],
         "loop_check": ['cmpl', 'cmpl', 'j'], #cmpb, cmp??
+        "bypass": [[], []]
     },
     "arm": {
         "branch": [['cmp', 'subs', 'rsbs'], ['beq', 'bne', 'bcs', 'bhs', 'bcc', 'blo', 'bmi', 'bpl', 'bvs', 'bvc', 'bhi', 'bls', 'bge',
